@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CardioCarta.Models.PatientInterview>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DiastolicPressure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SystolicPressure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Surgery)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiseaseInFamily)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Smoking)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Health)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Patient.AspNetUsers_Id)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiastolicPressure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SystolicPressure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surgery)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiseaseInFamily)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Smoking)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Health)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Patient.AspNetUsers_Id)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Patient_AspNetUsers_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Patient_AspNetUsers_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Patient_AspNetUsers_Id })
+        </td>
+    </tr>
+}
+
+</table>

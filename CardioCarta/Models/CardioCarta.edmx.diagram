@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c9c6e9a25a3f4b93ad926d468366ff8d" Name="Diagram1">
+        <EntityTypeShape EntityType="CardioCartaModel.Airly" Width="1.5" PointX="10.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.AirlyForecast" Width="1.5" PointX="13" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.BiometeoCurrent" Width="1.5" PointX="0.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.BiometeoForecast" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.Diary" Width="1.5" PointX="7.5" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.Disease" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.Doctor" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.Medicine" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.Patient" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.PatientInterview" Width="1.5" PointX="7.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.PatientMedicine" Width="1.5" PointX="10.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.spatial_ref_sys" Width="1.5" PointX="9.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.Speciality" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.TakenMedicine" Width="1.5" PointX="0.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.TakingMedicineTime" Width="1.5" PointX="8.25" PointY="12.875" IsExpanded="true" />
+        <AssociationConnector Association="CardioCartaModel.AirlyForecast_AirlyCurrent" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.BiometeoForecast_BiometeoCurrent" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.Diary_Patient" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.Doctor_Speciality" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.PatientMedicine_Medicine" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.PatientInterview_Patient" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.PatientMedicine_Patient" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.PatientMedicine_TakingMedicineTime" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.PatientDisease" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.PatientDoctor" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

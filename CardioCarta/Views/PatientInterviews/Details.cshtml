@@ -1,0 +1,74 @@
+﻿@model CardioCarta.Models.PatientInterview
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PatientInterview</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DiastolicPressure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiastolicPressure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SystolicPressure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SystolicPressure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Surgery)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surgery)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiseaseInFamily)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiseaseInFamily)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Smoking)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Smoking)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Health)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Health)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Patient.AspNetUsers_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patient.AspNetUsers_Id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Patient_AspNetUsers_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

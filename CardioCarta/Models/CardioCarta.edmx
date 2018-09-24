@@ -1,0 +1,1000 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CardioCartaModel.Store" Provider="Npgsql" ProviderManifestToken="9.6.8" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Airly">
+          <Key>
+            <PropertyRef Name="Diary_Id" />
+          </Key>
+          <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Airly_CAQI" Type="float4" Nullable="false" />
+          <Property Name="PM1" Type="float4" Nullable="false" />
+          <Property Name="PM10" Type="float4" Nullable="false" />
+          <Property Name="PM25" Type="float4" Nullable="false" />
+          <Property Name="Humidity" Type="float4" Nullable="false" />
+          <Property Name="Pressure" Type="float4" Nullable="false" />
+          <Property Name="Temperature" Type="float4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AirlyForecast">
+          <Key>
+            <PropertyRef Name="Diary_Id" />
+            <PropertyRef Name="TimeStamp" />
+          </Key>
+          <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
+          <Property Name="Airly_CAQI" Type="float4" Nullable="false" />
+          <Property Name="PM10" Type="float4" Nullable="false" />
+          <Property Name="PM25" Type="float4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BiometeoCurrent">
+          <Key>
+            <PropertyRef Name="Diary_Id" />
+          </Key>
+          <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Level" Type="int4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BiometeoForecast">
+          <Key>
+            <PropertyRef Name="Diary_Id" />
+            <PropertyRef Name="TimeStamp" />
+          </Key>
+          <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
+          <Property Name="Level" Type="int4" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6005: The data type 'geometry' is currently not supported for the target Entity Framework version; the column 'Location' in the table 'CardioCarta.public.Diary' was excluded.-->
+        <EntityType Name="Diary">
+          <Key>
+            <PropertyRef Name="Patient_AspNetUsers_Id" />
+            <PropertyRef Name="TimeStamp" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Patient_AspNetUsers_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
+          <Property Name="Mood" Type="int4" Nullable="false" />
+          <Property Name="SystolicPressure" Type="int4" Nullable="false" />
+          <Property Name="DiastolicPressure" Type="int4" Nullable="false" />
+          <Property Name="RespirationProblem" Type="bool" Nullable="false" />
+          <Property Name="Haemorrhage" Type="bool" Nullable="false" />
+          <Property Name="Dizziness" Type="bool" Nullable="false" />
+          <Property Name="ChestPain" Type="bool" Nullable="false" />
+          <Property Name="SternumPain" Type="bool" Nullable="false" />
+          <Property Name="HeartPain" Type="bool" Nullable="false" />
+          <Property Name="Alcohol" Type="bool" Nullable="false" />
+          <Property Name="Coffee" Type="bool" Nullable="false" />
+          <Property Name="Other" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Disease">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="AspNetUsers_Id" />
+          </Key>
+          <Property Name="AspNetUsers_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Speciality_Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Medicine">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="AspNetUsers_Id" />
+          </Key>
+          <Property Name="AspNetUsers_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="BirthDate" Type="date" Nullable="false" />
+          <Property Name="Male" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PatientDisease">
+          <Key>
+            <PropertyRef Name="Patient_AspNetUsers_Id" />
+            <PropertyRef Name="Disease_Name" />
+          </Key>
+          <Property Name="Patient_AspNetUsers_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Disease_Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PatientDoctor">
+          <Key>
+            <PropertyRef Name="Patient_AspNetUsers_Id" />
+            <PropertyRef Name="Doctor_AspNetUsers_Id" />
+          </Key>
+          <Property Name="Patient_AspNetUsers_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Doctor_AspNetUsers_Id" Type="varchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PatientInterview">
+          <Key>
+            <PropertyRef Name="Patient_AspNetUsers_Id" />
+          </Key>
+          <Property Name="Patient_AspNetUsers_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="DiastolicPressure" Type="int4" />
+          <Property Name="SystolicPressure" Type="int4" />
+          <Property Name="Surgery" Type="bool" Nullable="false" />
+          <Property Name="DiseaseInFamily" Type="bool" Nullable="false" />
+          <Property Name="Smoking" Type="bool" Nullable="false" />
+          <Property Name="Health" Type="int4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PatientMedicine">
+          <Key>
+            <PropertyRef Name="Patient_AspNetUsers_Id" />
+            <PropertyRef Name="Medicine_Name" />
+            <PropertyRef Name="TakingTime" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Patient_AspNetUsers_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Medicine_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MgDose" Type="int4" Nullable="false" />
+          <Property Name="TakingTime" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="spatial_ref_sys">
+          <Key>
+            <PropertyRef Name="srid" />
+          </Key>
+          <Property Name="srid" Type="int4" Nullable="false" />
+          <Property Name="auth_name" Type="varchar" MaxLength="256" />
+          <Property Name="auth_srid" Type="int4" />
+          <Property Name="srtext" Type="varchar" MaxLength="2048" />
+          <Property Name="proj4text" Type="varchar" MaxLength="2048" />
+        </EntityType>
+        <EntityType Name="Speciality">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TakenMedicine">
+          <Key>
+            <PropertyRef Name="Diary_Id" />
+            <PropertyRef Name="PatientMedicine_Id" />
+          </Key>
+          <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="PatientMedicine_Id" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Taken" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TakingMedicineTime">
+          <Key>
+            <PropertyRef Name="TakingTime" />
+          </Key>
+          <Property Name="TakingTime" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_catalog' in the table 'CardioCarta.public.geography_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_schema' in the table 'CardioCarta.public.geography_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_name' in the table 'CardioCarta.public.geography_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_geography_column' in the table 'CardioCarta.public.geography_columns' was excluded.
+warning 6013: The table/view 'CardioCarta.public.geography_columns' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="geography_columns">
+          <Property Name="coord_dimension" Type="int4" />
+          <Property Name="srid" Type="int4" />
+          <Property Name="type" Type="text" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_schema' in the table 'CardioCarta.public.geometry_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_name' in the table 'CardioCarta.public.geometry_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_geometry_column' in the table 'CardioCarta.public.geometry_columns' was excluded.
+warning 6013: The table/view 'CardioCarta.public.geometry_columns' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="geometry_columns">
+          <Property Name="f_table_catalog" Type="varchar" MaxLength="256" />
+          <Property Name="coord_dimension" Type="int4" />
+          <Property Name="srid" Type="int4" />
+          <Property Name="type" Type="varchar" MaxLength="30" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_catalog' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_schema' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_name' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_raster_column' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type '_text' is currently not supported for the target Entity Framework version; the column 'pixel_types' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type '_float8' is currently not supported for the target Entity Framework version; the column 'nodata_values' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type '_bool' is currently not supported for the target Entity Framework version; the column 'out_db' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type 'geometry' is currently not supported for the target Entity Framework version; the column 'extent' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6013: The table/view 'CardioCarta.public.raster_columns' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="raster_columns">
+          <Property Name="srid" Type="int4" />
+          <Property Name="scale_x" Type="float8" />
+          <Property Name="scale_y" Type="float8" />
+          <Property Name="blocksize_x" Type="int4" />
+          <Property Name="blocksize_y" Type="int4" />
+          <Property Name="same_alignment" Type="bool" />
+          <Property Name="regular_blocking" Type="bool" />
+          <Property Name="num_bands" Type="int4" />
+          <Property Name="spatial_index" Type="bool" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_table_catalog' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_table_schema' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_table_name' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_raster_column' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_catalog' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_schema' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_name' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_raster_column' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6013: The table/view 'CardioCarta.public.raster_overviews' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="raster_overviews">
+          <Property Name="overview_factor" Type="int4" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'Airly_Diary' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="Airly_Diary" />-->
+        <Association Name="AirlyForecast_AirlyCurrent">
+          <End Role="Airly" Type="Self.Airly" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AirlyForecast" Type="Self.AirlyForecast" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airly">
+              <PropertyRef Name="Diary_Id" />
+            </Principal>
+            <Dependent Role="AirlyForecast">
+              <PropertyRef Name="Diary_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'BiometeoCurrent_Diary' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="BiometeoCurrent_Diary" />-->
+        <Association Name="BiometeoForecast_BiometeoCurrent">
+          <End Role="BiometeoCurrent" Type="Self.BiometeoCurrent" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BiometeoForecast" Type="Self.BiometeoForecast" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BiometeoCurrent">
+              <PropertyRef Name="Diary_Id" />
+            </Principal>
+            <Dependent Role="BiometeoForecast">
+              <PropertyRef Name="Diary_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Diary_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Diary" Type="Self.Diary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AspNetUsers_Id" />
+            </Principal>
+            <Dependent Role="Diary">
+              <PropertyRef Name="Patient_AspNetUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Doctor_Speciality">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="1" />
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="Speciality_Name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientDisease_Disease">
+          <End Role="Disease" Type="Self.Disease" Multiplicity="1" />
+          <End Role="PatientDisease" Type="Self.PatientDisease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disease">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="PatientDisease">
+              <PropertyRef Name="Disease_Name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientDisease_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PatientDisease" Type="Self.PatientDisease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AspNetUsers_Id" />
+            </Principal>
+            <Dependent Role="PatientDisease">
+              <PropertyRef Name="Patient_AspNetUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientDoctor_Doctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PatientDoctor" Type="Self.PatientDoctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="AspNetUsers_Id" />
+            </Principal>
+            <Dependent Role="PatientDoctor">
+              <PropertyRef Name="Doctor_AspNetUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientDoctor_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PatientDoctor" Type="Self.PatientDoctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AspNetUsers_Id" />
+            </Principal>
+            <Dependent Role="PatientDoctor">
+              <PropertyRef Name="Patient_AspNetUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientInterview_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PatientInterview" Type="Self.PatientInterview" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AspNetUsers_Id" />
+            </Principal>
+            <Dependent Role="PatientInterview">
+              <PropertyRef Name="Patient_AspNetUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientMedicine_Medicine">
+          <End Role="Medicine" Type="Self.Medicine" Multiplicity="1" />
+          <End Role="PatientMedicine" Type="Self.PatientMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicine">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="PatientMedicine">
+              <PropertyRef Name="Medicine_Name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientMedicine_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PatientMedicine" Type="Self.PatientMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AspNetUsers_Id" />
+            </Principal>
+            <Dependent Role="PatientMedicine">
+              <PropertyRef Name="Patient_AspNetUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientMedicine_TakingMedicineTime">
+          <End Role="TakingMedicineTime" Type="Self.TakingMedicineTime" Multiplicity="1" />
+          <End Role="PatientMedicine" Type="Self.PatientMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TakingMedicineTime">
+              <PropertyRef Name="TakingTime" />
+            </Principal>
+            <Dependent Role="PatientMedicine">
+              <PropertyRef Name="TakingTime" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'TakenMedicine_Diary' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="TakenMedicine_Diary" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="TakenMedicine_PatientMedicine" />-->
+        <EntityContainer Name="CardioCartaModelStoreContainer">
+          <EntitySet Name="Airly" EntityType="Self.Airly" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AirlyForecast" EntityType="Self.AirlyForecast" Schema="public" store:Type="Tables" />
+          <EntitySet Name="BiometeoCurrent" EntityType="Self.BiometeoCurrent" Schema="public" store:Type="Tables" />
+          <EntitySet Name="BiometeoForecast" EntityType="Self.BiometeoForecast" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Diary" EntityType="Self.Diary" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Disease" EntityType="Self.Disease" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Medicine" EntityType="Self.Medicine" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="public" store:Type="Tables" />
+          <EntitySet Name="PatientDisease" EntityType="Self.PatientDisease" Schema="public" store:Type="Tables" />
+          <EntitySet Name="PatientDoctor" EntityType="Self.PatientDoctor" Schema="public" store:Type="Tables" />
+          <EntitySet Name="PatientInterview" EntityType="Self.PatientInterview" Schema="public" store:Type="Tables" />
+          <EntitySet Name="PatientMedicine" EntityType="Self.PatientMedicine" Schema="public" store:Type="Tables" />
+          <EntitySet Name="spatial_ref_sys" EntityType="Self.spatial_ref_sys" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Speciality" EntityType="Self.Speciality" Schema="public" store:Type="Tables" />
+          <EntitySet Name="TakenMedicine" EntityType="Self.TakenMedicine" Schema="public" store:Type="Tables" />
+          <EntitySet Name="TakingMedicineTime" EntityType="Self.TakingMedicineTime" Schema="public" store:Type="Tables" />
+          <AssociationSet Name="AirlyForecast_AirlyCurrent" Association="Self.AirlyForecast_AirlyCurrent">
+            <End Role="Airly" EntitySet="Airly" />
+            <End Role="AirlyForecast" EntitySet="AirlyForecast" />
+          </AssociationSet>
+          <AssociationSet Name="BiometeoForecast_BiometeoCurrent" Association="Self.BiometeoForecast_BiometeoCurrent">
+            <End Role="BiometeoCurrent" EntitySet="BiometeoCurrent" />
+            <End Role="BiometeoForecast" EntitySet="BiometeoForecast" />
+          </AssociationSet>
+          <AssociationSet Name="Diary_Patient" Association="Self.Diary_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Diary" EntitySet="Diary" />
+          </AssociationSet>
+          <AssociationSet Name="Doctor_Speciality" Association="Self.Doctor_Speciality">
+            <End Role="Speciality" EntitySet="Speciality" />
+            <End Role="Doctor" EntitySet="Doctor" />
+          </AssociationSet>
+          <AssociationSet Name="PatientDisease_Disease" Association="Self.PatientDisease_Disease">
+            <End Role="Disease" EntitySet="Disease" />
+            <End Role="PatientDisease" EntitySet="PatientDisease" />
+          </AssociationSet>
+          <AssociationSet Name="PatientDisease_Patient" Association="Self.PatientDisease_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="PatientDisease" EntitySet="PatientDisease" />
+          </AssociationSet>
+          <AssociationSet Name="PatientDoctor_Doctor" Association="Self.PatientDoctor_Doctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="PatientDoctor" EntitySet="PatientDoctor" />
+          </AssociationSet>
+          <AssociationSet Name="PatientDoctor_Patient" Association="Self.PatientDoctor_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="PatientDoctor" EntitySet="PatientDoctor" />
+          </AssociationSet>
+          <AssociationSet Name="PatientInterview_Patient" Association="Self.PatientInterview_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="PatientInterview" EntitySet="PatientInterview" />
+          </AssociationSet>
+          <AssociationSet Name="PatientMedicine_Medicine" Association="Self.PatientMedicine_Medicine">
+            <End Role="Medicine" EntitySet="Medicine" />
+            <End Role="PatientMedicine" EntitySet="PatientMedicine" />
+          </AssociationSet>
+          <AssociationSet Name="PatientMedicine_Patient" Association="Self.PatientMedicine_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="PatientMedicine" EntitySet="PatientMedicine" />
+          </AssociationSet>
+          <AssociationSet Name="PatientMedicine_TakingMedicineTime" Association="Self.PatientMedicine_TakingMedicineTime">
+            <End Role="TakingMedicineTime" EntitySet="TakingMedicineTime" />
+            <End Role="PatientMedicine" EntitySet="PatientMedicine" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CardioCartaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Airly">
+          <Key>
+            <PropertyRef Name="Diary_Id" />
+          </Key>
+          <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Airly_CAQI" Type="Single" Nullable="false" />
+          <Property Name="PM1" Type="Single" Nullable="false" />
+          <Property Name="PM10" Type="Single" Nullable="false" />
+          <Property Name="PM25" Type="Single" Nullable="false" />
+          <Property Name="Humidity" Type="Single" Nullable="false" />
+          <Property Name="Pressure" Type="Single" Nullable="false" />
+          <Property Name="Temperature" Type="Single" Nullable="false" />
+          <NavigationProperty Name="AirlyForecast" Relationship="Self.AirlyForecast_AirlyCurrent" FromRole="Airly" ToRole="AirlyForecast" />
+        </EntityType>
+        <EntityType Name="AirlyForecast">
+          <Key>
+            <PropertyRef Name="Diary_Id" />
+            <PropertyRef Name="TimeStamp" />
+          </Key>
+          <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="6" Nullable="false" />
+          <Property Name="Airly_CAQI" Type="Single" Nullable="false" />
+          <Property Name="PM10" Type="Single" Nullable="false" />
+          <Property Name="PM25" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Airly" Relationship="Self.AirlyForecast_AirlyCurrent" FromRole="AirlyForecast" ToRole="Airly" />
+        </EntityType>
+        <EntityType Name="BiometeoCurrent">
+          <Key>
+            <PropertyRef Name="Diary_Id" />
+          </Key>
+          <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Level" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BiometeoForecast" Relationship="Self.BiometeoForecast_BiometeoCurrent" FromRole="BiometeoCurrent" ToRole="BiometeoForecast" />
+        </EntityType>
+        <EntityType Name="BiometeoForecast">
+          <Key>
+            <PropertyRef Name="Diary_Id" />
+            <PropertyRef Name="TimeStamp" />
+          </Key>
+          <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="6" Nullable="false" />
+          <Property Name="Level" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BiometeoCurrent" Relationship="Self.BiometeoForecast_BiometeoCurrent" FromRole="BiometeoForecast" ToRole="BiometeoCurrent" />
+        </EntityType>
+        <EntityType Name="Diary">
+          <Key>
+            <PropertyRef Name="Patient_AspNetUsers_Id" />
+            <PropertyRef Name="TimeStamp" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patient_AspNetUsers_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="6" Nullable="false" />
+          <Property Name="Mood" Type="Int32" Nullable="false" />
+          <Property Name="SystolicPressure" Type="Int32" Nullable="false" />
+          <Property Name="DiastolicPressure" Type="Int32" Nullable="false" />
+          <Property Name="RespirationProblem" Type="Boolean" Nullable="false" />
+          <Property Name="Haemorrhage" Type="Boolean" Nullable="false" />
+          <Property Name="Dizziness" Type="Boolean" Nullable="false" />
+          <Property Name="ChestPain" Type="Boolean" Nullable="false" />
+          <Property Name="SternumPain" Type="Boolean" Nullable="false" />
+          <Property Name="HeartPain" Type="Boolean" Nullable="false" />
+          <Property Name="Alcohol" Type="Boolean" Nullable="false" />
+          <Property Name="Coffee" Type="Boolean" Nullable="false" />
+          <Property Name="Other" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Patient" Relationship="Self.Diary_Patient" FromRole="Diary" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="Disease">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="Self.PatientDisease" FromRole="Disease" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="AspNetUsers_Id" />
+          </Key>
+          <Property Name="AspNetUsers_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Speciality_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Speciality" Relationship="Self.Doctor_Speciality" FromRole="Doctor" ToRole="Speciality" />
+          <NavigationProperty Name="Patient" Relationship="Self.PatientDoctor" FromRole="Doctor" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="Medicine">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PatientMedicine" Relationship="Self.PatientMedicine_Medicine" FromRole="Medicine" ToRole="PatientMedicine" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="AspNetUsers_Id" />
+          </Key>
+          <Property Name="AspNetUsers_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="Male" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Diary" Relationship="Self.Diary_Patient" FromRole="Patient" ToRole="Diary" />
+          <NavigationProperty Name="PatientInterview" Relationship="Self.PatientInterview_Patient" FromRole="Patient" ToRole="PatientInterview" />
+          <NavigationProperty Name="PatientMedicine" Relationship="Self.PatientMedicine_Patient" FromRole="Patient" ToRole="PatientMedicine" />
+          <NavigationProperty Name="Disease" Relationship="Self.PatientDisease" FromRole="Patient" ToRole="Disease" />
+          <NavigationProperty Name="Doctor" Relationship="Self.PatientDoctor" FromRole="Patient" ToRole="Doctor" />
+        </EntityType>
+        <EntityType Name="PatientInterview">
+          <Key>
+            <PropertyRef Name="Patient_AspNetUsers_Id" />
+          </Key>
+          <Property Name="Patient_AspNetUsers_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DiastolicPressure" Type="Int32" />
+          <Property Name="SystolicPressure" Type="Int32" />
+          <Property Name="Surgery" Type="Boolean" Nullable="false" />
+          <Property Name="DiseaseInFamily" Type="Boolean" Nullable="false" />
+          <Property Name="Smoking" Type="Boolean" Nullable="false" />
+          <Property Name="Health" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="Self.PatientInterview_Patient" FromRole="PatientInterview" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="PatientMedicine">
+          <Key>
+            <PropertyRef Name="Patient_AspNetUsers_Id" />
+            <PropertyRef Name="Medicine_Name" />
+            <PropertyRef Name="TakingTime" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patient_AspNetUsers_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Medicine_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MgDose" Type="Int32" Nullable="false" />
+          <Property Name="TakingTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Medicine" Relationship="Self.PatientMedicine_Medicine" FromRole="PatientMedicine" ToRole="Medicine" />
+          <NavigationProperty Name="Patient" Relationship="Self.PatientMedicine_Patient" FromRole="PatientMedicine" ToRole="Patient" />
+          <NavigationProperty Name="TakingMedicineTime" Relationship="Self.PatientMedicine_TakingMedicineTime" FromRole="PatientMedicine" ToRole="TakingMedicineTime" />
+        </EntityType>
+        <EntityType Name="spatial_ref_sys">
+          <Key>
+            <PropertyRef Name="srid" />
+          </Key>
+          <Property Name="srid" Type="Int32" Nullable="false" />
+          <Property Name="auth_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="auth_srid" Type="Int32" />
+          <Property Name="srtext" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <Property Name="proj4text" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Speciality">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Doctor" Relationship="Self.Doctor_Speciality" FromRole="Speciality" ToRole="Doctor" />
+        </EntityType>
+        <EntityType Name="TakenMedicine">
+          <Key>
+            <PropertyRef Name="Diary_Id" />
+            <PropertyRef Name="PatientMedicine_Id" />
+          </Key>
+          <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PatientMedicine_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Taken" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TakingMedicineTime">
+          <Key>
+            <PropertyRef Name="TakingTime" />
+          </Key>
+          <Property Name="TakingTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PatientMedicine" Relationship="Self.PatientMedicine_TakingMedicineTime" FromRole="TakingMedicineTime" ToRole="PatientMedicine" />
+        </EntityType>
+        <Association Name="AirlyForecast_AirlyCurrent">
+          <End Role="Airly" Type="Self.Airly" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AirlyForecast" Type="Self.AirlyForecast" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Airly">
+              <PropertyRef Name="Diary_Id" />
+            </Principal>
+            <Dependent Role="AirlyForecast">
+              <PropertyRef Name="Diary_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BiometeoForecast_BiometeoCurrent">
+          <End Role="BiometeoCurrent" Type="Self.BiometeoCurrent" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BiometeoForecast" Type="Self.BiometeoForecast" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BiometeoCurrent">
+              <PropertyRef Name="Diary_Id" />
+            </Principal>
+            <Dependent Role="BiometeoForecast">
+              <PropertyRef Name="Diary_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Diary_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Diary" Type="Self.Diary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AspNetUsers_Id" />
+            </Principal>
+            <Dependent Role="Diary">
+              <PropertyRef Name="Patient_AspNetUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Doctor_Speciality">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="1" />
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Doctor">
+              <PropertyRef Name="Speciality_Name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientMedicine_Medicine">
+          <End Role="Medicine" Type="Self.Medicine" Multiplicity="1" />
+          <End Role="PatientMedicine" Type="Self.PatientMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicine">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="PatientMedicine">
+              <PropertyRef Name="Medicine_Name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientInterview_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PatientInterview" Type="Self.PatientInterview" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AspNetUsers_Id" />
+            </Principal>
+            <Dependent Role="PatientInterview">
+              <PropertyRef Name="Patient_AspNetUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientMedicine_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PatientMedicine" Type="Self.PatientMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AspNetUsers_Id" />
+            </Principal>
+            <Dependent Role="PatientMedicine">
+              <PropertyRef Name="Patient_AspNetUsers_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientMedicine_TakingMedicineTime">
+          <End Role="TakingMedicineTime" Type="Self.TakingMedicineTime" Multiplicity="1" />
+          <End Role="PatientMedicine" Type="Self.PatientMedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TakingMedicineTime">
+              <PropertyRef Name="TakingTime" />
+            </Principal>
+            <Dependent Role="PatientMedicine">
+              <PropertyRef Name="TakingTime" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientDisease">
+          <End Role="Disease" Type="Self.Disease" Multiplicity="*" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+        </Association>
+        <Association Name="PatientDoctor">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="*" />
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="CardioCartaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Airly" EntityType="Self.Airly" />
+          <EntitySet Name="AirlyForecast" EntityType="Self.AirlyForecast" />
+          <EntitySet Name="BiometeoCurrent" EntityType="Self.BiometeoCurrent" />
+          <EntitySet Name="BiometeoForecast" EntityType="Self.BiometeoForecast" />
+          <EntitySet Name="Diary" EntityType="Self.Diary" />
+          <EntitySet Name="Disease" EntityType="Self.Disease" />
+          <EntitySet Name="Doctor" EntityType="Self.Doctor" />
+          <EntitySet Name="Medicine" EntityType="Self.Medicine" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" />
+          <EntitySet Name="PatientInterview" EntityType="Self.PatientInterview" />
+          <EntitySet Name="PatientMedicine" EntityType="Self.PatientMedicine" />
+          <EntitySet Name="spatial_ref_sys" EntityType="Self.spatial_ref_sys" />
+          <EntitySet Name="Speciality" EntityType="Self.Speciality" />
+          <EntitySet Name="TakenMedicine" EntityType="Self.TakenMedicine" />
+          <EntitySet Name="TakingMedicineTime" EntityType="Self.TakingMedicineTime" />
+          <AssociationSet Name="AirlyForecast_AirlyCurrent" Association="Self.AirlyForecast_AirlyCurrent">
+            <End Role="Airly" EntitySet="Airly" />
+            <End Role="AirlyForecast" EntitySet="AirlyForecast" />
+          </AssociationSet>
+          <AssociationSet Name="BiometeoForecast_BiometeoCurrent" Association="Self.BiometeoForecast_BiometeoCurrent">
+            <End Role="BiometeoCurrent" EntitySet="BiometeoCurrent" />
+            <End Role="BiometeoForecast" EntitySet="BiometeoForecast" />
+          </AssociationSet>
+          <AssociationSet Name="Diary_Patient" Association="Self.Diary_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Diary" EntitySet="Diary" />
+          </AssociationSet>
+          <AssociationSet Name="Doctor_Speciality" Association="Self.Doctor_Speciality">
+            <End Role="Speciality" EntitySet="Speciality" />
+            <End Role="Doctor" EntitySet="Doctor" />
+          </AssociationSet>
+          <AssociationSet Name="PatientMedicine_Medicine" Association="Self.PatientMedicine_Medicine">
+            <End Role="Medicine" EntitySet="Medicine" />
+            <End Role="PatientMedicine" EntitySet="PatientMedicine" />
+          </AssociationSet>
+          <AssociationSet Name="PatientInterview_Patient" Association="Self.PatientInterview_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="PatientInterview" EntitySet="PatientInterview" />
+          </AssociationSet>
+          <AssociationSet Name="PatientMedicine_Patient" Association="Self.PatientMedicine_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="PatientMedicine" EntitySet="PatientMedicine" />
+          </AssociationSet>
+          <AssociationSet Name="PatientMedicine_TakingMedicineTime" Association="Self.PatientMedicine_TakingMedicineTime">
+            <End Role="TakingMedicineTime" EntitySet="TakingMedicineTime" />
+            <End Role="PatientMedicine" EntitySet="PatientMedicine" />
+          </AssociationSet>
+          <AssociationSet Name="PatientDisease" Association="Self.PatientDisease">
+            <End Role="Disease" EntitySet="Disease" />
+            <End Role="Patient" EntitySet="Patient" />
+          </AssociationSet>
+          <AssociationSet Name="PatientDoctor" Association="Self.PatientDoctor">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="Patient" EntitySet="Patient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CardioCartaModelStoreContainer" CdmEntityContainer="CardioCartaEntities">
+          <EntitySetMapping Name="Airly">
+            <EntityTypeMapping TypeName="CardioCartaModel.Airly">
+              <MappingFragment StoreEntitySet="Airly">
+                <ScalarProperty Name="Diary_Id" ColumnName="Diary_Id" />
+                <ScalarProperty Name="Airly_CAQI" ColumnName="Airly_CAQI" />
+                <ScalarProperty Name="PM1" ColumnName="PM1" />
+                <ScalarProperty Name="PM10" ColumnName="PM10" />
+                <ScalarProperty Name="PM25" ColumnName="PM25" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="Pressure" ColumnName="Pressure" />
+                <ScalarProperty Name="Temperature" ColumnName="Temperature" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AirlyForecast">
+            <EntityTypeMapping TypeName="CardioCartaModel.AirlyForecast">
+              <MappingFragment StoreEntitySet="AirlyForecast">
+                <ScalarProperty Name="Diary_Id" ColumnName="Diary_Id" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Airly_CAQI" ColumnName="Airly_CAQI" />
+                <ScalarProperty Name="PM10" ColumnName="PM10" />
+                <ScalarProperty Name="PM25" ColumnName="PM25" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BiometeoCurrent">
+            <EntityTypeMapping TypeName="CardioCartaModel.BiometeoCurrent">
+              <MappingFragment StoreEntitySet="BiometeoCurrent">
+                <ScalarProperty Name="Diary_Id" ColumnName="Diary_Id" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BiometeoForecast">
+            <EntityTypeMapping TypeName="CardioCartaModel.BiometeoForecast">
+              <MappingFragment StoreEntitySet="BiometeoForecast">
+                <ScalarProperty Name="Diary_Id" ColumnName="Diary_Id" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Diary">
+            <EntityTypeMapping TypeName="CardioCartaModel.Diary">
+              <MappingFragment StoreEntitySet="Diary">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Patient_AspNetUsers_Id" ColumnName="Patient_AspNetUsers_Id" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Mood" ColumnName="Mood" />
+                <ScalarProperty Name="SystolicPressure" ColumnName="SystolicPressure" />
+                <ScalarProperty Name="DiastolicPressure" ColumnName="DiastolicPressure" />
+                <ScalarProperty Name="RespirationProblem" ColumnName="RespirationProblem" />
+                <ScalarProperty Name="Haemorrhage" ColumnName="Haemorrhage" />
+                <ScalarProperty Name="Dizziness" ColumnName="Dizziness" />
+                <ScalarProperty Name="ChestPain" ColumnName="ChestPain" />
+                <ScalarProperty Name="SternumPain" ColumnName="SternumPain" />
+                <ScalarProperty Name="HeartPain" ColumnName="HeartPain" />
+                <ScalarProperty Name="Alcohol" ColumnName="Alcohol" />
+                <ScalarProperty Name="Coffee" ColumnName="Coffee" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Disease">
+            <EntityTypeMapping TypeName="CardioCartaModel.Disease">
+              <MappingFragment StoreEntitySet="Disease">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doctor">
+            <EntityTypeMapping TypeName="CardioCartaModel.Doctor">
+              <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="AspNetUsers_Id" ColumnName="AspNetUsers_Id" />
+                <ScalarProperty Name="Speciality_Name" ColumnName="Speciality_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medicine">
+            <EntityTypeMapping TypeName="CardioCartaModel.Medicine">
+              <MappingFragment StoreEntitySet="Medicine">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patient">
+            <EntityTypeMapping TypeName="CardioCartaModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="AspNetUsers_Id" ColumnName="AspNetUsers_Id" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Male" ColumnName="Male" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientInterview">
+            <EntityTypeMapping TypeName="CardioCartaModel.PatientInterview">
+              <MappingFragment StoreEntitySet="PatientInterview">
+                <ScalarProperty Name="Patient_AspNetUsers_Id" ColumnName="Patient_AspNetUsers_Id" />
+                <ScalarProperty Name="DiastolicPressure" ColumnName="DiastolicPressure" />
+                <ScalarProperty Name="SystolicPressure" ColumnName="SystolicPressure" />
+                <ScalarProperty Name="Surgery" ColumnName="Surgery" />
+                <ScalarProperty Name="DiseaseInFamily" ColumnName="DiseaseInFamily" />
+                <ScalarProperty Name="Smoking" ColumnName="Smoking" />
+                <ScalarProperty Name="Health" ColumnName="Health" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientMedicine">
+            <EntityTypeMapping TypeName="CardioCartaModel.PatientMedicine">
+              <MappingFragment StoreEntitySet="PatientMedicine">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Patient_AspNetUsers_Id" ColumnName="Patient_AspNetUsers_Id" />
+                <ScalarProperty Name="Medicine_Name" ColumnName="Medicine_Name" />
+                <ScalarProperty Name="MgDose" ColumnName="MgDose" />
+                <ScalarProperty Name="TakingTime" ColumnName="TakingTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="spatial_ref_sys">
+            <EntityTypeMapping TypeName="CardioCartaModel.spatial_ref_sys">
+              <MappingFragment StoreEntitySet="spatial_ref_sys">
+                <ScalarProperty Name="srid" ColumnName="srid" />
+                <ScalarProperty Name="auth_name" ColumnName="auth_name" />
+                <ScalarProperty Name="auth_srid" ColumnName="auth_srid" />
+                <ScalarProperty Name="srtext" ColumnName="srtext" />
+                <ScalarProperty Name="proj4text" ColumnName="proj4text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Speciality">
+            <EntityTypeMapping TypeName="CardioCartaModel.Speciality">
+              <MappingFragment StoreEntitySet="Speciality">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TakenMedicine">
+            <EntityTypeMapping TypeName="CardioCartaModel.TakenMedicine">
+              <MappingFragment StoreEntitySet="TakenMedicine">
+                <ScalarProperty Name="Diary_Id" ColumnName="Diary_Id" />
+                <ScalarProperty Name="PatientMedicine_Id" ColumnName="PatientMedicine_Id" />
+                <ScalarProperty Name="Taken" ColumnName="Taken" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TakingMedicineTime">
+            <EntityTypeMapping TypeName="CardioCartaModel.TakingMedicineTime">
+              <MappingFragment StoreEntitySet="TakingMedicineTime">
+                <ScalarProperty Name="TakingTime" ColumnName="TakingTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="PatientDisease" TypeName="CardioCartaModel.PatientDisease" StoreEntitySet="PatientDisease">
+            <EndProperty Name="Disease">
+              <ScalarProperty Name="Name" ColumnName="Disease_Name" />
+            </EndProperty>
+            <EndProperty Name="Patient">
+              <ScalarProperty Name="AspNetUsers_Id" ColumnName="Patient_AspNetUsers_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PatientDoctor" TypeName="CardioCartaModel.PatientDoctor" StoreEntitySet="PatientDoctor">
+            <EndProperty Name="Doctor">
+              <ScalarProperty Name="AspNetUsers_Id" ColumnName="Doctor_AspNetUsers_Id" />
+            </EndProperty>
+            <EndProperty Name="Patient">
+              <ScalarProperty Name="AspNetUsers_Id" ColumnName="Patient_AspNetUsers_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
