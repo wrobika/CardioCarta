@@ -208,6 +208,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AirliesController.cs" />
+    <Compile Include="Controllers\DiariesController.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -220,6 +222,14 @@
     <Compile Include="Migrations\201809220957191_IdentityInitial.cs" />
     <Compile Include="Migrations\201809220957191_IdentityInitial.Designer.cs">
       <DependentUpon>201809220957191_IdentityInitial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809281832213_Add FirstName and Surname columns.cs" />
+    <Compile Include="Migrations\201809281832213_Add FirstName and Surname columns.Designer.cs">
+      <DependentUpon>201809281832213_Add FirstName and Surname columns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809281930157_Add columns for Address.cs" />
+    <Compile Include="Migrations\201809281930157_Add columns for Address.Designer.cs">
+      <DependentUpon>201809281930157_Add columns for Address.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -385,6 +395,18 @@
     <Content Include="Views\Specialities\Edit.cshtml" />
     <Content Include="Views\Specialities\Index.cshtml" />
     <Content Include="Views\Account\RegisterDoctor.cshtml" />
+    <Content Include="Views\Diaries\Create.cshtml" />
+    <Content Include="Views\Diaries\Delete.cshtml" />
+    <Content Include="Views\Diaries\Details.cshtml" />
+    <Content Include="Views\Diaries\Edit.cshtml" />
+    <Content Include="Views\Diaries\Index.cshtml" />
+    <Content Include="Views\Diaries\Filled.cshtml" />
+    <Content Include="Views\PatientInterviews\Filled.cshtml" />
+    <Content Include="Views\Airlies\Create.cshtml" />
+    <Content Include="Views\Airlies\Delete.cshtml" />
+    <Content Include="Views\Airlies\Details.cshtml" />
+    <Content Include="Views\Airlies\Edit.cshtml" />
+    <Content Include="Views\Airlies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -408,6 +430,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201809220957191_IdentityInitial.resx">
       <DependentUpon>201809220957191_IdentityInitial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809281832213_Add FirstName and Surname columns.resx">
+      <DependentUpon>201809281832213_Add FirstName and Surname columns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809281930157_Add columns for Address.resx">
+      <DependentUpon>201809281930157_Add columns for Address.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

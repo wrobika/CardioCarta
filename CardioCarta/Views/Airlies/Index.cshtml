@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CardioCarta.Models.Airly>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Airly_CAQI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PM1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PM10)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PM25)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Humidity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pressure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Temperature)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Airly_CAQI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PM1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PM10)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PM25)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Humidity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pressure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Temperature)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Diary_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Diary_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Diary_Id })
+        </td>
+    </tr>
+}
+
+</table>

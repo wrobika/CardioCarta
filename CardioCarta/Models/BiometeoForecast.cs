@@ -11,11 +11,13 @@ namespace CardioCarta.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class BiometeoForecast
     {
         public string Diary_Id { get; set; }
         public System.DateTime TimeStamp { get; set; }
+        [Range(0,5)]
         public int Level { get; set; }
     
         public virtual BiometeoCurrent BiometeoCurrent { get; set; }

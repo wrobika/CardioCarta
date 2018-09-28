@@ -1,0 +1,111 @@
+﻿@model IEnumerable<CardioCarta.Models.Diary>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mood)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SystolicPressure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiastolicPressure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RespirationProblem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Haemorrhage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dizziness)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChestPain)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SternumPain)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HeartPain)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Alcohol)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Coffee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Other)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Patient.AspNetUsers_Id)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mood)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SystolicPressure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiastolicPressure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RespirationProblem)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Haemorrhage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Dizziness)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ChestPain)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SternumPain)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HeartPain)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Alcohol)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Coffee)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Other)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Patient.AspNetUsers_Id)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

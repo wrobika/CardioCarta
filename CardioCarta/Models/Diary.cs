@@ -11,23 +11,53 @@ namespace CardioCarta.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Diary
     {
         public string Id { get; set; }
+
         public string Patient_AspNetUsers_Id { get; set; }
+
         public System.DateTime TimeStamp { get; set; }
+
+        [Range(1,10)]
+        [Display(Name ="Twoje samopoczucie w skali od 1-bardzo z³e, do 10-bardzo dobre")]
         public int Mood { get; set; }
+
+        [Range(0, 300)]
+        [Display(Name ="Twoje ciœnienie skurczowe")]
         public int SystolicPressure { get; set; }
+
+        [Range(0, 300)]
+        [Display(Name = "Twoje ciœnienie rozkurczowe")]
         public int DiastolicPressure { get; set; }
+
+        [Display(Name = "Czy mia³eœ/eœ problemu z oddychaniem?")]
         public bool RespirationProblem { get; set; }
+
+        [Display(Name = "Czy mia³aœ/eœ krwotok?")]
         public bool Haemorrhage { get; set; }
+
+        [Display(Name = "Czy mia³aœ/eœ zawroty g³owy?")]
         public bool Dizziness { get; set; }
+
+        [Display(Name = "Czy odczywa³as/eœ ból w klatce piersiowej?")]
         public bool ChestPain { get; set; }
+
+        [Display(Name = "Czy odczywa³as/eœ ból w mostku?")]
         public bool SternumPain { get; set; }
+
+        [Display(Name = "Czy odczywa³as/eœ k³ucie w sercu?")]
         public bool HeartPain { get; set; }
+
+        [Display(Name = "Czy spo¿ywa³aœ/eœ dziœ alkohol?")]
         public bool Alcohol { get; set; }
+
+        [Display(Name = "Czy pi³aœ/eœ dziœ kawê?")]
         public bool Coffee { get; set; }
+
+        [Display(Name = "Inne uwagi")]
         public string Other { get; set; }
     
         public virtual Patient Patient { get; set; }

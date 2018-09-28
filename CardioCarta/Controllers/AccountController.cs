@@ -151,8 +151,22 @@ namespace CardioCarta.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    Surname = model.Surname,
+                    CityOrVillage = model.CityOrVillage,
+                    District = model.District,
+                    Street = model.Street,
+                    House = model.House,
+                    Flat = model.Flat,
+                    PostalCode = model.PostalCode
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     var patient = new Patient { AspNetUsers_Id = user.Id, BirthDate = model.Birthday, Male = model.Gender };
@@ -197,7 +211,19 @@ namespace CardioCarta.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    Surname = model.Surname,
+                    CityOrVillage = model.CityOrVillage,
+                    District = model.District,
+                    Street = model.Street,
+                    House = model.House,
+                    Flat = model.Flat,
+                    PostalCode = model.PostalCode
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

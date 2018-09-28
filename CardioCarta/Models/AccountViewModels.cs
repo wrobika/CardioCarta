@@ -83,6 +83,16 @@ namespace CardioCarta.Models
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [Display(Name = "Surname")]
+        [MaxLength(50)]
+        public string Surname { get; set; }
+
+        [Required]
+        [Display(Name = "First name")]
+        [MaxLength(50)]
+        public string FirstName { get; set; }
+
+        [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Date of birth")]
         [PastDate]
@@ -91,6 +101,34 @@ namespace CardioCarta.Models
         [Required]
         [Display(Name = "Gender")]
         public bool Gender { get; set; }
+
+        [Required]
+        [Display(Name = "City or village")]
+        [MaxLength(50)]
+        public string CityOrVillage { get; set; }
+
+        [Required]
+        [Display(Name = "District")]
+        [MaxLength(50)]
+        public string District { get; set; }
+
+        [Display(Name = "Street")]
+        [MaxLength(50)]
+        public string Street { get; set; }
+
+        [Required]
+        [Display(Name = "House Number")]
+        [MaxLength(10)]
+        public string House { get; set; }
+
+        [Display(Name = "Flat Number")]
+        [MaxLength(10)]
+        public string Flat { get; set; }
+
+        [Required]
+        [RegularExpression("([0-9]{2}-[0-9]{3})", ErrorMessage = "Kod pocztowy musi mieć postać 00-000")]
+        [MaxLength(6)]
+        public string PostalCode { get; set; }
     }
 
     public class RegisterDoctorViewModel
@@ -114,6 +152,55 @@ namespace CardioCarta.Models
         [Required]
         [Display(Name = "Speciality")]
         public string Speciality { get; set; }
+
+        [Required]
+        [Display(Name = "Surname")]
+        [MaxLength(50)]
+        public string Surname { get; set; }
+
+        [Required]
+        [Display(Name = "First name")]
+        [MaxLength(50)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Date of birth")]
+        [PastDate]
+        public DateTime Birthday { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        public bool Gender { get; set; }
+
+        [Required]
+        [Display(Name = "City or village")]
+        [MaxLength(50)]
+        public string CityOrVillage { get; set; }
+
+        [Required]
+        [Display(Name = "District")]
+        [MaxLength(50)]
+        public string District { get; set; }
+
+        [Display(Name = "Street")]
+        [MaxLength(50)]
+        public string Street { get; set; }
+
+        [Required]
+        [Display(Name = "House Number")]
+        [MaxLength(10)]
+        public string House { get; set; }
+
+        [Display(Name = "Flat Number")]
+        [MaxLength(10)]
+        public string Flat { get; set; }
+
+        [Required]
+        [Display(Name = "Postal code")]
+        [RegularExpression("([0-9]{2}-[0-9]{3})", ErrorMessage = "Kod pocztowy musi mieć postać 00-000")]
+        [MaxLength(6)]
+        public string PostalCode { get; set; }
     }
 
     public class ResetPasswordViewModel

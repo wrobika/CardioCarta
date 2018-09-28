@@ -11,126 +11,128 @@ using Microsoft.AspNet.Identity;
 
 namespace CardioCarta.Controllers
 {
-    public class PatientInterviewsController : Controller
+    public class DiariesController : Controller
     {
         private CardioCartaEntities db = new CardioCartaEntities();
 
-        // GET: PatientInterviews
+        // GET: Diaries
         public ActionResult Index()
         {
-            var patientInterview = db.PatientInterview.Include(p => p.Patient);
-            return View(patientInterview.ToList());
+            var diary = db.Diary.Include(d => d.Patient);
+            return View(diary.ToList());
         }
 
-        // GET: PatientInterviews/Filled
-        public ActionResult Filled()
-        {
-            return View();
-        }
-
-        // GET: PatientInterviews/Details/5
+        // GET: Diaries/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PatientInterview patientInterview = db.PatientInterview.Find(id);
-            if (patientInterview == null)
+            Diary diary = db.Diary.Find(id);
+            if (diary == null)
             {
                 return HttpNotFound();
             }
-            return View(patientInterview);
+            return View(diary);
         }
 
-        // GET: PatientInterviews/Create
+        // GET: Diaries/Filled
+        public ActionResult Filled()
+        {
+            return View();
+        }
+
+        // GET: Diaries/Create
         [Authorize(Roles = "Patient")]
         public ActionResult Create()
         {
             string userId = User.Identity.GetUserId();
-            if (db.PatientInterview
-                .Where(interview => interview.Patient_AspNetUsers_Id == userId).Any())
+            if (db.Diary.Where(diary => diary.Patient_AspNetUsers_Id == userId)
+                .Where(diary => diary.TimeStamp.Hour == DateTime.Now.Hour).Any())
             {
                 return RedirectToAction("Filled");
             }
             return View();
         }
 
-        // POST: PatientInterviews/Create
+        // POST: Diaries/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Patient")]
-        public ActionResult Create([Bind(Include = "DiastolicPressure,SystolicPressure,Surgery,DiseaseInFamily,Smoking,Health")] PatientInterview patientInterview)
+        public ActionResult Create([Bind(Include = "Mood,SystolicPressure,DiastolicPressure,RespirationProblem,Haemorrhage,Dizziness,ChestPain,SternumPain,HeartPain,Alcohol,Coffee,Other")] Diary diary)
         {
-            patientInterview.Patient_AspNetUsers_Id = User.Identity.GetUserId();
+            diary.Patient_AspNetUsers_Id = User.Identity.GetUserId();
+            diary.TimeStamp = DateTime.Now;
+            diary.Id = UniqueId();
             if (ModelState.IsValid)
             {
-                db.PatientInterview.Add(patientInterview);
+                db.Diary.Add(diary);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Patient_AspNetUsers_Id = new SelectList(db.Patient, "AspNetUsers_Id", "AspNetUsers_Id", patientInterview.Patient_AspNetUsers_Id);
-            return View(patientInterview);
+            ViewBag.Patient_AspNetUsers_Id = new SelectList(db.Patient, "AspNetUsers_Id", "AspNetUsers_Id", diary.Patient_AspNetUsers_Id);
+            return View(diary);
         }
 
-        // GET: PatientInterviews/Edit/5
+        // GET: Diaries/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PatientInterview patientInterview = db.PatientInterview.Find(id);
-            if (patientInterview == null)
+            Diary diary = db.Diary.Find(id);
+            if (diary == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Patient_AspNetUsers_Id = new SelectList(db.Patient, "AspNetUsers_Id", "AspNetUsers_Id", patientInterview.Patient_AspNetUsers_Id);
-            return View(patientInterview);
+            ViewBag.Patient_AspNetUsers_Id = new SelectList(db.Patient, "AspNetUsers_Id", "AspNetUsers_Id", diary.Patient_AspNetUsers_Id);
+            return View(diary);
         }
 
-        // POST: PatientInterviews/Edit/5
+        // POST: Diaries/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Patient_AspNetUsers_Id,DiastolicPressure,SystolicPressure,Surgery,DiseaseInFamily,Smoking,Health")] PatientInterview patientInterview)
+        public ActionResult Edit([Bind(Include = "Id,Patient_AspNetUsers_Id,TimeStamp,Mood,SystolicPressure,DiastolicPressure,RespirationProblem,Haemorrhage,Dizziness,ChestPain,SternumPain,HeartPain,Alcohol,Coffee,Other")] Diary diary)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(patientInterview).State = EntityState.Modified;
+                db.Entry(diary).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Patient_AspNetUsers_Id = new SelectList(db.Patient, "AspNetUsers_Id", "AspNetUsers_Id", patientInterview.Patient_AspNetUsers_Id);
-            return View(patientInterview);
+            ViewBag.Patient_AspNetUsers_Id = new SelectList(db.Patient, "AspNetUsers_Id", "AspNetUsers_Id", diary.Patient_AspNetUsers_Id);
+            return View(diary);
         }
 
-        // GET: PatientInterviews/Delete/5
+        // GET: Diaries/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PatientInterview patientInterview = db.PatientInterview.Find(id);
-            if (patientInterview == null)
+            Diary diary = db.Diary.Find(id);
+            if (diary == null)
             {
                 return HttpNotFound();
             }
-            return View(patientInterview);
+            return View(diary);
         }
 
-        // POST: PatientInterviews/Delete/5
+        // POST: Diaries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            PatientInterview patientInterview = db.PatientInterview.Find(id);
-            db.PatientInterview.Remove(patientInterview);
+            Diary diary = db.Diary.Find(id);
+            db.Diary.Remove(diary);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -142,6 +144,17 @@ namespace CardioCarta.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private string UniqueId()
+        {
+            string id = Guid.NewGuid().ToString();
+            //szuka unikalnego id
+            while(db.Diary.Where(diary => diary.Id == id).ToList().Any())
+            {
+                id = Guid.NewGuid().ToString();
+            }
+            return id;
         }
     }
 }
