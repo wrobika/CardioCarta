@@ -1,0 +1,1 @@
+GIS i telemedycyna. Aplikacja monitorująca stan zdrowia pacjentów. 
