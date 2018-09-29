@@ -4,112 +4,118 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using CardioCarta.Models;
 
 namespace CardioCarta.Controllers
 {
-    public class AirliesController : Controller
+    public class AirlyForecastsController : Controller
     {
         private CardioCartaEntities db = new CardioCartaEntities();
 
-        // GET: Airlies
+        // GET: AirlyForecasts
         public ActionResult Index()
         {
-            return View(db.Airly.ToList());
+            var airlyForecast = db.AirlyForecast.Include(a => a.Airly);
+            return View(airlyForecast.ToList());
         }
 
-        // GET: Airlies/Details/5
+        // GET: AirlyForecasts/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Airly airly = db.Airly.Find(id);
-            if (airly == null)
+            AirlyForecast airlyForecast = db.AirlyForecast.Find(id);
+            if (airlyForecast == null)
             {
                 return HttpNotFound();
             }
-            return View(airly);
+            return View(airlyForecast);
         }
 
-        // GET: Airlies/Create
+        // GET: AirlyForecasts/Create
         public ActionResult Create()
         {
+            ViewBag.Diary_Id = new SelectList(db.Airly, "Diary_Id", "Diary_Id");
             return View();
         }
 
-        // POST: Airlies/Create
+        // POST: AirlyForecasts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Diary_Id,Airly_CAQI,PM1,PM10,PM25,Humidity,Pressure,Temperature")] Airly airly)
+        public ActionResult Create([Bind(Include = "Diary_Id,TimeStamp,Airly_CAQI,PM10,PM25")] AirlyForecast airlyForecast)
         {
             if (ModelState.IsValid)
             {
-                db.Airly.Add(airly);
+                db.AirlyForecast.Add(airlyForecast);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(airly);
+            ViewBag.Diary_Id = new SelectList(db.Airly, "Diary_Id", "Diary_Id", airlyForecast.Diary_Id);
+            return View(airlyForecast);
         }
 
-        // GET: Airlies/Edit/5
+        // GET: AirlyForecasts/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Airly airly = db.Airly.Find(id);
-            if (airly == null)
+            AirlyForecast airlyForecast = db.AirlyForecast.Find(id);
+            if (airlyForecast == null)
             {
                 return HttpNotFound();
             }
-            return View(airly);
+            ViewBag.Diary_Id = new SelectList(db.Airly, "Diary_Id", "Diary_Id", airlyForecast.Diary_Id);
+            return View(airlyForecast);
         }
 
-        // POST: Airlies/Edit/5
+        // POST: AirlyForecasts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Diary_Id,Airly_CAQI,PM1,PM10,PM25,Humidity,Pressure,Temperature")] Airly airly)
+        public ActionResult Edit([Bind(Include = "Diary_Id,TimeStamp,Airly_CAQI,PM10,PM25")] AirlyForecast airlyForecast)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(airly).State = EntityState.Modified;
+                db.Entry(airlyForecast).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(airly);
+            ViewBag.Diary_Id = new SelectList(db.Airly, "Diary_Id", "Diary_Id", airlyForecast.Diary_Id);
+            return View(airlyForecast);
         }
 
-        // GET: Airlies/Delete/5
+        // GET: AirlyForecasts/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Airly airly = db.Airly.Find(id);
-            if (airly == null)
+            AirlyForecast airlyForecast = db.AirlyForecast.Find(id);
+            if (airlyForecast == null)
             {
                 return HttpNotFound();
             }
-            return View(airly);
+            return View(airlyForecast);
         }
 
-        // POST: Airlies/Delete/5
+        // POST: AirlyForecasts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Airly airly = db.Airly.Find(id);
-            db.Airly.Remove(airly);
+            AirlyForecast airlyForecast = db.AirlyForecast.Find(id);
+            db.AirlyForecast.Remove(airlyForecast);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

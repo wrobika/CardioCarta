@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CardioCarta.Models;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
 
 namespace CardioCarta.Controllers
 {
@@ -47,12 +48,14 @@ namespace CardioCarta.Controllers
         [Authorize(Roles = "Patient")]
         public ActionResult Create()
         {
-            string userId = User.Identity.GetUserId();
-            if (db.Diary.Where(diary => diary.Patient_AspNetUsers_Id == userId)
-                .Where(diary => diary.TimeStamp.Hour == DateTime.Now.Hour).Any())
-            {
-                return RedirectToAction("Filled");
-            }
+            //zabepieczenie przed kilkukrotnym wypelnianiem wciagu jednej godziny
+            //
+            //string userId = User.Identity.GetUserId();
+            //if (db.Diary.Where(diary => diary.Patient_AspNetUsers_Id == userId)
+            //    .Where(diary => diary.TimeStamp.Hour == DateTime.Now.Hour).Any())
+            //{
+            //    return RedirectToAction("Filled");
+            //}
             return View();
         }
 
@@ -62,7 +65,7 @@ namespace CardioCarta.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Patient")]
-        public ActionResult Create([Bind(Include = "Mood,SystolicPressure,DiastolicPressure,RespirationProblem,Haemorrhage,Dizziness,ChestPain,SternumPain,HeartPain,Alcohol,Coffee,Other")] Diary diary)
+        public async Task<ActionResult> Create([Bind(Include = "Mood,SystolicPressure,DiastolicPressure,RespirationProblem,Haemorrhage,Dizziness,ChestPain,SternumPain,HeartPain,Alcohol,Coffee,Other")] Diary diary)
         {
             diary.Patient_AspNetUsers_Id = User.Identity.GetUserId();
             diary.TimeStamp = DateTime.Now;
@@ -71,6 +74,7 @@ namespace CardioCarta.Controllers
             {
                 db.Diary.Add(diary);
                 db.SaveChanges();
+                await AirlyApi.GetRequest("", diary.Id);
                 return RedirectToAction("Index");
             }
 

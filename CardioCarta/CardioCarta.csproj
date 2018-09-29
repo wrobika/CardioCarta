@@ -71,6 +71,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -209,6 +212,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AirliesController.cs" />
+    <Compile Include="Controllers\AirlyApi.cs" />
+    <Compile Include="Controllers\AirlyForecastsController.cs" />
     <Compile Include="Controllers\DiariesController.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -239,6 +244,7 @@
     <Compile Include="Models\AirlyForecast.cs">
       <DependentUpon>CardioCarta.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Measurements.cs" />
     <Compile Include="Models\BiometeoCurrent.cs">
       <DependentUpon>CardioCarta.tt</DependentUpon>
     </Compile>
@@ -407,6 +413,12 @@
     <Content Include="Views\Airlies\Details.cshtml" />
     <Content Include="Views\Airlies\Edit.cshtml" />
     <Content Include="Views\Airlies\Index.cshtml" />
+    <Content Include="Views\AirlyForecasts\Create.cshtml" />
+    <Content Include="Views\AirlyForecasts\Delete.cshtml" />
+    <Content Include="Views\AirlyForecasts\Details.cshtml" />
+    <Content Include="Views\AirlyForecasts\Edit.cshtml" />
+    <Content Include="Views\AirlyForecasts\Index.cshtml" />
+    <Content Include="Views\Airlies\Temp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
