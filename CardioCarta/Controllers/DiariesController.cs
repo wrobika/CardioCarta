@@ -65,8 +65,9 @@ namespace CardioCarta.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Patient")]
-        public async Task<ActionResult> Create([Bind(Include = "Mood,SystolicPressure,DiastolicPressure,RespirationProblem,Haemorrhage,Dizziness,ChestPain,SternumPain,HeartPain,Alcohol,Coffee,Other")] Diary diary)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Mood,SystolicPressure,DiastolicPressure,RespirationProblem,Haemorrhage,Dizziness,ChestPain,SternumPain,HeartPain,Alcohol,Coffee,Other")] Diary diary)
         {
+            string[] coord = diary.Id.Split(separator: ',');
             diary.Patient_AspNetUsers_Id = User.Identity.GetUserId();
             diary.TimeStamp = DateTime.Now;
             diary.Id = UniqueId();
@@ -74,7 +75,7 @@ namespace CardioCarta.Controllers
             {
                 db.Diary.Add(diary);
                 db.SaveChanges();
-                await AirlyApi.GetRequest("", diary.Id);
+                await AirlyApi.GetRequest(coord, diary.Id);
                 return RedirectToAction("Index");
             }
 

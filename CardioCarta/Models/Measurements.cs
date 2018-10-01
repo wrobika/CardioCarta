@@ -8,13 +8,13 @@ namespace CardioCarta.Models
     public class Value
     {
         public string name { get; set; }
-        public double value { get; set; }
+        public double? value { get; set; }
     }
 
     public class Index
     {
         public string name { get; set; }
-        public double value { get; set; }
+        public double? value { get; set; }
         public string level { get; set; }
         public string description { get; set; }
         public string advice { get; set; }
@@ -25,8 +25,8 @@ namespace CardioCarta.Models
     {
         public string name { get; set; }
         public string pollutant { get; set; }
-        public double limit { get; set; }
-        public double percent { get; set; }
+        public double? limit { get; set; }
+        public double? percent { get; set; }
     }
 
     public class Current
