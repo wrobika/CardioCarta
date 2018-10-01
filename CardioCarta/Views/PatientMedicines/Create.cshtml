@@ -1,0 +1,58 @@
+﻿@model CardioCarta.Models.PatientMedicine
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>PatientMedicine</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Medicine_Name, "Medicine_Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Medicine_Name", (SelectList)ViewBag.Medicine_Name, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Medicine_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MgDose, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MgDose, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MgDose, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TakingTime, "TakingTime", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TakingTime", (SelectList) ViewBag.TakingTime, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TakingTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <p>
+        Nie widzisz nazwy swojego leku? @Html.ActionLink("Wprowadź nowy lek", "Create", "Medicines")
+    </p>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

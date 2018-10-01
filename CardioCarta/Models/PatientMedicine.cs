@@ -11,13 +11,25 @@ namespace CardioCarta.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class PatientMedicine
     {
         public string Id { get; set; }
+
         public string Patient_AspNetUsers_Id { get; set; }
+
+        [Required]
+        [Display(Name = "Nazwa leku")]
         public string Medicine_Name { get; set; }
+
+        [Required]
+        [Range(0,5000)]
+        [Display(Name = "Dawka w miligramach")]
         public int MgDose { get; set; }
+
+        [Required]
+        [Display(Name = "Pora przyjmowania")]
         public string TakingTime { get; set; }
     
         public virtual Medicine Medicine { get; set; }

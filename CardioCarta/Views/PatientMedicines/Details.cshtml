@@ -1,0 +1,42 @@
+﻿@model CardioCarta.Models.PatientMedicine
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PatientMedicine</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MgDose)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MgDose)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Medicine.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Medicine.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TakingMedicineTime.TakingTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TakingMedicineTime.TakingTime)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

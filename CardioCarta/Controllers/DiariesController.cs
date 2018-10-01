@@ -9,6 +9,9 @@ using System.Web.Mvc;
 using CardioCarta.Models;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
+using NetTopologySuite.Geometries;
+using Npgsql;
+using GeoAPI.Geometries;
 
 namespace CardioCarta.Controllers
 {
@@ -67,7 +70,11 @@ namespace CardioCarta.Controllers
         [Authorize(Roles = "Patient")]
         public async Task<ActionResult> Create([Bind(Include = "Id,Mood,SystolicPressure,DiastolicPressure,RespirationProblem,Haemorrhage,Dizziness,ChestPain,SternumPain,HeartPain,Alcohol,Coffee,Other")] Diary diary)
         {
-            string[] coord = diary.Id.Split(separator: ',');
+            string[] coord = null;
+            if (diary.Id != null)
+            {
+                coord = diary.Id.Split(separator: ',');
+            }
             diary.Patient_AspNetUsers_Id = User.Identity.GetUserId();
             diary.TimeStamp = DateTime.Now;
             diary.Id = UniqueId();
@@ -75,12 +82,28 @@ namespace CardioCarta.Controllers
             {
                 db.Diary.Add(diary);
                 db.SaveChanges();
-                await AirlyApi.GetRequest(coord, diary.Id);
+                if (coord != null)
+                {
+                    await AirlyApi.GetRequest(coord, diary.Id);
+                    setGeolocation(diary, coord);
+                }
                 return RedirectToAction("Index");
             }
 
             ViewBag.Patient_AspNetUsers_Id = new SelectList(db.Patient, "AspNetUsers_Id", "AspNetUsers_Id", diary.Patient_AspNetUsers_Id);
             return View(diary);
+        }
+
+        private static void setGeolocation(Diary diary, string[] coord)
+        {
+            NpgsqlConnection connection = new NpgsqlConnection("Server=localhost;port=5432;Database=CardioCarta;User Id=bachelor;Password=bachelor;");
+            connection.Open();
+            NpgsqlCommand command = new NpgsqlCommand(
+                "UPDATE \"Diary\" " +
+                "SET \"Location\" = ST_PointFromText('POINT(" + coord[0] + " " + coord[1] + ")', 4326) " +
+                "WHERE \"Diary\".\"Id\" LIKE '" + diary.Id + "';", connection);
+            command.ExecuteNonQuery();
+            connection.Close();
         }
 
         // GET: Diaries/Edit/5
@@ -155,7 +178,7 @@ namespace CardioCarta.Controllers
         {
             string id = Guid.NewGuid().ToString();
             //szuka unikalnego id
-            while(db.Diary.Where(diary => diary.Id == id).ToList().Any())
+            while (db.Diary.Where(diary => diary.Id == id).ToList().Any())
             {
                 id = Guid.NewGuid().ToString();
             }

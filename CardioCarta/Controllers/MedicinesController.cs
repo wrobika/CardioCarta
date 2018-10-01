@@ -10,107 +10,107 @@ using CardioCarta.Models;
 
 namespace CardioCarta.Controllers
 {
-    public class SpecialitiesController : Controller
+    public class MedicinesController : Controller
     {
         private CardioCartaEntities db = new CardioCartaEntities();
 
-        // GET: Specialities
+        // GET: Medicines
         public ActionResult Index()
         {
-            return View(db.Speciality.ToList());
+            return View(db.Medicine.ToList());
         }
 
-        // GET: Specialities/Details/5
+        // GET: Medicines/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Speciality speciality = db.Speciality.Find(id);
-            if (speciality == null)
+            Medicine medicine = db.Medicine.Find(id);
+            if (medicine == null)
             {
                 return HttpNotFound();
             }
-            return View(speciality);
+            return View(medicine);
         }
 
-        // GET: Specialities/Create
+        // GET: Medicines/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Specialities/Create
+        // POST: Medicines/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name")] Speciality speciality)
+        public ActionResult Create([Bind(Include = "Name")] Medicine medicine)
         {
             if (ModelState.IsValid)
             {
-                db.Speciality.Add(speciality);
+                db.Medicine.Add(medicine);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(speciality);
+            return View(medicine);
         }
 
-        // GET: Specialities/Edit/5
+        // GET: Medicines/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Speciality speciality = db.Speciality.Find(id);
-            if (speciality == null)
+            Medicine medicine = db.Medicine.Find(id);
+            if (medicine == null)
             {
                 return HttpNotFound();
             }
-            return View(speciality);
+            return View(medicine);
         }
 
-        // POST: Specialities/Edit/5
+        // POST: Medicines/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Name")] Speciality speciality)
+        public ActionResult Edit([Bind(Include = "Name")] Medicine medicine)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(speciality).State = EntityState.Modified;
+                db.Entry(medicine).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(speciality);
+            return View(medicine);
         }
 
-        // GET: Specialities/Delete/5
+        // GET: Medicines/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Speciality speciality = db.Speciality.Find(id);
-            if (speciality == null)
+            Medicine medicine = db.Medicine.Find(id);
+            if (medicine == null)
             {
                 return HttpNotFound();
             }
-            return View(speciality);
+            return View(medicine);
         }
 
-        // POST: Specialities/Delete/5
+        // POST: Medicines/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Speciality speciality = db.Speciality.Find(id);
-            db.Speciality.Remove(speciality);
+            Medicine medicine = db.Medicine.Find(id);
+            db.Medicine.Remove(medicine);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -124,16 +124,26 @@ namespace CardioCarta.Controllers
             base.Dispose(disposing);
         }
 
-
-        public List<string> GetSpecialitiesList()
+        public List<string> GetMedicinesList()
         {
-            var specialities = db.Speciality.ToList().OrderBy(s => s.Name);
-            LinkedList<string> specialityNames = new LinkedList<string>();
-            foreach (Speciality speciality in specialities)
+            var medicines = db.Medicine.ToList().OrderBy(m => m.Name);
+            LinkedList<string> medicineNames = new LinkedList<string>();
+            foreach (Medicine medicine in medicines)
             {
-                specialityNames.AddLast(speciality.Name);
+                medicineNames.AddLast(medicine.Name);
             }
-            return new List<string>(specialityNames);
+            return new List<string>(medicineNames);
+        }
+
+        public List<string> GetTakingTimeList()
+        {
+            var times = db.TakingMedicineTime.ToList();
+            LinkedList<string> timeNames = new LinkedList<string>();
+            foreach (TakingMedicineTime time in times)
+            {
+                timeNames.AddLast(time.TakingTime);
+            }
+            return new List<string>(timeNames);
         }
     }
 }

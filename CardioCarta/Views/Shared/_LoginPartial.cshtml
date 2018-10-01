@@ -9,11 +9,17 @@
         @if (User.IsInRole("Patient"))
         {
             <li>
-                @Html.ActionLink("Fill Your Diary", "Create", "Diaries")
+                @Html.ActionLink("Wypełń dzienniczek", "Create", "Diaries")
+            </li>
+            <li>
+                @Html.ActionLink("Twoje Leki", "Index", "PatientMedicines")
+            </li>
+            <li>
+                @Html.ActionLink("Dodaj swój lek", "Create", "PatientMedicines")
             </li>
         }
         <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink("Cześć " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>
