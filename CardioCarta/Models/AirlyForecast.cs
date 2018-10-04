@@ -16,9 +16,9 @@ namespace CardioCarta.Models
     {
         public string Diary_Id { get; set; }
         public System.DateTime TimeStamp { get; set; }
-        public float Airly_CAQI { get; set; }
-        public float PM10 { get; set; }
-        public float PM25 { get; set; }
+        public Nullable<float> Airly_CAQI { get; set; }
+        public Nullable<float> PM10 { get; set; }
+        public Nullable<float> PM25 { get; set; }
     
         public virtual Airly Airly { get; set; }
     }

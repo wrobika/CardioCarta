@@ -21,13 +21,13 @@ namespace CardioCarta.Models
         }
     
         public string Diary_Id { get; set; }
-        public float Airly_CAQI { get; set; }
-        public float PM1 { get; set; }
-        public float PM10 { get; set; }
-        public float PM25 { get; set; }
-        public float Humidity { get; set; }
-        public float Pressure { get; set; }
-        public float Temperature { get; set; }
+        public Nullable<float> Airly_CAQI { get; set; }
+        public Nullable<float> PM1 { get; set; }
+        public Nullable<float> PM10 { get; set; }
+        public Nullable<float> PM25 { get; set; }
+        public Nullable<float> Humidity { get; set; }
+        public Nullable<float> Pressure { get; set; }
+        public Nullable<float> Temperature { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AirlyForecast> AirlyForecast { get; set; }

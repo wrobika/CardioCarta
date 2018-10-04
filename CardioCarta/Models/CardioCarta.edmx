@@ -10,13 +10,13 @@
             <PropertyRef Name="Diary_Id" />
           </Key>
           <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="Airly_CAQI" Type="float4" Nullable="false" />
-          <Property Name="PM1" Type="float4" Nullable="false" />
-          <Property Name="PM10" Type="float4" Nullable="false" />
-          <Property Name="PM25" Type="float4" Nullable="false" />
-          <Property Name="Humidity" Type="float4" Nullable="false" />
-          <Property Name="Pressure" Type="float4" Nullable="false" />
-          <Property Name="Temperature" Type="float4" Nullable="false" />
+          <Property Name="Airly_CAQI" Type="float4" />
+          <Property Name="PM1" Type="float4" />
+          <Property Name="PM10" Type="float4" />
+          <Property Name="PM25" Type="float4" />
+          <Property Name="Humidity" Type="float4" />
+          <Property Name="Pressure" Type="float4" />
+          <Property Name="Temperature" Type="float4" />
         </EntityType>
         <EntityType Name="AirlyForecast">
           <Key>
@@ -25,9 +25,9 @@
           </Key>
           <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
-          <Property Name="Airly_CAQI" Type="float4" Nullable="false" />
-          <Property Name="PM10" Type="float4" Nullable="false" />
-          <Property Name="PM25" Type="float4" Nullable="false" />
+          <Property Name="Airly_CAQI" Type="float4" />
+          <Property Name="PM10" Type="float4" />
+          <Property Name="PM25" Type="float4" />
         </EntityType>
         <EntityType Name="BiometeoCurrent">
           <Key>
@@ -166,62 +166,6 @@ warning 6005: The data type 'geometry' is currently not supported for the target
           </Key>
           <Property Name="TakingTime" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_catalog' in the table 'CardioCarta.public.geography_columns' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_schema' in the table 'CardioCarta.public.geography_columns' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_name' in the table 'CardioCarta.public.geography_columns' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_geography_column' in the table 'CardioCarta.public.geography_columns' was excluded.
-warning 6013: The table/view 'CardioCarta.public.geography_columns' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="geography_columns">
-          <Property Name="coord_dimension" Type="int4" />
-          <Property Name="srid" Type="int4" />
-          <Property Name="type" Type="text" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_schema' in the table 'CardioCarta.public.geometry_columns' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_name' in the table 'CardioCarta.public.geometry_columns' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_geometry_column' in the table 'CardioCarta.public.geometry_columns' was excluded.
-warning 6013: The table/view 'CardioCarta.public.geometry_columns' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="geometry_columns">
-          <Property Name="f_table_catalog" Type="varchar" MaxLength="256" />
-          <Property Name="coord_dimension" Type="int4" />
-          <Property Name="srid" Type="int4" />
-          <Property Name="type" Type="varchar" MaxLength="30" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_catalog' in the table 'CardioCarta.public.raster_columns' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_schema' in the table 'CardioCarta.public.raster_columns' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_name' in the table 'CardioCarta.public.raster_columns' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_raster_column' in the table 'CardioCarta.public.raster_columns' was excluded.
-warning 6005: The data type '_text' is currently not supported for the target Entity Framework version; the column 'pixel_types' in the table 'CardioCarta.public.raster_columns' was excluded.
-warning 6005: The data type '_float8' is currently not supported for the target Entity Framework version; the column 'nodata_values' in the table 'CardioCarta.public.raster_columns' was excluded.
-warning 6005: The data type '_bool' is currently not supported for the target Entity Framework version; the column 'out_db' in the table 'CardioCarta.public.raster_columns' was excluded.
-warning 6005: The data type 'geometry' is currently not supported for the target Entity Framework version; the column 'extent' in the table 'CardioCarta.public.raster_columns' was excluded.
-warning 6013: The table/view 'CardioCarta.public.raster_columns' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="raster_columns">
-          <Property Name="srid" Type="int4" />
-          <Property Name="scale_x" Type="float8" />
-          <Property Name="scale_y" Type="float8" />
-          <Property Name="blocksize_x" Type="int4" />
-          <Property Name="blocksize_y" Type="int4" />
-          <Property Name="same_alignment" Type="bool" />
-          <Property Name="regular_blocking" Type="bool" />
-          <Property Name="num_bands" Type="int4" />
-          <Property Name="spatial_index" Type="bool" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_table_catalog' in the table 'CardioCarta.public.raster_overviews' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_table_schema' in the table 'CardioCarta.public.raster_overviews' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_table_name' in the table 'CardioCarta.public.raster_overviews' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_raster_column' in the table 'CardioCarta.public.raster_overviews' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_catalog' in the table 'CardioCarta.public.raster_overviews' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_schema' in the table 'CardioCarta.public.raster_overviews' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_name' in the table 'CardioCarta.public.raster_overviews' was excluded.
-warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_raster_column' in the table 'CardioCarta.public.raster_overviews' was excluded.
-warning 6013: The table/view 'CardioCarta.public.raster_overviews' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="raster_overviews">
-          <Property Name="overview_factor" Type="int4" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6035: The relationship 'Airly_Diary' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="Airly_Diary" />-->
@@ -471,13 +415,13 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
             <PropertyRef Name="Diary_Id" />
           </Key>
           <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Airly_CAQI" Type="Single" Nullable="false" />
-          <Property Name="PM1" Type="Single" Nullable="false" />
-          <Property Name="PM10" Type="Single" Nullable="false" />
-          <Property Name="PM25" Type="Single" Nullable="false" />
-          <Property Name="Humidity" Type="Single" Nullable="false" />
-          <Property Name="Pressure" Type="Single" Nullable="false" />
-          <Property Name="Temperature" Type="Single" Nullable="false" />
+          <Property Name="Airly_CAQI" Type="Single" />
+          <Property Name="PM1" Type="Single" />
+          <Property Name="PM10" Type="Single" />
+          <Property Name="PM25" Type="Single" />
+          <Property Name="Humidity" Type="Single" />
+          <Property Name="Pressure" Type="Single" />
+          <Property Name="Temperature" Type="Single" />
           <NavigationProperty Name="AirlyForecast" Relationship="Self.AirlyForecast_AirlyCurrent" FromRole="Airly" ToRole="AirlyForecast" />
         </EntityType>
         <EntityType Name="AirlyForecast">
@@ -487,9 +431,9 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
           </Key>
           <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TimeStamp" Type="DateTime" Precision="6" Nullable="false" />
-          <Property Name="Airly_CAQI" Type="Single" Nullable="false" />
-          <Property Name="PM10" Type="Single" Nullable="false" />
-          <Property Name="PM25" Type="Single" Nullable="false" />
+          <Property Name="Airly_CAQI" Type="Single" />
+          <Property Name="PM10" Type="Single" />
+          <Property Name="PM25" Type="Single" />
           <NavigationProperty Name="Airly" Relationship="Self.AirlyForecast_AirlyCurrent" FromRole="AirlyForecast" ToRole="Airly" />
         </EntityType>
         <EntityType Name="BiometeoCurrent">
