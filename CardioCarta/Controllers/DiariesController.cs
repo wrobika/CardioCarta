@@ -174,9 +174,9 @@ namespace CardioCarta.Controllers
         {
             NpgsqlConnection connection = new NpgsqlConnection(
                 
-                //System.Configuration.ConfigurationManager.ConnectionStrings["CardioCartaEntities"].ConnectionString);
+                System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
-                "Server=localhost;port=5432;Database=CardioCarta;User Id=bachelor;Password=bachelor;");
+                //"Server=localhost;port=5432;Database=CardioCarta;User Id=bachelor;Password=bachelor;");
             connection.Open();
             NpgsqlCommand command = new NpgsqlCommand(
                 "UPDATE \"Diary\" " +

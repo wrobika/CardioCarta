@@ -27,11 +27,11 @@ namespace CardioCarta.Models
 
         [Range(0, 300)]
         [Display(Name ="Twoje ciœnienie skurczowe")]
-        public int SystolicPressure { get; set; }
+        public Nullable<int> SystolicPressure { get; set; }
 
         [Range(0, 300)]
         [Display(Name = "Twoje ciœnienie rozkurczowe")]
-        public int DiastolicPressure { get; set; }
+        public Nullable<int> DiastolicPressure { get; set; }
 
         [Display(Name = "Czy mia³eœ/eœ problemu z oddychaniem?")]
         public bool RespirationProblem { get; set; }

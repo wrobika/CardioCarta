@@ -14,8 +14,8 @@ namespace CardioCarta.Models
     
     public partial class TakenMedicine
     {
-        public string Diary_Id { get; set; }
         public string PatientMedicine_Id { get; set; }
         public bool Taken { get; set; }
+        public System.DateTime Day { get; set; }
     }
 }

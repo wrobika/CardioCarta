@@ -14,16 +14,7 @@ namespace CardioCarta.Models
     
     public partial class BiometeoCurrent
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BiometeoCurrent()
-        {
-            this.BiometeoForecast = new HashSet<BiometeoForecast>();
-        }
-    
-        public string Diary_Id { get; set; }
         public int Level { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BiometeoForecast> BiometeoForecast { get; set; }
+        public System.DateTime Date { get; set; }
     }
 }

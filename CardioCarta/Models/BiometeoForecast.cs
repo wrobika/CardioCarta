@@ -14,10 +14,7 @@ namespace CardioCarta.Models
     
     public partial class BiometeoForecast
     {
-        public string Diary_Id { get; set; }
-        public System.DateTime TimeStamp { get; set; }
+        public System.DateTime Date { get; set; }
         public int Level { get; set; }
-    
-        public virtual BiometeoCurrent BiometeoCurrent { get; set; }
     }
 }

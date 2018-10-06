@@ -31,18 +31,16 @@
         </EntityType>
         <EntityType Name="BiometeoCurrent">
           <Key>
-            <PropertyRef Name="Diary_Id" />
+            <PropertyRef Name="Date" />
           </Key>
-          <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Level" Type="int4" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="BiometeoForecast">
           <Key>
-            <PropertyRef Name="Diary_Id" />
-            <PropertyRef Name="TimeStamp" />
+            <PropertyRef Name="Date" />
           </Key>
-          <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="Level" Type="int4" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -56,8 +54,8 @@ warning 6005: The data type 'geometry' is currently not supported for the target
           <Property Name="Patient_AspNetUsers_Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
           <Property Name="Mood" Type="int4" Nullable="false" />
-          <Property Name="SystolicPressure" Type="int4" Nullable="false" />
-          <Property Name="DiastolicPressure" Type="int4" Nullable="false" />
+          <Property Name="SystolicPressure" Type="int4" />
+          <Property Name="DiastolicPressure" Type="int4" />
           <Property Name="RespirationProblem" Type="bool" Nullable="false" />
           <Property Name="Haemorrhage" Type="bool" Nullable="false" />
           <Property Name="Dizziness" Type="bool" Nullable="false" />
@@ -153,12 +151,12 @@ warning 6005: The data type 'geometry' is currently not supported for the target
         </EntityType>
         <EntityType Name="TakenMedicine">
           <Key>
-            <PropertyRef Name="Diary_Id" />
             <PropertyRef Name="PatientMedicine_Id" />
+            <PropertyRef Name="Day" />
           </Key>
-          <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="PatientMedicine_Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Taken" Type="bool" Nullable="false" />
+          <Property Name="Day" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="TakingMedicineTime">
           <Key>
@@ -166,6 +164,62 @@ warning 6005: The data type 'geometry' is currently not supported for the target
           </Key>
           <Property Name="TakingTime" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_catalog' in the table 'CardioCarta.public.geography_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_schema' in the table 'CardioCarta.public.geography_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_name' in the table 'CardioCarta.public.geography_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_geography_column' in the table 'CardioCarta.public.geography_columns' was excluded.
+warning 6013: The table/view 'CardioCarta.public.geography_columns' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="geography_columns">
+          <Property Name="coord_dimension" Type="int4" />
+          <Property Name="srid" Type="int4" />
+          <Property Name="type" Type="text" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_schema' in the table 'CardioCarta.public.geometry_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_table_name' in the table 'CardioCarta.public.geometry_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'f_geometry_column' in the table 'CardioCarta.public.geometry_columns' was excluded.
+warning 6013: The table/view 'CardioCarta.public.geometry_columns' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="geometry_columns">
+          <Property Name="f_table_catalog" Type="varchar" MaxLength="256" />
+          <Property Name="coord_dimension" Type="int4" />
+          <Property Name="srid" Type="int4" />
+          <Property Name="type" Type="varchar" MaxLength="30" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_catalog' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_schema' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_name' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_raster_column' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type '_text' is currently not supported for the target Entity Framework version; the column 'pixel_types' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type '_float8' is currently not supported for the target Entity Framework version; the column 'nodata_values' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type '_bool' is currently not supported for the target Entity Framework version; the column 'out_db' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6005: The data type 'geometry' is currently not supported for the target Entity Framework version; the column 'extent' in the table 'CardioCarta.public.raster_columns' was excluded.
+warning 6013: The table/view 'CardioCarta.public.raster_columns' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="raster_columns">
+          <Property Name="srid" Type="int4" />
+          <Property Name="scale_x" Type="float8" />
+          <Property Name="scale_y" Type="float8" />
+          <Property Name="blocksize_x" Type="int4" />
+          <Property Name="blocksize_y" Type="int4" />
+          <Property Name="same_alignment" Type="bool" />
+          <Property Name="regular_blocking" Type="bool" />
+          <Property Name="num_bands" Type="int4" />
+          <Property Name="spatial_index" Type="bool" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_table_catalog' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_table_schema' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_table_name' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'o_raster_column' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_catalog' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_schema' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_table_name' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6005: The data type 'name' is currently not supported for the target Entity Framework version; the column 'r_raster_column' in the table 'CardioCarta.public.raster_overviews' was excluded.
+warning 6013: The table/view 'CardioCarta.public.raster_overviews' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="raster_overviews">
+          <Property Name="overview_factor" Type="int4" />
+        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6035: The relationship 'Airly_Diary' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="Airly_Diary" />-->
@@ -179,23 +233,6 @@ warning 6035: The relationship 'Airly_Diary' has columns that are not part of th
               <PropertyRef Name="Diary_Id" />
             </Principal>
             <Dependent Role="AirlyForecast">
-              <PropertyRef Name="Diary_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <!--Errors Found During Generation:
-warning 6035: The relationship 'BiometeoCurrent_Diary' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="BiometeoCurrent_Diary" />-->
-        <Association Name="BiometeoForecast_BiometeoCurrent">
-          <End Role="BiometeoCurrent" Type="Self.BiometeoCurrent" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="BiometeoForecast" Type="Self.BiometeoForecast" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BiometeoCurrent">
-              <PropertyRef Name="Diary_Id" />
-            </Principal>
-            <Dependent Role="BiometeoForecast">
               <PropertyRef Name="Diary_Id" />
             </Dependent>
           </ReferentialConstraint>
@@ -333,9 +370,6 @@ warning 6035: The relationship 'BiometeoCurrent_Diary' has columns that are not 
           </ReferentialConstraint>
         </Association>
         <!--Errors Found During Generation:
-warning 6035: The relationship 'TakenMedicine_Diary' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="TakenMedicine_Diary" />-->
-        <!--Errors Found During Generation:
 warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="TakenMedicine_PatientMedicine" />-->
         <EntityContainer Name="CardioCartaModelStoreContainer">
@@ -359,10 +393,6 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
           <AssociationSet Name="AirlyForecast_AirlyCurrent" Association="Self.AirlyForecast_AirlyCurrent">
             <End Role="Airly" EntitySet="Airly" />
             <End Role="AirlyForecast" EntitySet="AirlyForecast" />
-          </AssociationSet>
-          <AssociationSet Name="BiometeoForecast_BiometeoCurrent" Association="Self.BiometeoForecast_BiometeoCurrent">
-            <End Role="BiometeoCurrent" EntitySet="BiometeoCurrent" />
-            <End Role="BiometeoForecast" EntitySet="BiometeoForecast" />
           </AssociationSet>
           <AssociationSet Name="Diary_Patient" Association="Self.Diary_Patient">
             <End Role="Patient" EntitySet="Patient" />
@@ -438,21 +468,17 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
         </EntityType>
         <EntityType Name="BiometeoCurrent">
           <Key>
-            <PropertyRef Name="Diary_Id" />
+            <PropertyRef Name="Date" />
           </Key>
-          <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Level" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BiometeoForecast" Relationship="Self.BiometeoForecast_BiometeoCurrent" FromRole="BiometeoCurrent" ToRole="BiometeoForecast" />
+          <Property Name="Date" Type="DateTime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="BiometeoForecast">
           <Key>
-            <PropertyRef Name="Diary_Id" />
-            <PropertyRef Name="TimeStamp" />
+            <PropertyRef Name="Date" />
           </Key>
-          <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="TimeStamp" Type="DateTime" Precision="6" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" Nullable="false" />
           <Property Name="Level" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BiometeoCurrent" Relationship="Self.BiometeoForecast_BiometeoCurrent" FromRole="BiometeoForecast" ToRole="BiometeoCurrent" />
         </EntityType>
         <EntityType Name="Diary">
           <Key>
@@ -463,8 +489,8 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
           <Property Name="Patient_AspNetUsers_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TimeStamp" Type="DateTime" Precision="6" Nullable="false" />
           <Property Name="Mood" Type="Int32" Nullable="false" />
-          <Property Name="SystolicPressure" Type="Int32" Nullable="false" />
-          <Property Name="DiastolicPressure" Type="Int32" Nullable="false" />
+          <Property Name="SystolicPressure" Type="Int32" />
+          <Property Name="DiastolicPressure" Type="Int32" />
           <Property Name="RespirationProblem" Type="Boolean" Nullable="false" />
           <Property Name="Haemorrhage" Type="Boolean" Nullable="false" />
           <Property Name="Dizziness" Type="Boolean" Nullable="false" />
@@ -559,12 +585,12 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
         </EntityType>
         <EntityType Name="TakenMedicine">
           <Key>
-            <PropertyRef Name="Diary_Id" />
             <PropertyRef Name="PatientMedicine_Id" />
+            <PropertyRef Name="Day" />
           </Key>
-          <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PatientMedicine_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Taken" Type="Boolean" Nullable="false" />
+          <Property Name="Day" Type="DateTime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="TakingMedicineTime">
           <Key>
@@ -583,20 +609,6 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
               <PropertyRef Name="Diary_Id" />
             </Principal>
             <Dependent Role="AirlyForecast">
-              <PropertyRef Name="Diary_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="BiometeoForecast_BiometeoCurrent">
-          <End Role="BiometeoCurrent" Type="Self.BiometeoCurrent" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="BiometeoForecast" Type="Self.BiometeoForecast" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BiometeoCurrent">
-              <PropertyRef Name="Diary_Id" />
-            </Principal>
-            <Dependent Role="BiometeoForecast">
               <PropertyRef Name="Diary_Id" />
             </Dependent>
           </ReferentialConstraint>
@@ -707,10 +719,6 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
             <End Role="Airly" EntitySet="Airly" />
             <End Role="AirlyForecast" EntitySet="AirlyForecast" />
           </AssociationSet>
-          <AssociationSet Name="BiometeoForecast_BiometeoCurrent" Association="Self.BiometeoForecast_BiometeoCurrent">
-            <End Role="BiometeoCurrent" EntitySet="BiometeoCurrent" />
-            <End Role="BiometeoForecast" EntitySet="BiometeoForecast" />
-          </AssociationSet>
           <AssociationSet Name="Diary_Patient" Association="Self.Diary_Patient">
             <End Role="Patient" EntitySet="Patient" />
             <End Role="Diary" EntitySet="Diary" />
@@ -778,16 +786,15 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
           <EntitySetMapping Name="BiometeoCurrent">
             <EntityTypeMapping TypeName="CardioCartaModel.BiometeoCurrent">
               <MappingFragment StoreEntitySet="BiometeoCurrent">
-                <ScalarProperty Name="Diary_Id" ColumnName="Diary_Id" />
                 <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BiometeoForecast">
             <EntityTypeMapping TypeName="CardioCartaModel.BiometeoForecast">
               <MappingFragment StoreEntitySet="BiometeoForecast">
-                <ScalarProperty Name="Diary_Id" ColumnName="Diary_Id" />
-                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Level" ColumnName="Level" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -889,9 +896,9 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
           <EntitySetMapping Name="TakenMedicine">
             <EntityTypeMapping TypeName="CardioCartaModel.TakenMedicine">
               <MappingFragment StoreEntitySet="TakenMedicine">
-                <ScalarProperty Name="Diary_Id" ColumnName="Diary_Id" />
                 <ScalarProperty Name="PatientMedicine_Id" ColumnName="PatientMedicine_Id" />
                 <ScalarProperty Name="Taken" ColumnName="Taken" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
