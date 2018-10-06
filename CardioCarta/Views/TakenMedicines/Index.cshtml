@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CardioCarta.Models.TakenMedicine>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Taken)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientMedicine.Medicine_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientMedicine.MgDose)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientMedicine.TakingTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Taken)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatientMedicine.Medicine_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatientMedicine.MgDose)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatientMedicine.TakingTime)
+        </td>
+        <td>
+            @Html.ActionLink("Zmień status", "Take", new { patientMedicineID = item.PatientMedicine_Id, day = item.Day, }) |
+            @Html.ActionLink("Edit", "Edit", new { patientMedicineID = item.PatientMedicine_Id, dayID = item.Day, }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

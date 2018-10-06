@@ -236,11 +236,13 @@
     <Compile Include="Controllers\DoctorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MedicinesController.cs" />
     <Compile Include="Controllers\PatientInterviewsController.cs" />
     <Compile Include="Controllers\PatientMedicinesController.cs" />
     <Compile Include="Controllers\PatientsController.cs" />
     <Compile Include="Controllers\SpecialitiesController.cs" />
+    <Compile Include="Controllers\TakenMedicinesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -449,6 +451,13 @@
     <Content Include="Views\Medicines\Details.cshtml" />
     <Content Include="Views\Medicines\Edit.cshtml" />
     <Content Include="Views\Medicines\Index.cshtml" />
+    <Content Include="Views\TakenMedicines\Create.cshtml" />
+    <Content Include="Views\TakenMedicines\Delete.cshtml" />
+    <Content Include="Views\TakenMedicines\Details.cshtml" />
+    <Content Include="Views\TakenMedicines\Edit.cshtml" />
+    <Content Include="Views\TakenMedicines\Index.cshtml" />
+    <Content Include="Views\TakenMedicines\MarkTaken.cshtml" />
+    <Content Include="Views\Map\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

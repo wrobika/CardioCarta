@@ -17,5 +17,7 @@ namespace CardioCarta.Models
         public string PatientMedicine_Id { get; set; }
         public bool Taken { get; set; }
         public System.DateTime Day { get; set; }
+
+        public virtual PatientMedicine PatientMedicine { get; set; }
     }
 }
