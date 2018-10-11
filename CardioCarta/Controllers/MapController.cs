@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Npgsql;
 
 namespace CardioCarta.Controllers
 {
@@ -15,21 +16,28 @@ namespace CardioCarta.Controllers
         }
 
         //GET: Data
-        public List<string> GetSpatialData()
+        public List<string> GetPointsWKT()
         {
-            List<string> spatialDataList = new List<string>();
-            //dbConnection.Open();
-            //var command = new SqlCommand("select [GEOMETRY].STAsText() from TEST_SPATIAL where GEOMETRY IS NOT NULL", dbConnection);
-            //var rdr = command.ExecuteReader();
-            //while (rdr.Read())
-            //{
-            //    spatialDataList.Add(Convert.ToString(rdr[0]));
-            //}
-            //dbConnection.Close();
-
-            //spatialDataList.Add("POINT(50.062006 19.940984)");
-            spatialDataList.Add("LINESTRING(1 2 3, 3 4 5)");
-            return spatialDataList;
+            List<string> pointsWKT = new List<string>();
+            NpgsqlConnection connection = new NpgsqlConnection(
+            System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            connection.Open();
+            connection.TypeMapper.UseNetTopologySuite();
+            using (var cmd = new NpgsqlCommand(
+                "SELECT \"Location\" " +
+                "FROM  \"Diary\" " +
+                "WHERE \"Location\" IS NOT NULL;", 
+                connection))
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    pointsWKT.Add(reader.GetValue(0).ToString());
+                }
+                reader.Close();
+            }
+            connection.Close();
+            return pointsWKT;
         }
     }
 }

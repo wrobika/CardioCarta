@@ -20,6 +20,9 @@
             <li>
                 @Html.ActionLink("Dodaj swój lek", "Create", "PatientMedicines")
             </li>
+            <li>
+                @Html.ActionLink("Mapa", "Index", "Map")
+            </li>
         }
         <li>
             @Html.ActionLink("Cześć " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
