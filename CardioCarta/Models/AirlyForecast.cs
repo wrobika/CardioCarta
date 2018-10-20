@@ -14,12 +14,12 @@ namespace CardioCarta.Models
     
     public partial class AirlyForecast
     {
-        public string Diary_Id { get; set; }
         public System.DateTime TimeStamp { get; set; }
         public Nullable<float> Airly_CAQI { get; set; }
         public Nullable<float> PM10 { get; set; }
         public Nullable<float> PM25 { get; set; }
+        public int SensorId { get; set; }
     
-        public virtual Airly Airly { get; set; }
+        public virtual AirlySensor AirlySensor { get; set; }
     }
 }

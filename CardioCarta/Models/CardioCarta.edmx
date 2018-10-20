@@ -7,9 +7,9 @@
       <Schema Namespace="CardioCartaModel.Store" Provider="Npgsql" ProviderManifestToken="9.6.8" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Airly">
           <Key>
-            <PropertyRef Name="Diary_Id" />
+            <PropertyRef Name="TimeStamp" />
+            <PropertyRef Name="SensorId" />
           </Key>
-          <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Airly_CAQI" Type="float4" />
           <Property Name="PM1" Type="float4" />
           <Property Name="PM10" Type="float4" />
@@ -17,31 +17,27 @@
           <Property Name="Humidity" Type="float4" />
           <Property Name="Pressure" Type="float4" />
           <Property Name="Temperature" Type="float4" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
+          <Property Name="SensorId" Type="int4" Nullable="false" />
         </EntityType>
         <EntityType Name="AirlyForecast">
           <Key>
-            <PropertyRef Name="Diary_Id" />
             <PropertyRef Name="TimeStamp" />
+            <PropertyRef Name="SensorId" />
           </Key>
-          <Property Name="Diary_Id" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
           <Property Name="Airly_CAQI" Type="float4" />
           <Property Name="PM10" Type="float4" />
           <Property Name="PM25" Type="float4" />
+          <Property Name="SensorId" Type="int4" Nullable="false" />
         </EntityType>
-        <EntityType Name="BiometeoCurrent">
+        <!--Errors Found During Generation:
+warning 6005: The data type 'geometry' is currently not supported for the target Entity Framework version; the column 'Location' in the table 'CardioCarta.public.AirlySensor' was excluded.-->
+        <EntityType Name="AirlySensor">
           <Key>
-            <PropertyRef Name="Date" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Level" Type="int4" Nullable="false" />
-          <Property Name="Date" Type="date" Nullable="false" />
-        </EntityType>
-        <EntityType Name="BiometeoForecast">
-          <Key>
-            <PropertyRef Name="Date" />
-          </Key>
-          <Property Name="Date" Type="date" Nullable="false" />
-          <Property Name="Level" Type="int4" Nullable="false" />
+          <Property Name="Id" Type="int4" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6005: The data type 'geometry' is currently not supported for the target Entity Framework version; the column 'Location' in the table 'CardioCarta.public.Diary' was excluded.-->
@@ -220,20 +216,27 @@ warning 6013: The table/view 'CardioCarta.public.raster_overviews' does not have
         <EntityType Name="raster_overviews">
           <Property Name="overview_factor" Type="int4" />
         </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6035: The relationship 'Airly_Diary' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="Airly_Diary" />-->
-        <Association Name="AirlyForecast_AirlyCurrent">
-          <End Role="Airly" Type="Self.Airly" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="Airly_AirlySensor">
+          <End Role="AirlySensor" Type="Self.AirlySensor" Multiplicity="1" />
+          <End Role="Airly" Type="Self.Airly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AirlySensor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Airly">
+              <PropertyRef Name="SensorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AirlyForecast_AirlySensor">
+          <End Role="AirlySensor" Type="Self.AirlySensor" Multiplicity="1" />
           <End Role="AirlyForecast" Type="Self.AirlyForecast" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Airly">
-              <PropertyRef Name="Diary_Id" />
+            <Principal Role="AirlySensor">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AirlyForecast">
-              <PropertyRef Name="Diary_Id" />
+              <PropertyRef Name="SensorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -375,8 +378,7 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
         <EntityContainer Name="CardioCartaModelStoreContainer">
           <EntitySet Name="Airly" EntityType="Self.Airly" Schema="public" store:Type="Tables" />
           <EntitySet Name="AirlyForecast" EntityType="Self.AirlyForecast" Schema="public" store:Type="Tables" />
-          <EntitySet Name="BiometeoCurrent" EntityType="Self.BiometeoCurrent" Schema="public" store:Type="Tables" />
-          <EntitySet Name="BiometeoForecast" EntityType="Self.BiometeoForecast" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AirlySensor" EntityType="Self.AirlySensor" Schema="public" store:Type="Tables" />
           <EntitySet Name="Diary" EntityType="Self.Diary" Schema="public" store:Type="Tables" />
           <EntitySet Name="Disease" EntityType="Self.Disease" Schema="public" store:Type="Tables" />
           <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="public" store:Type="Tables" />
@@ -390,8 +392,12 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
           <EntitySet Name="Speciality" EntityType="Self.Speciality" Schema="public" store:Type="Tables" />
           <EntitySet Name="TakenMedicine" EntityType="Self.TakenMedicine" Schema="public" store:Type="Tables" />
           <EntitySet Name="TakingMedicineTime" EntityType="Self.TakingMedicineTime" Schema="public" store:Type="Tables" />
-          <AssociationSet Name="AirlyForecast_AirlyCurrent" Association="Self.AirlyForecast_AirlyCurrent">
+          <AssociationSet Name="Airly_AirlySensor" Association="Self.Airly_AirlySensor">
+            <End Role="AirlySensor" EntitySet="AirlySensor" />
             <End Role="Airly" EntitySet="Airly" />
+          </AssociationSet>
+          <AssociationSet Name="AirlyForecast_AirlySensor" Association="Self.AirlyForecast_AirlySensor">
+            <End Role="AirlySensor" EntitySet="AirlySensor" />
             <End Role="AirlyForecast" EntitySet="AirlyForecast" />
           </AssociationSet>
           <AssociationSet Name="Diary_Patient" Association="Self.Diary_Patient">
@@ -442,9 +448,9 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
       <Schema Namespace="CardioCartaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Airly">
           <Key>
-            <PropertyRef Name="Diary_Id" />
+            <PropertyRef Name="TimeStamp" />
+            <PropertyRef Name="SensorId" />
           </Key>
-          <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Airly_CAQI" Type="Single" />
           <Property Name="PM1" Type="Single" />
           <Property Name="PM10" Type="Single" />
@@ -452,33 +458,29 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
           <Property Name="Humidity" Type="Single" />
           <Property Name="Pressure" Type="Single" />
           <Property Name="Temperature" Type="Single" />
-          <NavigationProperty Name="AirlyForecast" Relationship="Self.AirlyForecast_AirlyCurrent" FromRole="Airly" ToRole="AirlyForecast" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="6" Nullable="false" />
+          <Property Name="SensorId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AirlySensor" Relationship="Self.Airly_AirlySensor" FromRole="Airly" ToRole="AirlySensor" />
         </EntityType>
         <EntityType Name="AirlyForecast">
           <Key>
-            <PropertyRef Name="Diary_Id" />
             <PropertyRef Name="TimeStamp" />
+            <PropertyRef Name="SensorId" />
           </Key>
-          <Property Name="Diary_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TimeStamp" Type="DateTime" Precision="6" Nullable="false" />
           <Property Name="Airly_CAQI" Type="Single" />
           <Property Name="PM10" Type="Single" />
           <Property Name="PM25" Type="Single" />
-          <NavigationProperty Name="Airly" Relationship="Self.AirlyForecast_AirlyCurrent" FromRole="AirlyForecast" ToRole="Airly" />
+          <Property Name="SensorId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AirlySensor" Relationship="Self.AirlyForecast_AirlySensor" FromRole="AirlyForecast" ToRole="AirlySensor" />
         </EntityType>
-        <EntityType Name="BiometeoCurrent">
+        <EntityType Name="AirlySensor">
           <Key>
-            <PropertyRef Name="Date" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Level" Type="Int32" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Precision="0" Nullable="false" />
-        </EntityType>
-        <EntityType Name="BiometeoForecast">
-          <Key>
-            <PropertyRef Name="Date" />
-          </Key>
-          <Property Name="Date" Type="DateTime" Precision="0" Nullable="false" />
-          <Property Name="Level" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Airly" Relationship="Self.Airly_AirlySensor" FromRole="AirlySensor" ToRole="Airly" />
+          <NavigationProperty Name="AirlyForecast" Relationship="Self.AirlyForecast_AirlySensor" FromRole="AirlySensor" ToRole="AirlyForecast" />
         </EntityType>
         <EntityType Name="Diary">
           <Key>
@@ -599,17 +601,27 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
           <Property Name="TakingTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="PatientMedicine" Relationship="Self.PatientMedicine_TakingMedicineTime" FromRole="TakingMedicineTime" ToRole="PatientMedicine" />
         </EntityType>
-        <Association Name="AirlyForecast_AirlyCurrent">
-          <End Role="Airly" Type="Self.Airly" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="Airly_AirlySensor">
+          <End Role="AirlySensor" Type="Self.AirlySensor" Multiplicity="1" />
+          <End Role="Airly" Type="Self.Airly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AirlySensor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Airly">
+              <PropertyRef Name="SensorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AirlyForecast_AirlySensor">
+          <End Role="AirlySensor" Type="Self.AirlySensor" Multiplicity="1" />
           <End Role="AirlyForecast" Type="Self.AirlyForecast" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Airly">
-              <PropertyRef Name="Diary_Id" />
+            <Principal Role="AirlySensor">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AirlyForecast">
-              <PropertyRef Name="Diary_Id" />
+              <PropertyRef Name="SensorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -702,8 +714,7 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
         <EntityContainer Name="CardioCartaEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Airly" EntityType="Self.Airly" />
           <EntitySet Name="AirlyForecast" EntityType="Self.AirlyForecast" />
-          <EntitySet Name="BiometeoCurrent" EntityType="Self.BiometeoCurrent" />
-          <EntitySet Name="BiometeoForecast" EntityType="Self.BiometeoForecast" />
+          <EntitySet Name="AirlySensor" EntityType="Self.AirlySensor" />
           <EntitySet Name="Diary" EntityType="Self.Diary" />
           <EntitySet Name="Disease" EntityType="Self.Disease" />
           <EntitySet Name="Doctor" EntityType="Self.Doctor" />
@@ -715,8 +726,12 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
           <EntitySet Name="Speciality" EntityType="Self.Speciality" />
           <EntitySet Name="TakenMedicine" EntityType="Self.TakenMedicine" />
           <EntitySet Name="TakingMedicineTime" EntityType="Self.TakingMedicineTime" />
-          <AssociationSet Name="AirlyForecast_AirlyCurrent" Association="Self.AirlyForecast_AirlyCurrent">
+          <AssociationSet Name="Airly_AirlySensor" Association="Self.Airly_AirlySensor">
+            <End Role="AirlySensor" EntitySet="AirlySensor" />
             <End Role="Airly" EntitySet="Airly" />
+          </AssociationSet>
+          <AssociationSet Name="AirlyForecast_AirlySensor" Association="Self.AirlyForecast_AirlySensor">
+            <End Role="AirlySensor" EntitySet="AirlySensor" />
             <End Role="AirlyForecast" EntitySet="AirlyForecast" />
           </AssociationSet>
           <AssociationSet Name="Diary_Patient" Association="Self.Diary_Patient">
@@ -761,7 +776,6 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
           <EntitySetMapping Name="Airly">
             <EntityTypeMapping TypeName="CardioCartaModel.Airly">
               <MappingFragment StoreEntitySet="Airly">
-                <ScalarProperty Name="Diary_Id" ColumnName="Diary_Id" />
                 <ScalarProperty Name="Airly_CAQI" ColumnName="Airly_CAQI" />
                 <ScalarProperty Name="PM1" ColumnName="PM1" />
                 <ScalarProperty Name="PM10" ColumnName="PM10" />
@@ -769,33 +783,26 @@ warning 6035: The relationship 'TakenMedicine_PatientMedicine' has columns that 
                 <ScalarProperty Name="Humidity" ColumnName="Humidity" />
                 <ScalarProperty Name="Pressure" ColumnName="Pressure" />
                 <ScalarProperty Name="Temperature" ColumnName="Temperature" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="SensorId" ColumnName="SensorId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AirlyForecast">
             <EntityTypeMapping TypeName="CardioCartaModel.AirlyForecast">
               <MappingFragment StoreEntitySet="AirlyForecast">
-                <ScalarProperty Name="Diary_Id" ColumnName="Diary_Id" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="Airly_CAQI" ColumnName="Airly_CAQI" />
                 <ScalarProperty Name="PM10" ColumnName="PM10" />
                 <ScalarProperty Name="PM25" ColumnName="PM25" />
+                <ScalarProperty Name="SensorId" ColumnName="SensorId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BiometeoCurrent">
-            <EntityTypeMapping TypeName="CardioCartaModel.BiometeoCurrent">
-              <MappingFragment StoreEntitySet="BiometeoCurrent">
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BiometeoForecast">
-            <EntityTypeMapping TypeName="CardioCartaModel.BiometeoForecast">
-              <MappingFragment StoreEntitySet="BiometeoForecast">
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
+          <EntitySetMapping Name="AirlySensor">
+            <EntityTypeMapping TypeName="CardioCartaModel.AirlySensor">
+              <MappingFragment StoreEntitySet="AirlySensor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

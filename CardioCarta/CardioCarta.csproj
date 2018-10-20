@@ -266,10 +266,7 @@
     <Compile Include="Models\AirlyForecast.cs">
       <DependentUpon>CardioCarta.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BiometeoCurrent.cs">
-      <DependentUpon>CardioCarta.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BiometeoForecast.cs">
+    <Compile Include="Models\AirlySensor.cs">
       <DependentUpon>CardioCarta.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CardioCarta.Context.cs">
@@ -311,6 +308,7 @@
     <Compile Include="Models\PatientMedicine.cs">
       <DependentUpon>CardioCarta.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Sensor.cs" />
     <Compile Include="Models\spatial_ref_sys.cs">
       <DependentUpon>CardioCarta.tt</DependentUpon>
     </Compile>

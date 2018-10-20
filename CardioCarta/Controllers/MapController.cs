@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Npgsql;
 using CardioCarta.Models;
+using System.Threading.Tasks;
 
 namespace CardioCarta.Controllers
 {
@@ -13,37 +14,49 @@ namespace CardioCarta.Controllers
         private CardioCartaEntities db = new CardioCartaEntities();
 
         // GET: Map
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            await AirlyApi.GetMeasurements();
             return View();
         }
 
-        //GET: Data
-        public List<string> GetPointsWKT()
+        public Dictionary<string, double> GetAirly()
         {
-            List<string> pointsWKT = new List<string>();
+            Dictionary<string, double> pointWithValues = new Dictionary<string, double>();
+            if (AirlyApi.LastTimeStamp < DateTime.Now.AddDays(-1))
+            {
+                return pointWithValues;
+            }
             NpgsqlConnection connection = new NpgsqlConnection(
             System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             connection.Open();
             connection.TypeMapper.UseNetTopologySuite();
             using (var cmd = new NpgsqlCommand(
-                "SELECT \"Location\" " +
-                "FROM  \"Diary\" " +
-                "WHERE \"Location\" IS NOT NULL;", 
+                "SELECT \"Location\", \"Airly_CAQI\" " +
+                "FROM  \"Airly\" NATURAL JOIN \"AirlySensor\" " +
+                "WHERE \"Location\" IS NOT NULL;",
                 connection))
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    pointsWKT.Add(reader.GetValue(0).ToString());
+                    var pointWKT = reader.GetValue(0).ToString();
+                    try
+                    {
+                        pointWithValues[pointWKT] = reader.GetDouble(1);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
                 }
                 reader.Close();
             }
             connection.Close();
-            return pointsWKT;
+            return pointWithValues;
         }
 
-        public Dictionary<string, string> GetLocationWithDiaryId()
+        public Dictionary<string, string> GetDiaries()
         {
             Dictionary<string, string> pointWithValues = new Dictionary<string, string>();
             NpgsqlConnection connection = new NpgsqlConnection(
@@ -53,7 +66,8 @@ namespace CardioCarta.Controllers
             using (var cmd = new NpgsqlCommand(
                 "SELECT \"Location\", \"Id\" " +
                 "FROM  \"Diary\" " +
-                "WHERE \"Location\" IS NOT NULL;",
+                "WHERE \"Location\" IS NOT NULL " +
+                "AND \"TimeStamp\" >= now()::date;",
                 connection))
             using (var reader = cmd.ExecuteReader())
             {
@@ -64,10 +78,7 @@ namespace CardioCarta.Controllers
                     {
                         string diaryId = reader.GetString(1);
                         Diary diary = db.Diary.Single(d => d.Id == diaryId);
-                        var imageName = GetHealth(diary)
-                        + GetAirly(diary)
-                        + GetBiometeo(diary);
-                        if (imageName.Length == 3) pointWithValues[pointWKT] = imageName;
+                        pointWithValues[pointWKT] = GetHealth(diary);
                     }
                     catch (Exception ex)
                     {
@@ -108,17 +119,6 @@ namespace CardioCarta.Controllers
             if (diary.SystolicPressure > 140 && diary.DiastolicPressure > 90)
                 return 1;
             return 0;
-        }
-
-
-        private string GetBiometeo(Diary diary)
-        {
-            return "3";
-        }
-
-        private string GetAirly(Diary diary)
-        {
-            return "3";
         }
     }
 }

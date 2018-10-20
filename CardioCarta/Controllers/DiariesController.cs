@@ -80,7 +80,6 @@ namespace CardioCarta.Controllers
                 db.SaveChanges();
                 if (coord != null)
                 {
-                    await AirlyApi.GetRequest(coord, diary.Id);
                     SetGeolocation(diary, coord);
                 }
                 return RedirectToAction("Index");
@@ -173,10 +172,7 @@ namespace CardioCarta.Controllers
         private static void SetGeolocation(Diary diary, string coord)
         {
             NpgsqlConnection connection = new NpgsqlConnection(
-                
                 System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-
-                //"Server=localhost;port=5432;Database=CardioCarta;User Id=bachelor;Password=bachelor;");
             connection.Open();
             NpgsqlCommand command = new NpgsqlCommand(
                 "UPDATE \"Diary\" " +

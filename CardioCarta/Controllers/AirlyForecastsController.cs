@@ -17,8 +17,7 @@ namespace CardioCarta.Controllers
         // GET: AirlyForecasts
         public ActionResult Index()
         {
-            var airlyForecast = db.AirlyForecast.Include(a => a.Airly);
-            return View(airlyForecast.ToList());
+            return View(db.AirlyForecast.ToList());
         }
 
         // GET: AirlyForecasts/Details/5
@@ -39,7 +38,6 @@ namespace CardioCarta.Controllers
         // GET: AirlyForecasts/Create
         public ActionResult Create()
         {
-            ViewBag.Diary_Id = new SelectList(db.Airly, "Diary_Id", "Diary_Id");
             return View();
         }
 
@@ -48,7 +46,7 @@ namespace CardioCarta.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Diary_Id,TimeStamp,Airly_CAQI,PM10,PM25")] AirlyForecast airlyForecast)
+        public ActionResult Create([Bind(Include = "TimeStamp,Airly_CAQI,PM10,PM25")] AirlyForecast airlyForecast)
         {
             if (ModelState.IsValid)
             {
@@ -56,8 +54,6 @@ namespace CardioCarta.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.Diary_Id = new SelectList(db.Airly, "Diary_Id", "Diary_Id", airlyForecast.Diary_Id);
             return View(airlyForecast);
         }
 
@@ -73,7 +69,6 @@ namespace CardioCarta.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Diary_Id = new SelectList(db.Airly, "Diary_Id", "Diary_Id", airlyForecast.Diary_Id);
             return View(airlyForecast);
         }
 
@@ -82,7 +77,7 @@ namespace CardioCarta.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Diary_Id,TimeStamp,Airly_CAQI,PM10,PM25")] AirlyForecast airlyForecast)
+        public ActionResult Edit([Bind(Include = "TimeStamp,Airly_CAQI,PM10,PM25")] AirlyForecast airlyForecast)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +85,6 @@ namespace CardioCarta.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Diary_Id = new SelectList(db.Airly, "Diary_Id", "Diary_Id", airlyForecast.Diary_Id);
             return View(airlyForecast);
         }
 

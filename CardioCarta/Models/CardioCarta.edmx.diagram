@@ -4,11 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cd9f5ec8fc444d3a8cf109bd2f325b64" Name="Diagram1">
-        <EntityTypeShape EntityType="CardioCartaModel.Airly" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CardioCartaModel.AirlyForecast" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CardioCartaModel.BiometeoCurrent" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CardioCartaModel.BiometeoForecast" Width="1.5" PointX="2.75" PointY="1.625" IsExpanded="true" />
+      <Diagram DiagramId="d74d3d5c4bd34b8ea2194131d43b2262" Name="Diagram1">
+        <EntityTypeShape EntityType="CardioCartaModel.Airly" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.AirlyForecast" Width="1.5" PointX="3" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CardioCartaModel.AirlySensor" Width="1.5" PointX="0.75" PointY="12.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CardioCartaModel.Diary" Width="1.5" PointX="7.5" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CardioCartaModel.Disease" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CardioCartaModel.Doctor" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
@@ -20,7 +19,8 @@
         <EntityTypeShape EntityType="CardioCartaModel.Speciality" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CardioCartaModel.TakenMedicine" Width="1.5" PointX="9.75" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CardioCartaModel.TakingMedicineTime" Width="1.5" PointX="8.25" PointY="12.875" IsExpanded="true" />
-        <AssociationConnector Association="CardioCartaModel.AirlyForecast_AirlyCurrent" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.Airly_AirlySensor" ManuallyRouted="false" />
+        <AssociationConnector Association="CardioCartaModel.AirlyForecast_AirlySensor" ManuallyRouted="false" />
         <AssociationConnector Association="CardioCartaModel.Diary_Patient" ManuallyRouted="false" />
         <AssociationConnector Association="CardioCartaModel.Doctor_Speciality" ManuallyRouted="false" />
         <AssociationConnector Association="CardioCartaModel.PatientMedicine_Medicine" ManuallyRouted="false" />

@@ -10,19 +10,23 @@
     <script>
         @{
             var mapController = new CardioCarta.Controllers.MapController();
-            var data = mapController.GetLocationWithDiaryId();
+            var diary = mapController.GetDiaries();
+            var airly = mapController.GetAirly();
         }
 
-        var pointsWithValue = @Html.Raw(Json.Encode(data));
-        var points = Object.keys(pointsWithValue)
+        var diaries = @Html.Raw(Json.Encode(diary));
+        var airlies = @Html.Raw(Json.Encode(airly));
+        var diaryPoints = Object.keys(diaries);
+        var airlyPoints = Object.keys(airlies);
         var distance = document.getElementById('distance');
         var wktReader = new ol.format.WKT();
-        var featureCollection = [];
+        var diaryFeatures = [];
+        var airlyFeatures = [];
 
-        for (var i = 0; i < points.length; i++) {
-            var feature = wktReader.readFeature(points[i]);
+        for (var i = 0; i < diaryPoints.length; i++) {
+            var feature = wktReader.readFeature(diaryPoints[i]);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
-            var value = pointsWithValue[points[i]];
+            var value = diaries[diaryPoints[i]];
             if (value <= 1) {
                 feature.setStyle(new ol.style.Style(
                     {
@@ -52,16 +56,28 @@
                         })
                     }));
             }
-            featureCollection.push(feature);
+            diaryFeatures.push(feature);
         }
 
-        var source = new ol.source.Vector({
-            features: featureCollection
+        for (var i = 0; i < airlyPoints.length; i++) {
+            var feature = wktReader.readFeature(airlyPoints[i]);
+            feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+            var value = airlies[airlyPoints[i]];
+            feature.set('weight', value / 150);
+            airlyFeatures.push(feature);
+        }
+
+        var diarySource = new ol.source.Vector({
+            features: diaryFeatures
+        });
+
+        var airlySource = new ol.source.Vector({
+            features: airlyFeatures
         });
 
         var clusterSource = new ol.source.Cluster({
         distance: parseInt(distance.value, 10),
-        source: source
+        source: diarySource
         });
 
         var clusters = new ol.layer.Vector({
@@ -100,13 +116,21 @@
         source: new ol.source.OSM()
         });
 
+        var heatMapLayer = new ol.layer.Heatmap({
+            source: airlySource,
+            blur: 50,
+            radius: 50,
+            opacity: 0.5,
+            //gradient: ['#0000ff', '#f00', '#f00', '#ff0', '#f00'],
+        });
+
         var map = new ol.Map({
-        layers: [raster, clusters],
-        target: 'map',
-        view: new ol.View({
-            center: ol.proj.fromLonLat([19.938618, 50.060601]),
-            zoom: 12
-        })
+            layers: [raster, clusters, heatMapLayer],
+            target: 'map',
+            view: new ol.View({
+                center: ol.proj.fromLonLat([19.938618, 50.060601]),
+                zoom: 12
+            })
         });
 
         distance.addEventListener('input', function() {

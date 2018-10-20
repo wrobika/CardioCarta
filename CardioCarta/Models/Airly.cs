@@ -14,13 +14,6 @@ namespace CardioCarta.Models
     
     public partial class Airly
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Airly()
-        {
-            this.AirlyForecast = new HashSet<AirlyForecast>();
-        }
-    
-        public string Diary_Id { get; set; }
         public Nullable<float> Airly_CAQI { get; set; }
         public Nullable<float> PM1 { get; set; }
         public Nullable<float> PM10 { get; set; }
@@ -28,8 +21,9 @@ namespace CardioCarta.Models
         public Nullable<float> Humidity { get; set; }
         public Nullable<float> Pressure { get; set; }
         public Nullable<float> Temperature { get; set; }
+        public System.DateTime TimeStamp { get; set; }
+        public int SensorId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AirlyForecast> AirlyForecast { get; set; }
+        public virtual AirlySensor AirlySensor { get; set; }
     }
 }

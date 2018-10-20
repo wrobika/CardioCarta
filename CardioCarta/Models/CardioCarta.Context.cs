@@ -27,8 +27,7 @@ namespace CardioCarta.Models
     
         public virtual DbSet<Airly> Airly { get; set; }
         public virtual DbSet<AirlyForecast> AirlyForecast { get; set; }
-        public virtual DbSet<BiometeoCurrent> BiometeoCurrent { get; set; }
-        public virtual DbSet<BiometeoForecast> BiometeoForecast { get; set; }
+        public virtual DbSet<AirlySensor> AirlySensor { get; set; }
         public virtual DbSet<Diary> Diary { get; set; }
         public virtual DbSet<Disease> Disease { get; set; }
         public virtual DbSet<Doctor> Doctor { get; set; }

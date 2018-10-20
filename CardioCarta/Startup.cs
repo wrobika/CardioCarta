@@ -1,4 +1,5 @@
-﻿using CardioCarta.Models;
+﻿using CardioCarta.Controllers;
+using CardioCarta.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;

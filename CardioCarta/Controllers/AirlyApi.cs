@@ -5,40 +5,44 @@ using CardioCarta.Models;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Npgsql;
 
 namespace CardioCarta.Controllers
 {
     public class AirlyApi
     {
+        public static DateTime LastTimeStamp { get; private set; }
 
-        public static async Task<Measurements> GetRequest(string coord, string diaryId)
+        public static async Task<bool> GetMeasurements()
         {
-            string latitude = coord.Split(' ')[0];
-            string longitude = coord.Split(' ')[1]; 
-            HttpClient httpClient = getAirlyApiClient();
-            Measurements measurements = null;
-            HttpResponseMessage response = await httpClient.GetAsync("nearest?indexType=AIRLY_CAQI&lat=" + latitude + "&lng=" + longitude + "&maxDistanceKM=50");
+            HttpClient httpClient = GetAirlyApiClient();
+            List<Sensor> sensors = null;
+            HttpResponseMessage response = await httpClient.GetAsync("installations/nearest?lat=50.052024&lng=19.992891&maxDistanceKM=20&maxResults=-1");
             if (response.IsSuccessStatusCode)
             {
-                measurements = await response.Content.ReadAsAsync<Measurements>();
+                sensors = await response.Content.ReadAsAsync<List<Sensor>>();
                 CardioCartaEntities db = new CardioCartaEntities();
-                if (measurements.Current.Values.Count > 0 && measurements.Current.Indexes.First(item => item.Name == "AIRLY_CAQI").Value != null)
+                foreach (Sensor sensor in sensors)
                 {
-                    Airly airly = GetCurrent(diaryId, measurements);
-                    db.Airly.Add(airly);
-                    LinkedList<AirlyForecast> airlyForecasts = GetForecast(diaryId, measurements);
-                    db.AirlyForecast.AddRange(airlyForecasts);
-                    db.SaveChanges();
+                    if (db.AirlySensor.Find(sensor.Id) == null)
+                    {
+                        AddSensor(sensor);
+                    }
                 }
+                //if (LastTimeStamp < DateTime.Now.AddHours(-3))
+                //{
+                //    sensors.ForEach(async sensor => await GetRequest(sensor));
+                //    LastTimeStamp = DateTime.Now;
+                //}
             }
-            return measurements;
+            return true;
         }
 
-        private static HttpClient getAirlyApiClient()
+        private static HttpClient GetAirlyApiClient()
         {
             HttpClient httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://airapi.airly.eu/v2/measurements/")
+                BaseAddress = new Uri("https://airapi.airly.eu/v2/")
             };
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(
@@ -48,7 +52,30 @@ namespace CardioCarta.Controllers
             return httpClient;
         }
 
-        private static LinkedList<AirlyForecast> GetForecast(string diaryId, Measurements measurements)
+        private static async Task<Measurements> GetRequest(Sensor sensor)
+        {
+            HttpClient httpClient = GetAirlyApiClient();
+            Measurements measurements = null;
+            string latitude = sensor.Location.Latitude.ToString().Replace(',', '.');
+            string longitude = sensor.Location.Longitude.ToString().Replace(',', '.');
+            HttpResponseMessage response = await httpClient.GetAsync("measurements/nearest?indexType=AIRLY_CAQI&lat=" + latitude + "&lng=" + longitude + "&maxDistanceKM=50");
+            if (response.IsSuccessStatusCode)
+            {
+                measurements = await response.Content.ReadAsAsync<Measurements>();
+                CardioCartaEntities db = new CardioCartaEntities();
+                if (measurements.Current.Values.Count > 0 && measurements.Current.Indexes.First(item => item.Name == "AIRLY_CAQI").Value != null)
+                {
+                    Airly airly = GetCurrent(measurements, sensor.Id);
+                    db.Airly.Add(airly);
+                    LinkedList<AirlyForecast> airlyForecasts = GetForecast(measurements, sensor.Id);
+                    db.AirlyForecast.AddRange(airlyForecasts);
+                    db.SaveChanges();
+                }
+            }
+            return measurements;
+        }
+
+        private static LinkedList<AirlyForecast> GetForecast(Measurements measurements, int sensorId)
         {
             LinkedList<AirlyForecast> airlyForecasts = new LinkedList<AirlyForecast>();
             foreach (Forecast forecast in measurements.Forecast)
@@ -56,7 +83,6 @@ namespace CardioCarta.Controllers
                 if (forecast.Values.Count > 0 && forecast.Indexes.First(item => item.Name == "AIRLY_CAQI").Value != null)
                 {
                     AirlyForecast airlyForecast = new AirlyForecast();
-                    airlyForecast.Diary_Id = diaryId;
                     airlyForecast.TimeStamp = forecast.TillDateTime;
                     try
                     {
@@ -82,16 +108,17 @@ namespace CardioCarta.Controllers
                     {
                         airlyForecast.PM25 = null;
                     }
+                    airlyForecast.SensorId = sensorId;
                     airlyForecasts.AddLast(airlyForecast);
                 }
             }
             return airlyForecasts;
         }
 
-        private static Airly GetCurrent(string diaryId, Measurements measurements)
+        private static Airly GetCurrent(Measurements measurements, int sensorId)
         {
             Airly airly = new Airly();
-            airly.Diary_Id = diaryId;
+            
             try
             {
                 airly.Airly_CAQI = (float)(measurements.Current.Indexes.First(item => item.Name == "AIRLY_CAQI").Value);
@@ -151,7 +178,34 @@ namespace CardioCarta.Controllers
             {
                 airly.Temperature = null;
             }
+
+            airly.TimeStamp = measurements.Current.TillDateTime;
+            airly.SensorId = sensorId;
             return airly;
+        }
+
+        private static void AddSensor(Sensor sensor)
+        {
+            AirlySensor airlySensor = new AirlySensor
+            {
+                Id = sensor.Id
+            };
+            CardioCartaEntities db = new CardioCartaEntities();
+            db.AirlySensor.Add(airlySensor);
+            db.SaveChanges();
+
+            NpgsqlConnection connection = new NpgsqlConnection(
+                System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            connection.Open();
+            string latitude = sensor.Location.Latitude.ToString().Replace(',', '.');
+            string longitude = sensor.Location.Longitude.ToString().Replace(',', '.');
+            NpgsqlCommand command = new NpgsqlCommand(
+                "UPDATE \"AirlySensor\" " +
+                "SET \"Location\" = ST_PointFromText('POINT(" + longitude + " " + latitude + ")', 4326) " +
+                "WHERE \"Id\" = " + sensor.Id + ";", connection);
+            Console.WriteLine(command.ToString());
+            command.ExecuteNonQuery();
+            connection.Close();
         }
     }
 }
