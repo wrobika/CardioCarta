@@ -68,65 +68,61 @@ namespace CardioCarta.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "* Email")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Hasło musi mieć minimum {2} znaków", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "* Hasło")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "* Potwierdź hasło")]
+        [Compare("Password", ErrorMessage = "Wprowadzone hasła różnią się od siebie")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
-        [Display(Name = "Surname")]
+        [Display(Name = "Nazwisko")]
         [MaxLength(50)]
         public string Surname { get; set; }
 
-        [Required]
-        [Display(Name = "First name")]
+        [Display(Name = "Imię")]
         [MaxLength(50)]
         public string FirstName { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
-        [Display(Name = "Date of birth")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "* Data urodzenia")]
         [PastDate]
         public DateTime Birthday { get; set; }
 
         [Required]
-        [Display(Name = "Gender")]
+        [Display(Name = "* Płeć")]
         public bool Gender { get; set; }
 
-        [Required]
-        [Display(Name = "City or village")]
+        [Display(Name = "Miasto lub miejscowość")]
         [MaxLength(50)]
         public string CityOrVillage { get; set; }
 
-        [Required]
-        [Display(Name = "District")]
+        [Display(Name = "Powiat")]
         [MaxLength(50)]
         public string District { get; set; }
 
-        [Display(Name = "Street")]
+        [Display(Name = "Ulica")]
         [MaxLength(50)]
         public string Street { get; set; }
 
-        [Required]
-        [Display(Name = "House Number")]
+        [Display(Name = "Numer domu")]
         [MaxLength(10)]
         public string House { get; set; }
 
-        [Display(Name = "Flat Number")]
+        [Display(Name = "Numer lokalu")]
         [MaxLength(10)]
         public string Flat { get; set; }
 
-        [Required]
         [RegularExpression("([0-9]{2}-[0-9]{3})", ErrorMessage = "Kod pocztowy musi mieć postać 00-000")]
+        [Display(Name = "Kod pocztowy")]
         [MaxLength(6)]
         public string PostalCode { get; set; }
     }
@@ -135,69 +131,53 @@ namespace CardioCarta.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "* Email")]
         public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "* Hasło")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "* Potwierdź hasło")]
+        [Compare("Password", ErrorMessage = "Wprowadzone hasła różnią się od siebie")]
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "Speciality")]
+        [Display(Name = "* Specialność")]
         public string Speciality { get; set; }
 
-        [Required]
-        [Display(Name = "Surname")]
+        [Display(Name = "Nazwisko")]
         [MaxLength(50)]
         public string Surname { get; set; }
 
-        [Required]
-        [Display(Name = "First name")]
+        [Display(Name = "Imię")]
         [MaxLength(50)]
         public string FirstName { get; set; }
 
-        [Required]
-        [DataType(DataType.Date)]
-        [Display(Name = "Date of birth")]
-        [PastDate]
-        public DateTime Birthday { get; set; }
-
-        [Required]
-        [Display(Name = "Gender")]
-        public bool Gender { get; set; }
-
-        [Required]
-        [Display(Name = "City or village")]
+        [Display(Name = "Miasto lub miejscowość")]
         [MaxLength(50)]
         public string CityOrVillage { get; set; }
 
-        [Required]
-        [Display(Name = "District")]
+        [Display(Name = "Powiat")]
         [MaxLength(50)]
         public string District { get; set; }
 
-        [Display(Name = "Street")]
+        [Display(Name = "Ulica")]
         [MaxLength(50)]
         public string Street { get; set; }
 
-        [Required]
-        [Display(Name = "House Number")]
+        [Display(Name = "Numer domu")]
         [MaxLength(10)]
         public string House { get; set; }
 
-        [Display(Name = "Flat Number")]
+        [Display(Name = "Numer lokalu")]
         [MaxLength(10)]
         public string Flat { get; set; }
 
-        [Required]
-        [Display(Name = "Postal code")]
+        [Display(Name = "Kod pocztowy")]
         [RegularExpression("([0-9]{2}-[0-9]{3})", ErrorMessage = "Kod pocztowy musi mieć postać 00-000")]
         [MaxLength(6)]
         public string PostalCode { get; set; }

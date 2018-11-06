@@ -11,8 +11,6 @@ namespace CardioCarta.Controllers
 {
     public class AirlyApi
     {
-        public static DateTime LastTimeStamp { get; private set; }
-
         public static async Task<bool> GetMeasurements()
         {
             HttpClient httpClient = GetAirlyApiClient();
@@ -29,11 +27,21 @@ namespace CardioCarta.Controllers
                         AddSensor(sensor);
                     }
                 }
-                //if (LastTimeStamp < DateTime.Now.AddHours(-3))
-                //{
-                //    sensors.ForEach(async sensor => await GetRequest(sensor));
-                //    LastTimeStamp = DateTime.Now;
-                //}
+                DateTime lastTimeStamp = db.Airly.OrderByDescending(a=> a.TimeStamp).First().TimeStamp;
+                if (lastTimeStamp < DateTime.Now.AddHours(-5))
+                {
+                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE \"AirlyForecast\";");
+                    db.SaveChanges();
+                    int i = 1;
+                    foreach (Sensor sensor in sensors)
+                    {
+                        if(i % 50 == 0)
+                        {
+                            System.Threading.Thread.Sleep(5000);
+                        }
+                        await GetRequest(sensor);
+                    }
+                }
             }
             return true;
         }
@@ -71,6 +79,10 @@ namespace CardioCarta.Controllers
                     db.AirlyForecast.AddRange(airlyForecasts);
                     db.SaveChanges();
                 }
+            }
+            else
+            {
+                Console.Write("kkk");
             }
             return measurements;
         }
@@ -179,7 +191,10 @@ namespace CardioCarta.Controllers
                 airly.Temperature = null;
             }
 
-            airly.TimeStamp = measurements.Current.TillDateTime;
+            airly.TimeStamp = measurements.Current.TillDateTime
+                .AddMinutes(-measurements.Current.TillDateTime.Minute)
+                .AddSeconds(-measurements.Current.TillDateTime.Second)
+                .AddMilliseconds(-measurements.Current.TillDateTime.Millisecond); ;
             airly.SensorId = sensorId;
             return airly;
         }

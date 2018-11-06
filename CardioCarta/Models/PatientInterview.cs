@@ -35,7 +35,7 @@ namespace CardioCarta.Models
         public bool Smoking { get; set; }
         [Range(1, 10)]
 
-        [Display(Name = "Jak ocenia Pan(i) swoje zrowie w skali od 1-bardzo s³abe do 10-bardzo dobre")]
+        [Display(Name = "Jak ocenia Pan(i) swoje zdrowie w skali od 1-bardzo s³abe do 10-bardzo dobre")]
         public int Health { get; set; }
     
         public virtual Patient Patient { get; set; }

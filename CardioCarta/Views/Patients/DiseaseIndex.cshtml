@@ -1,0 +1,30 @@
+﻿@model IEnumerable<CardioCarta.Models.Disease>
+
+@{
+    ViewBag.Title = "DiseaseIndex";
+}
+
+<h2>DiseaseIndex</h2>
+
+<p>
+    @Html.ActionLink("Dodaj chorobę", "AddDisease")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Usuń", "DeleteDisease", new { name=item.Name })
+        </td>
+    </tr>
+}
+
+</table>

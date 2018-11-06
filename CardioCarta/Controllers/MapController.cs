@@ -16,24 +16,32 @@ namespace CardioCarta.Controllers
         // GET: Map
         public async Task<ActionResult> Index()
         {
-            await AirlyApi.GetMeasurements();
+            //await AirlyApi.GetMeasurements();
             return View();
         }
 
         public Dictionary<string, double> GetAirly()
         {
             Dictionary<string, double> pointWithValues = new Dictionary<string, double>();
-            if (AirlyApi.LastTimeStamp < DateTime.Now.AddDays(-1))
-            {
-                return pointWithValues;
-            }
+            //if (AirlyApi.LastTimeStamp < DateTime.Now.AddDays(-1))
+            //{
+            //    return pointWithValues;
+            //}
             NpgsqlConnection connection = new NpgsqlConnection(
             System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             connection.Open();
             connection.TypeMapper.UseNetTopologySuite();
+            //using (var cmd = new NpgsqlCommand(
+            //    "SELECT \"Location\", \"Airly_CAQI\" " +
+            //    "FROM  \"Airly\" JOIN \"AirlySensor\" " +
+            //    "ON \"Airly\".\"SensorId\" = \"AirlySensor\".\"Id\" " +
+            //    "WHERE \"Location\" IS NOT NULL " +
+            //    "AND \"TimeStamp\" >= now()::date - interval '3h';",
+            //    connection))
             using (var cmd = new NpgsqlCommand(
                 "SELECT \"Location\", \"Airly_CAQI\" " +
-                "FROM  \"Airly\" NATURAL JOIN \"AirlySensor\" " +
+                "FROM  \"Airly\" JOIN \"AirlySensor\" " +
+                "ON \"Airly\".\"SensorId\" = \"AirlySensor\".\"Id\" " +
                 "WHERE \"Location\" IS NOT NULL;",
                 connection))
             using (var reader = cmd.ExecuteReader())
@@ -63,11 +71,16 @@ namespace CardioCarta.Controllers
             System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             connection.Open();
             connection.TypeMapper.UseNetTopologySuite();
+            //using (var cmd = new NpgsqlCommand(
+            //    "SELECT \"Location\", \"Id\" " +
+            //    "FROM  \"Diary\" " +
+            //    "WHERE \"Location\" IS NOT NULL " +
+            //    "AND \"TimeStamp\" >= now()::date;",
+            //    connection))
             using (var cmd = new NpgsqlCommand(
                 "SELECT \"Location\", \"Id\" " +
                 "FROM  \"Diary\" " +
-                "WHERE \"Location\" IS NOT NULL " +
-                "AND \"TimeStamp\" >= now()::date;",
+                "WHERE \"Location\" IS NOT NULL;",
                 connection))
             using (var reader = cmd.ExecuteReader())
             {

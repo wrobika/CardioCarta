@@ -173,7 +173,7 @@ namespace CardioCarta.Controllers
                     PatientsController patientsController = new PatientsController();
                     patientsController.Create(patient);
                     await this.UserManager.AddToRoleAsync(user.Id, "Patient");
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link

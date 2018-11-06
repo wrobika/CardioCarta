@@ -233,6 +233,7 @@
     <Compile Include="Controllers\AirlyApi.cs" />
     <Compile Include="Controllers\AirlyForecastsController.cs" />
     <Compile Include="Controllers\DiariesController.cs" />
+    <Compile Include="Controllers\DiseasesController.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -257,6 +258,10 @@
     <Compile Include="Migrations\201809281930157_Add columns for Address.cs" />
     <Compile Include="Migrations\201809281930157_Add columns for Address.Designer.cs">
       <DependentUpon>201809281930157_Add columns for Address.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811060952339_Nullable_Personal_Fileds.cs" />
+    <Compile Include="Migrations\201811060952339_Nullable_Personal_Fileds.Designer.cs">
+      <DependentUpon>201811060952339_Nullable_Personal_Fileds.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -458,6 +463,14 @@
     <Content Include="Views\TakenMedicines\Edit.cshtml" />
     <Content Include="Views\TakenMedicines\Index.cshtml" />
     <Content Include="Views\Map\Index.cshtml" />
+    <Content Include="Views\Diseases\Create.cshtml" />
+    <Content Include="Views\Diseases\Delete.cshtml" />
+    <Content Include="Views\Diseases\Details.cshtml" />
+    <Content Include="Views\Diseases\Edit.cshtml" />
+    <Content Include="Views\Diseases\Index.cshtml" />
+    <Content Include="Views\Patients\AddDisease.cshtml" />
+    <Content Include="Views\Patients\DiseaseIndex.cshtml" />
+    <Content Include="Views\Patients\DeleteDisease.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -487,6 +500,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809281930157_Add columns for Address.resx">
       <DependentUpon>201809281930157_Add columns for Address.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811060952339_Nullable_Personal_Fileds.resx">
+      <DependentUpon>201811060952339_Nullable_Personal_Fileds.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
