@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CardioCarta.Models;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace CardioCarta.Controllers
 {
@@ -39,7 +40,9 @@ namespace CardioCarta.Controllers
         // GET: Doctors/Create
         public ActionResult Create()
         {
-            ViewBag.Speciality_Name = new SelectList(db.Speciality, "Name", "Name");
+            IEnumerable<SelectListItem> specialities = db.Speciality.Select(
+                s => new SelectListItem { Value = s.Name, Text = s.Name });
+            ViewBag.Speciality_Name = specialities;
             return View();
         }
 
@@ -57,7 +60,10 @@ namespace CardioCarta.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Speciality_Name = new SelectList(db.Speciality, "Name", "Name", doctor.Speciality_Name);
+            IEnumerable<SelectListItem> specialities = db.Speciality.Select(
+                s => new SelectListItem { Value = s.Name, Text = s.Name });
+            ViewBag.Speciality_Name = specialities;
+
             return View(doctor);
         }
 

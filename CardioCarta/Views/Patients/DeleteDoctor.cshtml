@@ -1,0 +1,56 @@
+﻿@model CardioCarta.Models.DoctorViewModel
+
+@{
+    ViewBag.Title = "Usuń lekarza";
+}
+
+<h2>Usuń lekarza z listy swoich lekarzy</h2>
+
+<h3>Na pewno chcesz usunąć ten wpis z listy?</h3>
+<div>
+    <h4>Lekarz</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CityOrVillage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityOrVillage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Speciality)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Speciality)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-default" /> |
+            @Html.ActionLink("Powrót do listy", "DoctorIndex")
+        </div>
+    }
+</div>

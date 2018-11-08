@@ -298,6 +298,7 @@
     <Compile Include="Models\Doctor.cs">
       <DependentUpon>CardioCarta.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DoctorViewModel.cs" />
     <Compile Include="Models\Measurements.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -471,6 +472,9 @@
     <Content Include="Views\Patients\AddDisease.cshtml" />
     <Content Include="Views\Patients\DiseaseIndex.cshtml" />
     <Content Include="Views\Patients\DeleteDisease.cshtml" />
+    <Content Include="Views\Patients\AddDoctor.cshtml" />
+    <Content Include="Views\Patients\DoctorIndex.cshtml" />
+    <Content Include="Views\Patients\DeleteDoctor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

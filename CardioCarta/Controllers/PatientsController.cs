@@ -195,82 +195,103 @@ namespace CardioCarta.Controllers
 
 
         //================================ DOCTORS =======================================
-        //private ApplicationUserManager _userManager;
+        private ApplicationDbContext userContext = new ApplicationDbContext();
 
-        //public PatientsController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        //{
-        //    UserManager = userManager;
-        //}
+        // GET: Patient/DoctorIndex
+        public ActionResult DoctorIndex()
+        {
+            var id = User.Identity.GetUserId();
+            Patient patient = db.Patient.Single(p => p.AspNetUsers_Id == id);
+            var users = userContext.Users.AsEnumerable();
+            var patientDoctors = patient.Doctor;
+            var doctors = users.Join(patientDoctors,
+                u => u.Id,
+                d => d.AspNetUsers_Id,
+                (u, d) => new DoctorViewModel
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    Surname = u.Surname,
+                    CityOrVillage = u.CityOrVillage,
+                    Speciality = d.Speciality_Name
+                });
+            return View(doctors.ToList());
+        }
 
-        //public ApplicationUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    }
-        //    private set
-        //    {
-        //        _userManager = value;
-        //    }
-        //}
+        // GET: Patients/AddDoctor
+        public ActionResult AddDoctor()
+        {
+            var users = userContext.Users.AsEnumerable();
+            var doctors = db.Doctor.AsEnumerable();
 
-        //// GET: Patient/DoctorIndex
-        //public ActionResult DoctorIndex()
-        //{
-        //    var id = User.Identity.GetUserId();
-        //    Patient patient = db.Patient.Single(p => p.AspNetUsers_Id == id);
-        //    return View(patient.Doctor.ToList());
-        //}
+            IEnumerable<SelectListItem> doctorsUsers = users.Join(doctors,
+                u => u.Id,
+                d => d.AspNetUsers_Id,
+                (u, d) => new SelectListItem
+                {
+                    Value = d.AspNetUsers_Id,
+                    Text = u.FirstName + " " + u.Surname + ", " + u.CityOrVillage + ", " + d.Speciality_Name
+                });
 
-        //// GET: Patients/AddDoctor
-        //public ActionResult AddDoctor()
-        //{
-        //    ViewBag.Doctors = new SelectList(UserManager.Users.Where(u => u.Roles.), "Name", "Name");
-        //    return View();
-        //}
+            ViewBag.Doctors = doctorsUsers;
+            return View();
+        }
 
-        ////POST: Patients/AddDisease
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult AddDisease([Bind(Include = "Name")] Disease disease)
-        //{
-        //    var id = User.Identity.GetUserId();
-        //    Patient patient = db.Patient.Single(p => p.AspNetUsers_Id == id);
-        //    Disease diseaseFromDb = db.Disease.Single(d => d.Name == disease.Name);
-        //    diseaseFromDb.Patient.Add(patient);
-        //    db.SaveChanges();
-        //    return RedirectToAction("DiseaseIndex");
-        //}
+        //POST: Patients/AddDoctor
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddDoctor([Bind(Include = "AspNetUsers_Id")] Doctor doctor)
+        {
+            var id = User.Identity.GetUserId();
+            Patient patient = db.Patient.Single(p => p.AspNetUsers_Id == id);
+            Doctor doctorFromDb = db.Doctor.Single(d => d.AspNetUsers_Id == doctor.AspNetUsers_Id);
+            doctorFromDb.Patient.Add(patient);
+            db.SaveChanges();
+            return RedirectToAction("DoctorIndex");
+        }
 
-        ////GET: Patients/DeleteDisease/Miazdzyca
-        //public ActionResult DeleteDisease(string name)
-        //{
-        //    if (name == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var id = User.Identity.GetUserId();
-        //    Patient patient = db.Patient.Single(p => p.AspNetUsers_Id == id);
-        //    Disease disease = patient.Disease.SingleOrDefault(d => d.Name == name);
-        //    if (disease == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(disease);
-        //}
+        //GET: Patients/DeleteDocotr/5
+        public ActionResult DeleteDoctor(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var userId = User.Identity.GetUserId();
+            Patient patient = db.Patient.Single(p => p.AspNetUsers_Id == userId);
+            var users = userContext.Users.AsEnumerable();
+            var patientDoctors = patient.Doctor;
+            var doctors = users.Join(patientDoctors,
+                u => u.Id,
+                d => d.AspNetUsers_Id,
+                (u, d) => new DoctorViewModel
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    Surname = u.Surname,
+                    CityOrVillage = u.CityOrVillage,
+                    Speciality = d.Speciality_Name
+                });
+            DoctorViewModel doctor = doctors.SingleOrDefault(d => d.Id == id);
+            if (doctor == null)
+            {
+                return HttpNotFound();
+            }
 
-        //// POST: Patients/DeleteDisease/Miazdzyca
-        //[HttpPost, ActionName("DeleteDisease")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteDiseaseConfirmed(string name)
-        //{
-        //    var id = User.Identity.GetUserId();
-        //    Patient patient = db.Patient.Single(p => p.AspNetUsers_Id == id);
-        //    Disease diseaseFromDb = db.Disease.Single(d => d.Name == name);
-        //    diseaseFromDb.Patient.Remove(patient);
-        //    db.SaveChanges();
-        //    return RedirectToAction("DiseaseIndex");
-        //}
+            return View(doctor);
+        }
 
+        // POST: Patients/DeleteDoctor/5
+        [HttpPost, ActionName("DeleteDoctor")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteDoctorConfirmed(string id)
+        {
+            var userId = User.Identity.GetUserId();
+            Patient patient = db.Patient.Single(p => p.AspNetUsers_Id == userId);
+            Doctor doctorFromDb = db.Doctor.Single(d => d.AspNetUsers_Id == id);
+            doctorFromDb.Patient.Remove(patient);
+            db.SaveChanges();
+            return RedirectToAction("DoctorIndex");
+        }
     }
 }

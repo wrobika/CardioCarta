@@ -1,0 +1,49 @@
+﻿@model IEnumerable<CardioCarta.Models.DoctorViewModel>
+
+@{
+    ViewBag.Title = "Lekarze pacjenta";
+}
+
+<h2>DoctorIndex</h2>
+
+<p>
+    @Html.ActionLink("Dodaj lekarza", "AddDoctor")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CityOrVillage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Speciality)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CityOrVillage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Speciality)
+        </td>
+        <td>
+            @Html.ActionLink("Usuń", "DeleteDoctor", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
