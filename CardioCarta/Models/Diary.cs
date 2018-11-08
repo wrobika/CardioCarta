@@ -19,6 +19,7 @@ namespace CardioCarta.Models
 
         public string Patient_AspNetUsers_Id { get; set; }
 
+        [Display(Name = "Data")]
         public System.DateTime TimeStamp { get; set; }
 
         [Range(1,10)]

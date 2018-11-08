@@ -33,7 +33,7 @@ namespace CardioCarta.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Diary diary = db.Diary.Find(id);
+            Diary diary = db.Diary.SingleOrDefault(d => d.Id == id);
             if (diary == null)
             {
                 return HttpNotFound();
@@ -96,7 +96,7 @@ namespace CardioCarta.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Diary diary = db.Diary.Find(id);
+            Diary diary = db.Diary.SingleOrDefault(d => d.Id == id);
             if (diary == null)
             {
                 return HttpNotFound();

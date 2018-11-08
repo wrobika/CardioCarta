@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<CardioCarta.Models.Diary>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Wypełnione dzienniczki";
 }
 
-<h2>Index</h2>
+<h2>Wypełnione dzienniczki</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Wypełń dzienniczek", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Id)
+            @Html.DisplayNameFor(model => model.TimeStamp)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Mood)
@@ -50,16 +50,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Other)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Patient.AspNetUsers_Id)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Id)
+            @Html.DisplayFor(modelItem => item.TimeStamp)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Mood)
@@ -98,12 +95,8 @@
             @Html.DisplayFor(modelItem => item.Other)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Patient.AspNetUsers_Id)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Szczegóły", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Usuń wpis", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

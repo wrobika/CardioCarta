@@ -11,18 +11,55 @@
             <li>
                 @Html.ActionLink("Wypełń dzienniczek", "Create", "Diaries")
             </li>
+
             <li>
-                @Html.ActionLink("Dzienniczek leków", "Index", "TakenMedicines")
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                    Leki
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        @Html.ActionLink("Leki na dziś", "Index", "TakenMedicines")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Lista leków", "Index", "PatientMedicines")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Dodaj lek", "Create", "PatientMedicines")
+                    </li>
+                </ul>
             </li>
+            
             <li>
-                @Html.ActionLink("Twoje Leki", "Index", "PatientMedicines")
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                    Lekarze
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        @Html.ActionLink("Twoi lekarze", "DoctorIndex", "Patients")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Dodaj lekarza", "AddDoctor", "Patients")
+                    </li>
+                </ul>
             </li>
+
             <li>
-                @Html.ActionLink("Dodaj swój lek", "Create", "PatientMedicines")
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                    Choroby
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        @Html.ActionLink("Twoje schorzenia", "DiseaseIndex", "Patients")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Dodaj schorzenie", "AddDisease", "Patients")
+                    </li>
+                </ul>
             </li>
-            <li>
-                @Html.ActionLink("Twoi lekarze", "DoctorIndex", "Patients")
-            </li>
+
             <li>
                 @Html.ActionLink("Mapa", "Index", "Map")
             </li>
