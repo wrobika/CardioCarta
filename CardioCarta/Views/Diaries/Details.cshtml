@@ -1,22 +1,15 @@
 ﻿@model CardioCarta.Models.Diary
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Szczegóły";
 }
 
-<h2>Details</h2>
+<h2>Szczegóły</h2>
 
 <div>
-    <h4>Diary</h4>
+    <h4>Dzienniczek</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Mood)
@@ -114,17 +107,8 @@
             @Html.DisplayFor(model => model.Other)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Patient.AspNetUsers_Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Patient.AspNetUsers_Id)
-        </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Powrót do listy", "Index")
 </p>

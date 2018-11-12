@@ -22,8 +22,11 @@ namespace CardioCarta.Controllers
         // GET: Diaries
         public ActionResult Index()
         {
-            var diary = db.Diary.Include(d => d.Patient);
-            return View(diary.ToList());
+            //var diary = db.Diary.Include(d => d.Patient);
+            var diary = db.Diary;
+            var id = User.Identity.GetUserId();
+            var userDiaries = diary.Where(d => d.Patient_AspNetUsers_Id == id);
+            return View(userDiaries.ToList());
         }
 
         // GET: Diaries/Details/5
@@ -101,8 +104,17 @@ namespace CardioCarta.Controllers
             {
                 return HttpNotFound();
             }
+            if(diary.TimeStamp <= DateTime.Now.AddHours(-6))
+            {
+                return RedirectToAction("CannotEdit");
+            }
             ViewBag.Patient_AspNetUsers_Id = new SelectList(db.Patient, "AspNetUsers_Id", "AspNetUsers_Id", diary.Patient_AspNetUsers_Id);
             return View(diary);
+        }
+
+        public ActionResult CannotEdit()
+        {
+            return View();
         }
 
         // POST: Diaries/Edit/5
@@ -129,7 +141,7 @@ namespace CardioCarta.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Diary diary = db.Diary.Find(id);
+            Diary diary = db.Diary.SingleOrDefault(d => d.Id == id);
             if (diary == null)
             {
                 return HttpNotFound();
@@ -142,7 +154,7 @@ namespace CardioCarta.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Diary diary = db.Diary.Find(id);
+            Diary diary = db.Diary.SingleOrDefault(d => d.Id == id);
             db.Diary.Remove(diary);
             db.SaveChanges();
             return RedirectToAction("Index");

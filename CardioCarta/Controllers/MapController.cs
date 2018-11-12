@@ -27,10 +27,11 @@ namespace CardioCarta.Controllers
         public Dictionary<string, double> GetAirly()
         {
             Dictionary<string, double> pointWithValues = new Dictionary<string, double>();
-            //if (AirlyApi.LastTimeStamp < DateTime.Now.AddDays(-1))
-            //{
-            //    return pointWithValues;
-            //}
+            DateTime lastTimeStamp = db.Airly.OrderByDescending(a => a.TimeStamp).First().TimeStamp;
+            if (lastTimeStamp < DateTime.Now.AddHours(-6))
+            {
+                return pointWithValues;
+            }
             NpgsqlConnection connection = new NpgsqlConnection(
             System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             connection.Open();
@@ -40,7 +41,7 @@ namespace CardioCarta.Controllers
                 "FROM  \"Airly\" JOIN \"AirlySensor\" " +
                 "ON \"Airly\".\"SensorId\" = \"AirlySensor\".\"Id\" " +
                 "WHERE \"Location\" IS NOT NULL " +
-                "AND \"TimeStamp\" >= now()::date - interval '3h';",
+                "AND \"TimeStamp\" >= now() - interval '3h';",
                 connection))
             //using (var cmd = new NpgsqlCommand(
             //    "SELECT \"Location\", \"Airly_CAQI\" " +

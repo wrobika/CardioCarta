@@ -9,7 +9,18 @@
         @if (User.IsInRole("Patient"))
         {
             <li>
-                @Html.ActionLink("Wypełń dzienniczek", "Create", "Diaries")
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                    Dzienniczki
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        @Html.ActionLink("Wypełnione dzienniczki", "Index", "Diaries")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Wypełń dzienniczek", "Create", "Diaries")
+                    </li>
+                </ul>
             </li>
 
             <li>

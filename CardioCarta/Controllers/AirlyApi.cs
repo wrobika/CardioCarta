@@ -59,7 +59,6 @@ namespace CardioCarta.Controllers
             {
                 sensors = await response.Content.ReadAsAsync<List<Sensor>>();
                 var sensorKrakow = sensors.Where(s => s.Address.City == "Kraków");
-                //var sensorKrakow = sensors;
                 CardioCartaEntities db = new CardioCartaEntities();
                 foreach (Sensor sensor in sensorKrakow)
                 {
@@ -68,8 +67,8 @@ namespace CardioCarta.Controllers
                         AddSensor(sensor);
                     }
                 }
-                DateTime lastTimeStamp = db.Airly.OrderByDescending(a => a.TimeStamp).First().TimeStamp;
-                if (lastTimeStamp < DateTime.Now.AddHours(-1))
+                Airly lastAirly = db.Airly.OrderByDescending(a => a.TimeStamp).FirstOrDefault();
+                if (lastAirly == null || lastAirly.TimeStamp < DateTime.Now.AddHours(-2))
                 {
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE \"AirlyForecast\";");
                     db.SaveChanges();

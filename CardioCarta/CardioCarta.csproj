@@ -480,6 +480,7 @@
     <Content Include="Views\Patients\DeleteDoctor.cshtml" />
     <Content Include="Views\Warning\Warning.cshtml" />
     <Content Include="Views\Warning\Index.cshtml" />
+    <Content Include="Views\Diaries\CannotEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
