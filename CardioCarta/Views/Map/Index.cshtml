@@ -133,24 +133,24 @@
         });
 
         var heatMapLayer = new ol.layer.Heatmap({
-            source: clusterAirly,
-            blur: 50,
-            radius: 40,
+            source: airlySource,
+            blur: 1,
+            radius: 10,
             opacity: 1,
-            weight: function (feature) {
-                var size = feature.get('features').length;
-                if (size === 1) {
-                    return feature.get('features')[0].get('weight');
-                }
-                else {
-                    var sumWeight = 0;
-                    for (var i = 0; i < size; i++)
-                    {
-                        sumWeight += feature.get('features')[i].get('weight');
-                    }
-                    return sumWeight / size;
-                }
-            }
+            //weight: function (feature) {
+            //    var size = feature.get('features').length;
+            //    if (size === 1) {
+            //        return feature.get('features')[0].get('weight');
+            //    }
+            //    else {
+            //        var sumWeight = 0;
+            //        for (var i = 0; i < size; i++)
+            //        {
+            //            sumWeight += feature.get('features')[i].get('weight');
+            //        }
+            //        return sumWeight / size;
+            //    }
+            //}
             //gradient: ['#0000ff', '#f00', '#f00', '#ff0', '#f00'],
         });
 

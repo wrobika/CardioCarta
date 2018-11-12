@@ -1,0 +1,49 @@
+﻿@model CardioCarta.Models.WarningViewModel
+
+@{
+    ViewBag.Title = "Pobierz lokalizację";
+}
+
+<h2>Pobierz lokalizację i wyświetl ostrzeżenia</h2>
+
+<script type="text/javascript">
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error,
+                { enableHighAccuracy: true });
+        } else {
+            alert("Cannot get Geolocation");
+        }
+    }
+    function success(location) {
+        document.getElementById("Location").value = location.coords.longitude + " " + location.coords.latitude;
+    }
+    function error(event) {
+        document.getElementById("Location").value = "19.940984 50.062006";
+        alert(event.code + ": " + event.message);
+    }
+</script>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
+                <script>getLocation()</script>
+                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Pobierz" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

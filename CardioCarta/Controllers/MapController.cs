@@ -14,9 +14,13 @@ namespace CardioCarta.Controllers
         private CardioCartaEntities db = new CardioCartaEntities();
 
         // GET: Map
-        public async Task<ActionResult> Index()
+        //public async Task<ActionResult> Index()
+        //{
+        //    //await AirlyApi.GetMeasurements();
+        //    return View();
+        //}
+        public ActionResult Index()
         {
-            //await AirlyApi.GetMeasurements();
             return View();
         }
 
@@ -31,19 +35,19 @@ namespace CardioCarta.Controllers
             System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             connection.Open();
             connection.TypeMapper.UseNetTopologySuite();
-            //using (var cmd = new NpgsqlCommand(
-            //    "SELECT \"Location\", \"Airly_CAQI\" " +
-            //    "FROM  \"Airly\" JOIN \"AirlySensor\" " +
-            //    "ON \"Airly\".\"SensorId\" = \"AirlySensor\".\"Id\" " +
-            //    "WHERE \"Location\" IS NOT NULL " +
-            //    "AND \"TimeStamp\" >= now()::date - interval '3h';",
-            //    connection))
             using (var cmd = new NpgsqlCommand(
                 "SELECT \"Location\", \"Airly_CAQI\" " +
                 "FROM  \"Airly\" JOIN \"AirlySensor\" " +
                 "ON \"Airly\".\"SensorId\" = \"AirlySensor\".\"Id\" " +
-                "WHERE \"Location\" IS NOT NULL;",
+                "WHERE \"Location\" IS NOT NULL " +
+                "AND \"TimeStamp\" >= now()::date - interval '3h';",
                 connection))
+            //using (var cmd = new NpgsqlCommand(
+            //    "SELECT \"Location\", \"Airly_CAQI\" " +
+            //    "FROM  \"Airly\" JOIN \"AirlySensor\" " +
+            //    "ON \"Airly\".\"SensorId\" = \"AirlySensor\".\"Id\" " +
+            //    "WHERE \"Location\" IS NOT NULL;",
+            //    connection))
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())

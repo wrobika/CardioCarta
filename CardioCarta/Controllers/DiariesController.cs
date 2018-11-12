@@ -68,7 +68,7 @@ namespace CardioCarta.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Patient")]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Mood,SystolicPressure,DiastolicPressure,RespirationProblem,Haemorrhage,Dizziness,ChestPain,SternumPain,HeartPain,Alcohol,Coffee,Other")] Diary diary)
+        public ActionResult Create([Bind(Include = "Id,Mood,SystolicPressure,DiastolicPressure,RespirationProblem,Haemorrhage,Dizziness,ChestPain,SternumPain,HeartPain,Alcohol,Coffee,Other")] Diary diary)
         {
             string coord = diary.Id;
             diary.Patient_AspNetUsers_Id = User.Identity.GetUserId();

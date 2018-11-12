@@ -7,21 +7,21 @@
 <h2>Wypełń dzienniczek</h2>
 
 <script type="text/javascript">
-            function getLocation() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(success, error,
-                        { enableHighAccuracy: true });
-                } else {
-                    alert("Cannot get Geolocation");
-                }
-            }
-            function success(location) {
-                document.getElementById("Id").value = location.coords.longitude + " " + location.coords.latitude;
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error,
+                { enableHighAccuracy: true });
+        } else {
+            alert("Cannot get Geolocation");
+        }
+    }
+    function success(location) {
+        document.getElementById("Id").value = location.coords.longitude + " " + location.coords.latitude;
 
-            }
-            function error(event) {
-                alert(event.code + ": " + event.message);
-            }
+    }
+    function error(event) {
+        alert(event.code + ": " + event.message);
+    }
 </script>
 
 @using (Html.BeginForm()) 

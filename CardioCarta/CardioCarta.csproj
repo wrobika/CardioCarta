@@ -236,6 +236,7 @@
     <Compile Include="Controllers\DiseasesController.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="HtmlExtensions.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MedicinesController.cs" />
@@ -244,6 +245,7 @@
     <Compile Include="Controllers\PatientsController.cs" />
     <Compile Include="Controllers\SpecialitiesController.cs" />
     <Compile Include="Controllers\TakenMedicinesController.cs" />
+    <Compile Include="Controllers\WarningController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -327,6 +329,7 @@
     <Compile Include="Models\TakingMedicineTime.cs">
       <DependentUpon>CardioCarta.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WarningViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -475,6 +478,8 @@
     <Content Include="Views\Patients\AddDoctor.cshtml" />
     <Content Include="Views\Patients\DoctorIndex.cshtml" />
     <Content Include="Views\Patients\DeleteDoctor.cshtml" />
+    <Content Include="Views\Warning\Warning.cshtml" />
+    <Content Include="Views\Warning\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

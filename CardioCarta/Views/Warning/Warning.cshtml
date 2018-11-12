@@ -1,0 +1,59 @@
+﻿@model CardioCarta.Models.WarningViewModel
+
+@{
+    ViewBag.Title = "Ostrzeżenia";
+}
+
+<h2>Ostrzeżenia</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Temperature)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temperature)
+            <br> <br />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pressure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pressure)
+            <br> <br />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AirlyCAQI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AirlyCAQI)
+            <br> <br />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quality)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quality)
+            <br> <br />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            <font color="red">
+                @Html.DisplayWithBreaksFor(model => model.Description)
+            </font>
+        </dd>
+
+    </dl>
+</div>

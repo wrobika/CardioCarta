@@ -63,6 +63,10 @@
             <li>
                 @Html.ActionLink("Mapa", "Index", "Map")
             </li>
+
+            <li>
+                @Html.ActionLink("Ostrzeżenia", "Index", "Warning")
+            </li>
         }
         <li>
             @Html.ActionLink("Cześć " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
