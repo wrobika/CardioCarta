@@ -35,6 +35,19 @@ namespace CardioCarta.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            //sprawdzenie czy pacjent jest wsród pacjentów lekarza
+            if (User.IsInRole("Doctor"))
+            {
+                var doctorId = User.Identity.GetUserId();
+                var doctor = db.Doctor.SingleOrDefault(d => d.AspNetUsers_Id == doctorId);
+                var patient = doctor.Patient.SingleOrDefault(p => p.AspNetUsers_Id == id);
+                if (patient == null)
+                {
+                    return HttpNotFound();
+                }
+            }
+
             PatientInterview patientInterview = db.PatientInterview.Find(id);
             if (patientInterview == null)
             {

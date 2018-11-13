@@ -16,6 +16,7 @@ namespace CardioCarta.Controllers
         private CardioCartaEntities db = new CardioCartaEntities();
 
         // GET: PatientMedicines
+        [Authorize(Roles = "Patient")]
         public ActionResult Index()
         {
             var patientMedicine = db.PatientMedicine.Include(p => p.Medicine).Include(p => p.Patient).Include(p => p.TakingMedicineTime);
@@ -24,14 +25,30 @@ namespace CardioCarta.Controllers
             return View(myMedicine.ToList());
         }
 
-        // GET: PatientMedicines/Details/5
-        public ActionResult Details(string id)
+        [Authorize(Roles = "Doctor")]
+        public ActionResult IndexForDoctor(string patientId)
         {
-            if (id == null)
+            //sprawdzanie czy pacjent jest wsród pacjentów lekarza
+            var doctorId = User.Identity.GetUserId();
+            var doctor = db.Doctor.SingleOrDefault(d => d.AspNetUsers_Id == doctorId);
+            var patient = doctor.Patient.SingleOrDefault(p => p.AspNetUsers_Id == patientId);
+            if (patient == null)
+            {
+                return HttpNotFound();
+            }
+            var patientMedicine = db.PatientMedicine.Include(p => p.Medicine).Include(p => p.Patient).Include(p => p.TakingMedicineTime);
+            var myMedicine = patientMedicine.Where(p => p.Patient_AspNetUsers_Id == patientId);
+            return View("Index", myMedicine.ToList());
+        }
+
+        // GET: PatientMedicines/Details/5
+        public ActionResult Details(string userId, string name, string time)
+        {
+            if (userId == null || name == null || time == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PatientMedicine patientMedicine = db.PatientMedicine.Find(id);
+            PatientMedicine patientMedicine = db.PatientMedicine.Find(userId, name, time);
             if (patientMedicine == null)
             {
                 return HttpNotFound();
@@ -43,7 +60,7 @@ namespace CardioCarta.Controllers
         public ActionResult Create()
         {
             MedicinesController medicinesController = new MedicinesController();
-           // ViewBag.Medicine_Name = new SelectList(medicinesController.GetMedicinesList());
+            // ViewBag.Medicine_Name = new SelectList(medicinesController.GetMedicinesList());
             //ViewBag.TakingTime = new SelectList(medicinesController.GetTakingTimeList());
 
             ViewBag.Medicine_Name = new SelectList(db.Medicine.OrderBy(m => m.Name), "Name", "Name");
@@ -80,13 +97,13 @@ namespace CardioCarta.Controllers
         }
 
         // GET: PatientMedicines/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string userId, string name, string time)
         {
-            if (id == null)
+            if (userId == null || name ==null || time == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PatientMedicine patientMedicine = db.PatientMedicine.Find(id);
+            PatientMedicine patientMedicine = db.PatientMedicine.Find(userId, name, time);
             if (patientMedicine == null)
             {
                 return HttpNotFound();
@@ -117,13 +134,13 @@ namespace CardioCarta.Controllers
         }
 
         // GET: PatientMedicines/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(string userId, string name, string time)
         {
-            if (id == null)
+            if (userId == null || name == null || time == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PatientMedicine patientMedicine = db.PatientMedicine.Find(id);
+            PatientMedicine patientMedicine = db.PatientMedicine.Find(userId, name, time);
             if (patientMedicine == null)
             {
                 return HttpNotFound();
@@ -134,9 +151,9 @@ namespace CardioCarta.Controllers
         // POST: PatientMedicines/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(string userId, string name, string time)
         {
-            PatientMedicine patientMedicine = db.PatientMedicine.Find(id);
+            PatientMedicine patientMedicine = db.PatientMedicine.Find(userId, name, time);
             db.PatientMedicine.Remove(patientMedicine);
             db.SaveChanges();
             return RedirectToAction("Index");

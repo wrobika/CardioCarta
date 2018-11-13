@@ -6,9 +6,12 @@
 
 <h2>Schorzenia</h2>
 
-<p>
-    @Html.ActionLink("Dodaj chorobę", "AddDisease")
-</p>
+@if (User.IsInRole("Patient"))
+{
+    <p>
+        @Html.ActionLink("Dodaj chorobę", "AddDisease")
+    </p>
+}
 <table class="table">
     <tr>
         <th>
@@ -16,15 +19,27 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
+    if (User.IsInRole("Patient"))
+    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Usuń", "DeleteDisease", new { name=item.Name })
+            @Html.ActionLink("Usuń", "DeleteDisease", new { name = item.Name })
         </td>
     </tr>
+    }
+    else
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+        </tr>
+    }
 }
 
 </table>

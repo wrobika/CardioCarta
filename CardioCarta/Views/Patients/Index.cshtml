@@ -1,24 +1,42 @@
-﻿@model IEnumerable<CardioCarta.Models.Patient>
+﻿@model IEnumerable<CardioCarta.Models.PatientViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Pacjenci";
 }
 
-<h2>Index</h2>
+<h2>Pacjenci</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CityOrVillage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.District)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.House)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Flat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.BirthDate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Male)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PatientInterview.Patient_AspNetUsers_Id)
         </th>
         <th></th>
     </tr>
@@ -26,18 +44,40 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CityOrVillage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.District)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Street)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.House)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Flat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostalCode)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.BirthDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Male)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PatientInterview.Patient_AspNetUsers_Id)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AspNetUsers_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AspNetUsers_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AspNetUsers_Id })
+            @Html.ActionLink("Wywiad medyczny", "Details", "PatientInterviews", new { id=item.Id }, null) |
+            @Html.ActionLink("Leki", "IndexForDoctor", "PatientMedicines", new { patientId = item.Id }, null) |
+            @Html.ActionLink("Choroby", "DiseaseIndexForDoctor", new { patientId = item.Id }) |
+            @Html.ActionLink("Dzienniczki", "IndexForDoctor", "Diaries", new { patientId = item.Id }, null)            
         </td>
     </tr>
 }

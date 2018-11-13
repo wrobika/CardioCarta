@@ -316,6 +316,7 @@
     <Compile Include="Models\PatientMedicine.cs">
       <DependentUpon>CardioCarta.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PatientViewModel.cs" />
     <Compile Include="Models\Sensor.cs" />
     <Compile Include="Models\spatial_ref_sys.cs">
       <DependentUpon>CardioCarta.tt</DependentUpon>
@@ -416,7 +417,6 @@
     <Content Include="Views\Patients\Delete.cshtml" />
     <Content Include="Views\Patients\Details.cshtml" />
     <Content Include="Views\Patients\Edit.cshtml" />
-    <Content Include="Views\Patients\Index.cshtml" />
     <Content Include="Views\PatientInterviews\Create.cshtml" />
     <Content Include="Views\PatientInterviews\Delete.cshtml" />
     <Content Include="Views\PatientInterviews\Details.cshtml" />
@@ -481,6 +481,7 @@
     <Content Include="Views\Warning\Warning.cshtml" />
     <Content Include="Views\Warning\Index.cshtml" />
     <Content Include="Views\Diaries\CannotEdit.cshtml" />
+    <Content Include="Views\Patients\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

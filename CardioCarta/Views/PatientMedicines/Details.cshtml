@@ -1,13 +1,12 @@
 ﻿@model CardioCarta.Models.PatientMedicine
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Szczegóły leku";
 }
 
-<h2>Details</h2>
+<h2>Szczegóły leku</h2>
 
 <div>
-    <h4>PatientMedicine</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -37,6 +36,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edytuj", "Edit", new { userId = Model.Patient_AspNetUsers_Id, name = Model.Medicine_Name, time = Model.TakingTime }) |
+    @Html.ActionLink("Powrót do listy", "Index")
 </p>

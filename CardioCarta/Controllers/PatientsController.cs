@@ -17,9 +17,32 @@ namespace CardioCarta.Controllers
         private CardioCartaEntities db = new CardioCartaEntities();
 
         // GET: Patients
+        [Authorize(Roles = "Doctor")]
         public ActionResult Index()
         {
-            var patient = db.Patient.Include(p => p.PatientInterview);
+            var id = User.Identity.GetUserId();
+            Doctor doctor = db.Doctor.Single(p => p.AspNetUsers_Id == id);
+            var users = userContext.Users.AsEnumerable();
+            var doctorsPatient = doctor.Patient;
+            var patient = users.Join(doctorsPatient,
+                u => u.Id,
+                p => p.AspNetUsers_Id,
+                (u, p) => new PatientViewModel
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    Surname = u.Surname,
+                    CityOrVillage = u.CityOrVillage,
+                    District = u.District,
+                    Street = u.Street,
+                    House = u.House,
+                    Flat = u.Flat,
+                    PostalCode = u.PostalCode,
+                    BirthDate = p.BirthDate,
+                    Male = p.Male
+
+                });
+            //var patient = db.Patient.Include(p => p.PatientInterview);
             return View(patient.ToList());
         }
 
@@ -133,13 +156,28 @@ namespace CardioCarta.Controllers
 
 
         //================================ DISEASES =======================================
-        
+
         // GET: Patient/DiseaseIndex
+        [Authorize(Roles = "Patient")]
         public ActionResult DiseaseIndex()
         {
             var id = User.Identity.GetUserId();
             Patient patient = db.Patient.Single(p => p.AspNetUsers_Id == id);
             return View(patient.Disease.ToList());
+        }
+
+        [Authorize(Roles = "Doctor")]
+        public ActionResult DiseaseIndexForDoctor(string patientId)
+        {
+            //sprawdzanie czy pacjent jest wsród pacjentów lekarza
+            var doctorId = User.Identity.GetUserId();
+            var doctor = db.Doctor.SingleOrDefault(d => d.AspNetUsers_Id == doctorId);
+            var patient = doctor.Patient.SingleOrDefault(p => p.AspNetUsers_Id == patientId);
+            if (patient == null)
+            {
+                return HttpNotFound();
+            }
+            return View("DiseaseIndex", patient.Disease.ToList());
         }
 
         // GET: Patients/AddDisease

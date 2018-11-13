@@ -11,7 +11,8 @@ namespace CardioCarta.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class TakingMedicineTime
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +20,8 @@ namespace CardioCarta.Models
         {
             this.PatientMedicine = new HashSet<PatientMedicine>();
         }
-    
+
+        [Display(Name = "Pora przyjmowania")]
         public string TakingTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

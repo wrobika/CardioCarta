@@ -6,9 +6,12 @@
 
 <h2>Wypełnione dzienniczki</h2>
 
-<p>
-    @Html.ActionLink("Wypełń dzienniczek", "Create")
-</p>
+@if (User.IsInRole("Patient"))
+{
+    <p>
+        @Html.ActionLink("Wypełń dzienniczek", "Create")
+    </p>
+}
 <table class="table">
     <tr>
         <th>
@@ -95,8 +98,11 @@
             @Html.DisplayFor(modelItem => item.Other)
         </td>
         <td>
-            @Html.ActionLink("Szczegóły", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Usuń wpis", "Delete", new { id=item.Id })
+            @Html.ActionLink("Szczegóły", "Details", new { id=item.Id })
+            @if (User.IsInRole("Patient"))
+            {
+                @Html.ActionLink("Usuń wpis", "Delete", new { id = item.Id })
+            }
         </td>
     </tr>
 }

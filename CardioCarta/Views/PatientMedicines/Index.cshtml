@@ -1,14 +1,17 @@
 ﻿@model IEnumerable<CardioCarta.Models.PatientMedicine>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Leki";
 }
 
-<h2>Index</h2>
+<h2>Leki</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (User.IsInRole("Patient"))
+{
+    <p>
+        @Html.ActionLink("Dodaj lek", "Create")
+    </p>
+}
 <table class="table">
     <tr>
         <th>
@@ -34,11 +37,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.TakingMedicineTime.TakingTime)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
+        @if (User.IsInRole("Patient"))
+        {
+            <td>
+                @Html.ActionLink("Edytuj", "Edit", new { userId = item.Patient_AspNetUsers_Id, name = item.Medicine_Name, time = item.TakingTime }) |
+                @Html.ActionLink("Szczegóły", "Details", new { userId = item.Patient_AspNetUsers_Id, name = item.Medicine_Name, time = item.TakingTime }) |
+                @Html.ActionLink("Usuń", "Delete", new { userId = item.Patient_AspNetUsers_Id, name = item.Medicine_Name, time = item.TakingTime })
+            </td>
+        }
     </tr>
 }
 

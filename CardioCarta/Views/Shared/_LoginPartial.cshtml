@@ -79,6 +79,16 @@
                 @Html.ActionLink("Ostrzeżenia", "Index", "Warning")
             </li>
         }
+        @if (User.IsInRole("Doctor"))
+        {
+            <li>
+                @Html.ActionLink("Twoi pacjenci", "Index", "Patients")
+            </li>
+
+            <li>
+                @Html.ActionLink("Mapa", "Index", "Map")
+            </li>
+        }
         <li>
             @Html.ActionLink("Cześć " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>

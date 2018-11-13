@@ -20,6 +20,7 @@ namespace CardioCarta.Controllers
         private CardioCartaEntities db = new CardioCartaEntities();
 
         // GET: Diaries
+        [Authorize(Roles = "Patient")]
         public ActionResult Index()
         {
             //var diary = db.Diary.Include(d => d.Patient);
@@ -27,6 +28,24 @@ namespace CardioCarta.Controllers
             var id = User.Identity.GetUserId();
             var userDiaries = diary.Where(d => d.Patient_AspNetUsers_Id == id);
             return View(userDiaries.ToList());
+        }
+
+        [Authorize(Roles = "Doctor")]
+        public ActionResult IndexForDoctor(string patientId)
+        {
+            //var diary = db.Diary.Include(d => d.Patient);
+
+            //sprawdzenie czy pacjent jest wsród pacjentów lekarza
+            var doctorId = User.Identity.GetUserId();
+            var doctor = db.Doctor.SingleOrDefault(d => d.AspNetUsers_Id == doctorId);
+            var patient = doctor.Patient.SingleOrDefault(p => p.AspNetUsers_Id == patientId);
+            if (patient == null)
+            {
+                return HttpNotFound();
+            }
+            var diary = db.Diary;
+            var userDiaries = diary.Where(d => d.Patient_AspNetUsers_Id == patientId);
+            return View("Index", userDiaries.ToList());
         }
 
         // GET: Diaries/Details/5

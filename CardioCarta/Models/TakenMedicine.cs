@@ -11,10 +11,13 @@ namespace CardioCarta.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class TakenMedicine
     {
         public string PatientMedicine_Id { get; set; }
+
+        [Display(Name = "Czy za¿y³eœ?")]
         public bool Taken { get; set; }
         public System.DateTime Day { get; set; }
 
