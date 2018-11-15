@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Npgsql;
 using CardioCarta.Models;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace CardioCarta.Controllers
 {
@@ -13,7 +14,7 @@ namespace CardioCarta.Controllers
     {
         private CardioCartaEntities db = new CardioCartaEntities();
 
-        // GET: Map
+        //GET: Map
         //public async Task<ActionResult> Index()
         //{
         //    //await AirlyApi.GetMeasurements();
@@ -21,6 +22,11 @@ namespace CardioCarta.Controllers
         //}
         public ActionResult Index()
         {
+            Thread downloadAirly = new Thread(new ThreadStart(AirlyApi.GetMeasurements2))
+            {
+                IsBackground = false
+            };
+            downloadAirly.Start();
             return View();
         }
 
@@ -36,12 +42,13 @@ namespace CardioCarta.Controllers
             System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             connection.Open();
             connection.TypeMapper.UseNetTopologySuite();
+            //4h = wpisy co 2h + przesuniecie api 1h + bufor 1h
             using (var cmd = new NpgsqlCommand(
                 "SELECT \"Location\", \"Airly_CAQI\" " +
                 "FROM  \"Airly\" JOIN \"AirlySensor\" " +
                 "ON \"Airly\".\"SensorId\" = \"AirlySensor\".\"Id\" " +
                 "WHERE \"Location\" IS NOT NULL " +
-                "AND \"TimeStamp\" >= now() - interval '3h';",
+                "AND \"TimeStamp\" >= now() - interval '4h';",
                 connection))
             //using (var cmd = new NpgsqlCommand(
             //    "SELECT \"Location\", \"Airly_CAQI\" " +

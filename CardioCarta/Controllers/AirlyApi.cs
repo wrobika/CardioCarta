@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Threading;
 using Npgsql;
+//using System.Timers;
 
 namespace CardioCarta.Controllers
 {
@@ -21,7 +22,6 @@ namespace CardioCarta.Controllers
             {
                 sensors = await response.Content.ReadAsAsync<List<Sensor>>();
                 var sensorKrakow = sensors.Where(s => s.Address.City == "Kraków");
-                //var sensorKrakow = sensors;
                 CardioCartaEntities db = new CardioCartaEntities();
                 foreach (Sensor sensor in sensorKrakow)
                 {
@@ -30,8 +30,9 @@ namespace CardioCarta.Controllers
                         AddSensor(sensor);
                     }
                 }
-                DateTime lastTimeStamp = db.Airly.OrderByDescending(a => a.TimeStamp).First().TimeStamp;
-                if (lastTimeStamp < DateTime.Now.AddHours(-5))
+                //pobieram co 2h + przesuniecie api 1h
+                Airly lastAirly = db.Airly.OrderByDescending(a => a.TimeStamp).FirstOrDefault();
+                if (lastAirly == null || lastAirly.TimeStamp < DateTime.Now.AddHours(-3))
                 {
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE \"AirlyForecast\";");
                     db.SaveChanges();
@@ -40,7 +41,7 @@ namespace CardioCarta.Controllers
                     {
                         if (i % 49 == 0)
                         {
-                            Thread.Sleep(60000);
+                            Thread.Sleep(61000);
                         }
                         await GetRequest(sensor);
                         i++;
@@ -50,7 +51,7 @@ namespace CardioCarta.Controllers
             return true;
         }
 
-        public static async void GetMeasurements2(Object state)
+        public static async void GetMeasurements2()
         {
             HttpClient httpClient = GetAirlyApiClient();
             List<Sensor> sensors = null;
@@ -67,8 +68,9 @@ namespace CardioCarta.Controllers
                         AddSensor(sensor);
                     }
                 }
+                //pobieram co 2h + przesuniecie api 1h
                 Airly lastAirly = db.Airly.OrderByDescending(a => a.TimeStamp).FirstOrDefault();
-                if (lastAirly == null || lastAirly.TimeStamp < DateTime.Now.AddHours(-2))
+                if (lastAirly == null || lastAirly.TimeStamp < DateTime.Now.AddHours(-3))
                 {
                     db.Database.ExecuteSqlCommand("TRUNCATE TABLE \"AirlyForecast\";");
                     db.SaveChanges();
@@ -77,7 +79,7 @@ namespace CardioCarta.Controllers
                     {
                         if (i % 49 == 0)
                         {
-                            Thread.Sleep(60000);
+                            Thread.Sleep(61000);
                         }
                         await GetRequest(sensor);
                         i++;
@@ -85,22 +87,6 @@ namespace CardioCarta.Controllers
                 }
             }
          }
-
-        public static void AirlyTrigger()
-        {
-            var startTimeSpan = TimeSpan.Zero;
-            //var periodTimeSpan = TimeSpan.FromHours(2);
-            var periodTimeSpan = TimeSpan.FromMinutes(5);
-
-            //var timer = new Timer((e) =>
-            //{
-            //    GetMeasurements2();
-            //}, null, startTimeSpan, periodTimeSpan);
-
-            var timer = new Timer(new TimerCallback(GetMeasurements2),
-                                   null, 0, 120000);
-            GC.KeepAlive(timer);
-        }
 
         private static HttpClient GetAirlyApiClient()
         {
