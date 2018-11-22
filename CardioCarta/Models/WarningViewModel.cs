@@ -10,7 +10,7 @@ namespace CardioCarta.Models
     {
         [Key]
         [Required]
-        [Display(Name = "Kliknij <<Pobierz>>, by pobrać automatycznie swoją lokalizację lub wprowadź ją ręcznie")]
+        [Display(Name = "Twoja lokalizacja pobierze się automatycznie")]
         [RegularExpression(@"\d+\.\d+ \d+\.\d+$")]
         public string Location { get; set; }
 

@@ -17,6 +17,11 @@ namespace CardioCarta
         {
             ConfigureAuth(app);
             CreateRoles();
+            Thread downloadAirly = new Thread(new ThreadStart(AirlyApi.GetMeasurementsContinously))
+            {
+                IsBackground = false
+            };
+            downloadAirly.Start();
         }
 
         private void CreateRoles()

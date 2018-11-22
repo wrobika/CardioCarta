@@ -110,5 +110,12 @@
     </dl>
 </div>
 <p>
+@if (User.IsInRole("Patient"))
+{
     @Html.ActionLink("Powrót do listy", "Index")
+}
+else
+{
+    @Html.ActionLink("Powrót do listy", "IndexForDoctor", new { patientId = Model.Patient_AspNetUsers_Id })
+}
 </p>

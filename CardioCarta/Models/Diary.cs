@@ -43,13 +43,13 @@ namespace CardioCarta.Models
         [Display(Name = "Czy mia³aœ/eœ zawroty g³owy?")]
         public bool Dizziness { get; set; }
 
-        [Display(Name = "Czy odczywa³as/eœ ból w klatce piersiowej?")]
+        [Display(Name = "Czy odczywa³aœ/eœ ból w klatce piersiowej?")]
         public bool ChestPain { get; set; }
 
-        [Display(Name = "Czy odczywa³as/eœ ból w mostku?")]
+        [Display(Name = "Czy odczywa³aœ/eœ ból w mostku?")]
         public bool SternumPain { get; set; }
 
-        [Display(Name = "Czy odczywa³as/eœ k³ucie w sercu?")]
+        [Display(Name = "Czy odczywa³aœ/eœ k³ucie w sercu?")]
         public bool HeartPain { get; set; }
 
         [Display(Name = "Czy spo¿ywa³aœ/eœ dziœ alkohol?")]

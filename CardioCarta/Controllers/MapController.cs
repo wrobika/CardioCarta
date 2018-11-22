@@ -22,11 +22,11 @@ namespace CardioCarta.Controllers
         //}
         public ActionResult Index()
         {
-            Thread downloadAirly = new Thread(new ThreadStart(AirlyApi.GetMeasurements2))
-            {
-                IsBackground = false
-            };
-            downloadAirly.Start();
+            //Thread downloadAirly = new Thread(new ThreadStart(AirlyApi.GetMeasurements2))
+            //{
+            //    IsBackground = false
+            //};
+            //downloadAirly.Start();
             return View();
         }
 

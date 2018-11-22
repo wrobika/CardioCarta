@@ -7,51 +7,22 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Threading;
 using Npgsql;
-//using System.Timers;
 
 namespace CardioCarta.Controllers
 {
     public class AirlyApi
     {
-        public static async Task<bool> GetMeasurements()
+        public static void GetMeasurementsContinously()
         {
-            HttpClient httpClient = GetAirlyApiClient();
-            List<Sensor> sensors = null;
-            HttpResponseMessage response = await httpClient.GetAsync("installations/nearest?lat=50.052024&lng=19.992891&maxDistanceKM=20&maxResults=-1");
-            if (response.IsSuccessStatusCode)
+            int downloadPeriod = 2 * 60 * 60 * 1000;
+            while(true)
             {
-                sensors = await response.Content.ReadAsAsync<List<Sensor>>();
-                var sensorKrakow = sensors.Where(s => s.Address.City == "Kraków");
-                CardioCartaEntities db = new CardioCartaEntities();
-                foreach (Sensor sensor in sensorKrakow)
-                {
-                    if (db.AirlySensor.Find(sensor.Id) == null)
-                    {
-                        AddSensor(sensor);
-                    }
-                }
-                //pobieram co 2h + przesuniecie api 1h
-                Airly lastAirly = db.Airly.OrderByDescending(a => a.TimeStamp).FirstOrDefault();
-                if (lastAirly == null || lastAirly.TimeStamp < DateTime.Now.AddHours(-3))
-                {
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE \"AirlyForecast\";");
-                    db.SaveChanges();
-                    int i = 1;
-                    foreach (Sensor sensor in sensorKrakow)
-                    {
-                        if (i % 49 == 0)
-                        {
-                            Thread.Sleep(61000);
-                        }
-                        await GetRequest(sensor);
-                        i++;
-                    }
-                }
+                GetMeasurements();
+                Thread.Sleep(downloadPeriod);
             }
-            return true;
         }
 
-        public static async void GetMeasurements2()
+        public static async void GetMeasurements()
         {
             HttpClient httpClient = GetAirlyApiClient();
             List<Sensor> sensors = null;
@@ -77,16 +48,16 @@ namespace CardioCarta.Controllers
                     int i = 1;
                     foreach (Sensor sensor in sensorKrakow)
                     {
-                        if (i % 49 == 0)
+                        //z powodu limitu api
+                        if (i++ % 49 == 0)
                         {
                             Thread.Sleep(61000);
                         }
                         await GetRequest(sensor);
-                        i++;
                     }
                 }
             }
-         }
+        }
 
         private static HttpClient GetAirlyApiClient()
         {
@@ -115,11 +86,18 @@ namespace CardioCarta.Controllers
                 CardioCartaEntities db = new CardioCartaEntities();
                 if (measurements.Current.Values.Count > 0 && measurements.Current.Indexes.First(item => item.Name == "AIRLY_CAQI").Value != null)
                 {
-                    Airly airly = GetCurrent(measurements, sensor.Id);
-                    db.Airly.Add(airly);
-                    LinkedList<AirlyForecast> airlyForecasts = GetForecast(measurements, sensor.Id);
-                    db.AirlyForecast.AddRange(airlyForecasts);
-                    db.SaveChanges();
+                    try
+                    {
+                        Airly airly = GetCurrent(measurements, sensor.Id);
+                        db.Airly.Add(airly);
+                        LinkedList<AirlyForecast> airlyForecasts = GetForecast(measurements, sensor.Id);
+                        db.AirlyForecast.AddRange(airlyForecasts);
+                        db.SaveChanges();
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
                 else
                 {
@@ -128,7 +106,7 @@ namespace CardioCarta.Controllers
             }
             else
             {
-                Console.Write("kkk");
+                Console.Write(response.StatusCode + ": " + response.ReasonPhrase);
             }
             return measurements;
         }
@@ -237,10 +215,10 @@ namespace CardioCarta.Controllers
                 airly.Temperature = null;
             }
 
-            airly.TimeStamp = measurements.Current.TillDateTime;
-                //.AddMinutes(-measurements.Current.TillDateTime.Minute)
-                //.AddSeconds(-measurements.Current.TillDateTime.Second)
-                //.AddMilliseconds(-measurements.Current.TillDateTime.Millisecond);
+            airly.TimeStamp = measurements.Current.TillDateTime
+                .AddMinutes(-measurements.Current.TillDateTime.Minute)
+                .AddSeconds(-measurements.Current.TillDateTime.Second)
+                .AddMilliseconds(-measurements.Current.TillDateTime.Millisecond);
             airly.SensorId = sensorId;
             return airly;
         }
