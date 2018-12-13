@@ -118,14 +118,14 @@ namespace CardioCarta.Controllers
 
         private string GetHealth(Diary diary)
         {
-            int value = diary.Mood / 2
-                + (diary.RespirationProblem ? 1 : 0)
-                + (diary.Haemorrhage ? 1 : 0)
-                + (diary.Dizziness ? 1 : 0)
-                + (diary.ChestPain ? 1 : 0)
-                + (diary.SternumPain ? 1 : 0)
-                + (diary.HeartPain ? 1 : 0)
-                + (diary.Other != null ? 1 : 0)
+            int value = (10-diary.Mood) / 2
+                + (diary.RespirationProblem ? 2 : 0)
+                + (diary.Haemorrhage ? 2 : 0)
+                + (diary.Dizziness ? 2 : 0)
+                + (diary.ChestPain ? 2 : 0)
+                + (diary.SternumPain ? 2 : 0)
+                + (diary.HeartPain ? 2 : 0)
+                + (diary.Other != null ? 2 : 0)
                 + Pressure(diary);
             return value.ToString();
                 //czy uwzlędniac

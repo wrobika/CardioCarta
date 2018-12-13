@@ -33,6 +33,7 @@ namespace CardioCarta.Controllers
                     "ON \"Airly\".\"SensorId\" = \"AirlySensor\".\"Id\" " +
                     "WHERE \"Location\" IS NOT NULL " +
                     "AND \"TimeStamp\" >= now() - interval '3h' " +
+                    "AND ST_Distance(\"Location\", ST_GeomFromText('POINT(" + warning.Location + ")', 4326)) < 1000 " +
                     "ORDER BY ST_Distance(\"Location\", ST_GeomFromText('POINT(" + warning.Location + ")', 4326)), "+
                     "\"TimeStamp\" DESC LIMIT 1;",
                     connection))

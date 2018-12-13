@@ -3,10 +3,7 @@
     ViewBag.Title = "Mapa";
 }
 <div id="map" class="map"></div>
-    <form>
-      <label>cluster distance</label>
-      <input id="distance" type="range" min="0" max="100" step="1" value="40"/>
-    </form>
+<div><img src="~/Content/legend.png" style="width:350px;max-width:100%;max-height:100%;"/></div>
     <script>
         @{
             var mapController = new CardioCarta.Controllers.MapController();
@@ -18,81 +15,45 @@
         var airlies = @Html.Raw(Json.Encode(airly));
         var diaryPoints = Object.keys(diaries);
         var airlyPoints = Object.keys(airlies);
-        var distance = document.getElementById('distance');
         var wktReader = new ol.format.WKT();
         var diaryFeatures = [];
         var airlyFeatures = [];
         var airlyFeatures2 = [];
 
+        function diaryColor(value) {
+            if (value < 5) {
+                return 'green';
+            }
+            if (value < 8) {
+                return 'yellow';
+            }
+            return 'red';
+        }
+
         for (var i = 0; i < diaryPoints.length; i++) {
             var feature = wktReader.readFeature(diaryPoints[i]);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
             var value = diaries[diaryPoints[i]];
-            if (value <= 1) {
-                feature.setStyle(new ol.style.Style(
-                    {
-                        image: new ol.style.Circle({
-                            radius: 10,
-                            stroke: new ol.style.Stroke({
-                                color: '#fff'
-                            }),
-                            fill: new ol.style.Fill({
-                                color: 'red'
-                            })
-                        })
-                    }));
-            }
-            else
-            {
-                feature.setStyle(new ol.style.Style(
-                    {
-                        image: new ol.style.Circle({
-                            radius: 10,
-                            stroke: new ol.style.Stroke({
-                                color: '#fff'
-                            }),
-                            fill: new ol.style.Fill({
-                                color: 'green'
-                            })
-                        })
-                    }));
-            }
+
+            feature.setStyle(new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 10,
+                    stroke: new ol.style.Stroke({
+                        color: '#fff'
+                    }),
+                    fill: new ol.style.Fill({
+                        color: diaryColor(value)
+                    })
+                })
+            }));
             diaryFeatures.push(feature);
         }
 
-        function hslToRgb(h, s, l) {
-            var r, g, b;
-
-            if (s == 0) {
-                r = g = b = l; // achromatic
-            } else {
-                var hue2rgb = function hue2rgb(p, q, t) {
-                    if (t < 0) t += 1;
-                    if (t > 1) t -= 1;
-                    if (t < 1 / 6) return p + (q - p) * 6 * t;
-                    if (t < 1 / 2) return q;
-                    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-                    return p;
-                }
-
-                var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-                var p = 2 * l - q;
-                r = hue2rgb(p, q, h + 1 / 3);
-                g = hue2rgb(p, q, h);
-                b = hue2rgb(p, q, h - 1 / 3);
-            }
-
-            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-        }
-
-        function numberToColorHsl(i) {
-            // as the function expects a value between 0 and 1, and red = 0° and green = 120°
-            // we convert the input to the appropriate hue value
-            var hue = i * 1.2 / 360;
-            // we convert hsl to rgb (saturation 100%, lightness 50%)
-            var rgb = hslToRgb(hue, 1, .5);
-            // we format to css value and return
-            return 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ', 0.3)';
+        function indexToRGB(i) {
+            i /= 100;
+            var r = (i <= 1) ? (255 * i * 2) : (255 - 255 * (i - 1));
+            var g = (i <= 1) ? (255 - 255 * (i * 2 - 1)) : 0;
+            return 'rgb(' + r + ',' + g + ', 0, 0.3)';
         }
 
         for (var i = 0; i < airlyPoints.length; i++) {
@@ -106,8 +67,7 @@
                     image: new ol.style.Circle({
                         radius: 20,
                         fill: new ol.style.Fill({
-                            //color: 'rgba(255, 0, 0, 0.2)'
-                            color: numberToColorHsl(value)
+                            color: indexToRGB(value)
                         })
                     })
                 }));
@@ -118,15 +78,16 @@
         for (var i = 0; i < airlyPoints.length; i++) {
             var point = wktReader.readFeature(airlyPoints[i]);
             var feature = new ol.Feature({
-                geometry: new ol.geom.Polygon.circular(point.getGeometry().getCoordinates(), 1000)
+                geometry: new ol.geom.Polygon.circular(point.getGeometry().getCoordinates(), 500)
             });
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+            var value = airlies[airlyPoints[i]];
             feature.set('weight', value / 100);
 
             feature.setStyle(new ol.style.Style(
                 {
                     fill: new ol.style.Fill({
-                        color: numberToColorHsl(value)
+                        color: indexToRGB(value)
                     })
                 }));
 
@@ -142,7 +103,7 @@
         });
 
         var clusterDiary = new ol.source.Cluster({
-            distance: parseInt(distance.value, 10),
+            distance: 40,
             source: diarySource
         });
 
@@ -251,10 +212,6 @@
                 center: ol.proj.fromLonLat([19.938618, 50.060601]),
                 zoom: 12
             })
-        });
-
-        distance.addEventListener('input', function() {
-            clusterDiary.setDistance(parseInt(distance.value, 10));
         });
 </script>
 
