@@ -4,46 +4,93 @@
     ViewBag.Title = "Pobierz lokalizację";
 }
 
-<h2>Pobierz lokalizację i wyświetl ostrzeżenia</h2>
+<h2>Wybierz lokalizację, dla której chcesz sprawdzić ostrzeżenia</h2>
 
 <script type="text/javascript">
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(success, error,
-                { enableHighAccuracy: true });
-        } else {
-            alert("Cannot get Geolocation");
-        }
-    }
-    function success(location) {
-        document.getElementById("Location").value = location.coords.longitude + " " + location.coords.latitude;
-    }
-    function error(event) {
-        document.getElementById("Location").value = "19.940984 50.062006";
-        alert(event.code + ": " + event.message);
-        alert("Jeśli odmówiłeś sprawdzenia Twojej lokalizacji, wyświetlone zostaną ostrzeżenia dla centrum Krakowa");
-    }
+
 </script>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
-                <script>getLocation()</script>
-                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-            </div>
-        </div>
+
+        @Html.HiddenFor(model => model.Location)
+
+        <div id="map" class="map"></div>
+        <script>
+            var defaultPosition = [19.940984, 50.062006];
+
+            var rasterLayer = new ol.layer.Tile({
+                source: new ol.source.OSM()
+            });
+
+            var vectorSource = new ol.source.Vector();
+            var vectorLayer = new ol.layer.Vector({
+                source: vectorSource
+            });
+
+            var style = new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 10,
+                    fill: new ol.style.Fill({
+                        color: 'red',
+                    })
+                }),
+            });
+
+            const map = new ol.Map({
+                layers: [rasterLayer, vectorLayer],
+                target: 'map',
+                view: new ol.View({
+                    center: ol.proj.fromLonLat(defaultPosition),
+                    zoom: 12
+                })
+            });
+
+            function setPosition(coords) {
+                const feature = new ol.Feature(
+                    new ol.geom.Point(ol.proj.fromLonLat(coords)),
+                );
+                feature.setStyle(style);
+                feature.setId("location");
+                vectorSource.addFeature(feature);
+            }
+
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(success, error,
+                        { enableHighAccuracy: true });
+                } else {
+                    alert("Cannot get Geolocation");
+                }
+            }
+            function success(location) {
+                setPosition([location.coords.longitude, location.coords.latitude]);
+                document.getElementById("Location").value = location.coords.longitude + " " + location.coords.latitude;
+            }
+            function error(event) {
+                setPosition(defaultPosition);
+                document.getElementById("Location").value = defaultPosition[0] + " " + defaultPosition[1];
+                alert(event.code + ": " + event.message);
+            }
+            getLocation()
+
+            map.on('click', function (event) {
+                vectorSource.getFeatureById("location").getGeometry().setCoordinates(event.coordinate);
+                var coords = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
+                var latitude = coords[1];
+                var longitude = coords[0];
+                document.getElementById("Location").value = longitude + " " + latitude;
+            });
+        </script>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Pobierz ostrzeżenie" class="btn btn-default" />
+                <input type="submit" value="Pobierz ostrzeżenia" class="btn btn-default" />
             </div>
         </div>
     </div>

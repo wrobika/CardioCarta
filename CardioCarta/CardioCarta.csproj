@@ -482,6 +482,7 @@
     <Content Include="Views\Warning\Index.cshtml" />
     <Content Include="Views\Diaries\CannotEdit.cshtml" />
     <Content Include="Views\Patients\Index.cshtml" />
+    <Content Include="Views\Shared\_SetLocation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

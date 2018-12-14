@@ -108,6 +108,7 @@ namespace CardioCarta.Controllers
             }
 
             ViewBag.Patient_AspNetUsers_Id = new SelectList(db.Patient, "AspNetUsers_Id", "AspNetUsers_Id", diary.Patient_AspNetUsers_Id);
+            diary.Id = coord;
             return View(diary);
         }
 

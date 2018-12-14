@@ -58,7 +58,7 @@ namespace CardioCarta.Models
         [Display(Name = "Czy pi³aœ/eœ dziœ kawê?")]
         public bool Coffee { get; set; }
 
-        [Display(Name = "Inne uwagi")]
+        [Display(Name = "Inne uwagi:")]
         public string Other { get; set; }
     
         public virtual Patient Patient { get; set; }
