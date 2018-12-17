@@ -71,7 +71,16 @@
             @Html.DisplayFor(modelItem => item.BirthDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Male)
+            @{
+                if (item.Male)
+                {
+                    <text> Mężczyzna </text>
+                }
+                else
+                {
+                    <text> Kobieta </text>
+                }
+            }
         </td>
         <td>
             @Html.ActionLink("Wywiad medyczny", "Details", "PatientInterviews", new { id=item.Id }, null) |

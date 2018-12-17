@@ -23,7 +23,6 @@ namespace CardioCarta.Controllers
         [Authorize(Roles = "Patient")]
         public ActionResult Index()
         {
-            //var diary = db.Diary.Include(d => d.Patient);
             var diary = db.Diary;
             var id = User.Identity.GetUserId();
             var userDiaries = diary.Where(d => d.Patient_AspNetUsers_Id == id);
@@ -33,8 +32,6 @@ namespace CardioCarta.Controllers
         [Authorize(Roles = "Doctor")]
         public ActionResult IndexForDoctor(string patientId)
         {
-            //var diary = db.Diary.Include(d => d.Patient);
-
             //sprawdzenie czy pacjent jest wsród pacjentów lekarza
             var doctorId = User.Identity.GetUserId();
             var doctor = db.Doctor.SingleOrDefault(d => d.AspNetUsers_Id == doctorId);
@@ -113,6 +110,7 @@ namespace CardioCarta.Controllers
         }
 
         // GET: Diaries/Edit/5
+        [Authorize(Roles = "Patient")]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -142,6 +140,7 @@ namespace CardioCarta.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Patient")]
         public ActionResult Edit([Bind(Include = "Id,Patient_AspNetUsers_Id,TimeStamp,Mood,SystolicPressure,DiastolicPressure,RespirationProblem,Haemorrhage,Dizziness,ChestPain,SternumPain,HeartPain,Alcohol,Coffee,Other")] Diary diary)
         {
             if (ModelState.IsValid)
@@ -155,6 +154,7 @@ namespace CardioCarta.Controllers
         }
 
         // GET: Diaries/Delete/5
+        [Authorize(Roles = "Patient")]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -199,7 +199,6 @@ namespace CardioCarta.Controllers
             }
             return id;
         }
-
 
         private static void SetGeolocation(Diary diary, string coord)
         {

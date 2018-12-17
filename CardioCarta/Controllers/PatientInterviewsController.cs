@@ -82,8 +82,7 @@ namespace CardioCarta.Controllers
             {
                 db.PatientInterview.Add(patientInterview);
                 db.SaveChanges();
-                //return RedirectToAction("Index");
-                return RedirectToAction("Create", "PatientInterviews");
+                return RedirectToAction("Create", "Diaries");
             }
 
             ViewBag.Patient_AspNetUsers_Id = new SelectList(db.Patient, "AspNetUsers_Id", "AspNetUsers_Id", patientInterview.Patient_AspNetUsers_Id);

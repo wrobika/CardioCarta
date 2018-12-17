@@ -1,13 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "Filled";
+    ViewBag.Title = "Wypełniony";
 }
 
-<h2>Filled</h2>
+<h2>Wypełniony</h2>
 <p>
-    Swoją ankietę wypełniłeś przy rejestracji. Zapraszamy do wypełnienia dzienniczka
+    Swój wywiad medyczny wypełniłeś przy rejestracji. Zapraszamy do wypełnienia @Html.ActionLink("dzienniczka.", "Create", "Diaries")
 </p>
-<li>
-    @Html.ActionLink("Fill Your Diary", "Create", "Diaries")
-</li>
-

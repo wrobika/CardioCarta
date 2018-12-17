@@ -9,7 +9,7 @@
 @if (User.IsInRole("Patient"))
 {
     <p>
-        @Html.ActionLink("Dodaj chorobę", "AddDisease")
+        Jeśli na liście nie ma wszystkich Twoich schorzeń @Html.ActionLink("uzupełnij listę.", "AddDisease")
     </p>
 }
 <table class="table">
@@ -28,7 +28,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Usuń", "DeleteDisease", new { name = item.Name })
+            @Html.ActionLink("X", "DeleteDisease", new { name = item.Name })
         </td>
     </tr>
     }

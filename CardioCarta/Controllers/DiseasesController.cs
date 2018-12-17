@@ -52,7 +52,6 @@ namespace CardioCarta.Controllers
             {
                 db.Disease.Add(disease);
                 db.SaveChanges();
-                //return RedirectToAction("Index");
                 return RedirectToAction("DiseaseIndex", "Patients");
             }
 

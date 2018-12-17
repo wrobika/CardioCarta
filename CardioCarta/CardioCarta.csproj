@@ -229,9 +229,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AirliesController.cs" />
     <Compile Include="Controllers\AirlyApi.cs" />
-    <Compile Include="Controllers\AirlyForecastsController.cs" />
     <Compile Include="Controllers\DiariesController.cs" />
     <Compile Include="Controllers\DiseasesController.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
@@ -363,6 +361,7 @@
     <Content Include="Models\CardioCarta.edmx.diagram">
       <DependentUpon>CardioCarta.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\CardioCarta - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -440,17 +439,6 @@
     <Content Include="Views\Diaries\Index.cshtml" />
     <Content Include="Views\Diaries\Filled.cshtml" />
     <Content Include="Views\PatientInterviews\Filled.cshtml" />
-    <Content Include="Views\Airlies\Create.cshtml" />
-    <Content Include="Views\Airlies\Delete.cshtml" />
-    <Content Include="Views\Airlies\Details.cshtml" />
-    <Content Include="Views\Airlies\Edit.cshtml" />
-    <Content Include="Views\Airlies\Index.cshtml" />
-    <Content Include="Views\AirlyForecasts\Create.cshtml" />
-    <Content Include="Views\AirlyForecasts\Delete.cshtml" />
-    <Content Include="Views\AirlyForecasts\Details.cshtml" />
-    <Content Include="Views\AirlyForecasts\Edit.cshtml" />
-    <Content Include="Views\AirlyForecasts\Index.cshtml" />
-    <Content Include="Views\Airlies\Temp.cshtml" />
     <Content Include="Views\PatientMedicines\Create.cshtml" />
     <Content Include="Views\PatientMedicines\Delete.cshtml" />
     <Content Include="Views\PatientMedicines\Details.cshtml" />
