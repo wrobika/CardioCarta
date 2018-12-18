@@ -52,7 +52,6 @@ namespace CardioCarta.Controllers
                     catch(Exception ex)
                     {
                         warning.Description = "Wystąpiły problemy przy pobieraniu ostrzeżeń dla Twojej lokalizacji";
-                        //warning.Description = ex.Message;
                         Console.WriteLine(ex);
                     }
                 }
@@ -78,7 +77,7 @@ namespace CardioCarta.Controllers
                 description += "jest wysoka temperatura \r\n";
                 i++;
             }
-            if (warning.Pressure > 1000)
+            if (warning.Pressure > 1013)
             {
                 description += "panuje wysokie ciśnienie atmosferyczne \r\n";
                 i++;
@@ -93,7 +92,7 @@ namespace CardioCarta.Controllers
             {
                 case 1: description += "uważaj na siebie"; break;
                 case 2: description += "bardzo uważaj na siebie"; break;
-                case 3: description += "bardzo bardzo uważaj na siebie"; break;
+                case 3: description += "zachowaj wszystkie środki ostrożności"; break;
                 default: break;
             }
             return description;

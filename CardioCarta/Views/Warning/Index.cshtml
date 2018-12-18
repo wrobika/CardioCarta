@@ -75,7 +75,8 @@
             function error(event) {
                 setPosition(defaultPosition);
                 document.getElementById("Location").value = defaultPosition[0] + " " + defaultPosition[1];
-                alert(event.code + ": " + event.message);
+                alert("Nie udało się pobrać Twojej lokalizacji\n" +
+                    event.code + ": " + event.message);
             }
             getLocation()
 

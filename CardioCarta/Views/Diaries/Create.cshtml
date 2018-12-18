@@ -6,25 +6,6 @@
 
 <h2>Wypełń dzienniczek</h2>
 
-@*<script type="text/javascript">
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(success, error,
-                { enableHighAccuracy: true });
-        } else {
-            alert("Cannot get Geolocation");
-        }
-    }
-    function success(location) {
-        document.getElementById("Id").value = location.coords.longitude + " " + location.coords.latitude;
-
-    }
-    function error(event) {
-        alert(event.code + ": " + event.message);
-        alert("Jeśli nie pozwoliłeś na pobranie Twojej lokalizacji, Twoja odpowiedź nie zostanie wyświetlona na mapie");
-    }
-</script>*@
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()

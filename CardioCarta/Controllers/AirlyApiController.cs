@@ -7,22 +7,15 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Threading;
 using Npgsql;
+using System.Web.Mvc;
+using System.Net;
 
 namespace CardioCarta.Controllers
 {
-    public class AirlyApi
+    public class AirlyApiController : Controller
     {
-        public static void GetMeasurementsContinously()
-        {
-            int downloadPeriod = 2 * 60 * 60 * 1000;
-            while(true)
-            {
-                GetMeasurements();
-                Thread.Sleep(downloadPeriod);
-            }
-        }
-
-        public static async void GetMeasurements()
+        [HttpGet]
+        public async Task<ActionResult> GetMeasurements()
         {
             HttpClient httpClient = GetAirlyApiClient();
             List<Sensor> sensors = null;
@@ -39,24 +32,20 @@ namespace CardioCarta.Controllers
                         AddSensor(sensor);
                     }
                 }
-                //pobieram co 2h + przesuniecie api 1h
-                Airly lastAirly = db.Airly.OrderByDescending(a => a.TimeStamp).FirstOrDefault();
-                if (lastAirly == null || lastAirly.TimeStamp < DateTime.Now.AddHours(-3))
+                db.Database.ExecuteSqlCommand("TRUNCATE TABLE \"AirlyForecast\";");
+                db.SaveChanges();
+                int i = 1;
+                foreach (Sensor sensor in sensorKrakow)
                 {
-                    db.Database.ExecuteSqlCommand("TRUNCATE TABLE \"AirlyForecast\";");
-                    db.SaveChanges();
-                    int i = 1;
-                    foreach (Sensor sensor in sensorKrakow)
+                    //z powodu limitu api
+                    if (i++ % 49 == 0)
                     {
-                        //z powodu limitu api
-                        if (i++ % 49 == 0)
-                        {
-                            Thread.Sleep(61000);
-                        }
-                        await GetRequest(sensor);
+                        Thread.Sleep(61000);
                     }
+                    await GetRequest(sensor);
                 }
             }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         private static HttpClient GetAirlyApiClient()

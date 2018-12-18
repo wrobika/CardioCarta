@@ -229,7 +229,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AirlyApi.cs" />
+    <Compile Include="Controllers\AirlyApiController.cs" />
     <Compile Include="Controllers\DiariesController.cs" />
     <Compile Include="Controllers\DiseasesController.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
@@ -333,8 +333,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\background5.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\legend.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
